@@ -27,7 +27,7 @@ public class FullPrint extends Print {
 	public void setMultiverseId(Integer multiverseId) {
 		this.multiverseId = multiverseId;
 	}
-	public Boolean getFoil() {
+	public Boolean isFoil() {
 		return foil;
 	}
 	public void setFoil(Boolean foil) {

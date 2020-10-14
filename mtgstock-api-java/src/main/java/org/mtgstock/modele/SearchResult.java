@@ -1,16 +1,22 @@
 package org.mtgstock.modele;
 
-public class Autocomplete {
+public class SearchResult {
 
 	private Integer id;
 	private String name;
 	private Double similarity;
 	
 	
-	public Autocomplete() {
+	public SearchResult() {
 	}
 	
-	public Autocomplete(Integer id, String name, Double similarity) {
+	
+	@Override
+	public String toString() {
+		return getName() +" -> " + getSimilarity();
+	}
+	
+	public SearchResult(Integer id, String name, Double similarity) {
 		this.id = id;
 		this.name = name;
 		this.similarity = similarity;

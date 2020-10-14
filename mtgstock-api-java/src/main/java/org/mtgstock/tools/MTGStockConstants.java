@@ -14,6 +14,6 @@ public class MTGStockConstants {
 	public static final String BORDERLESS = "(Borderless)";
 	public static final String SHOWCASE="(Showcase)";
 	
-	
+	public enum PRICES {LOW, AVG, HIGH, FOIL, MARKET, MARKET_FOIL}
 	public enum CATEGORY {MARKET,AVERAGE}
 }

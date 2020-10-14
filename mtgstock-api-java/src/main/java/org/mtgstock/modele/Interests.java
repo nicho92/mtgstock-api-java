@@ -3,8 +3,6 @@ package org.mtgstock.modele;
 import java.util.Date;
 import java.util.List;
 
-import org.mtgstock.tools.MTGStockConstants;
-
 public class Interests {
 
 	private Date date;
