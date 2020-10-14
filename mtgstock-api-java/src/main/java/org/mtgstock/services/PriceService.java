@@ -31,9 +31,7 @@ public class PriceService extends AbstractMTGStockService {
 		Prices p = new Prices();
 		
 		for(PRICES price : MTGStockConstants.PRICES.values())
-		{
 			p.put(price, getPricesFor(id,price));
-		}
 		
 		return p;
 	}

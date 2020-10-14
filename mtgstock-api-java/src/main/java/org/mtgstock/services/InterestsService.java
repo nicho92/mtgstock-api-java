@@ -40,8 +40,7 @@ public class InterestsService extends AbstractMTGStockService {
 		return interests;
 	}
 	
-	
-	public List<Interest> getInterestFor(CATEGORY c,boolean foil,JsonObject interests)
+	private List<Interest> getInterestFor(CATEGORY c,boolean foil,JsonObject interests)
 	{
 		JsonArray arrs = interests.get( (foil)?"foil":"normal").getAsJsonArray(); 
 		List<Interest> ret = new ArrayList<>();
