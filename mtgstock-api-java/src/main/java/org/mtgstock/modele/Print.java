@@ -8,7 +8,7 @@ public class Print {
 	
 	protected Integer id;
 	protected String name;
-	protected String detailledName;
+	protected String namePrecision;
 	protected String image;
 	protected String iconClass;
 	protected List<Legality> legal;
@@ -45,12 +45,12 @@ public class Print {
 		return getName().replaceAll("\\([^()]*\\)", "").trim();
 	}
 	
-	public String getDetailledName() {
-		return detailledName;
+	public void setNamePrecision(String namePrecision) {
+		this.namePrecision = namePrecision;
 	}
-
-	public void setDetailledName(String detailledName) {
-		this.detailledName = detailledName;
+	
+	public String getNamePrecision() {
+		return namePrecision;
 	}
 	
 	public boolean isShowcase() {

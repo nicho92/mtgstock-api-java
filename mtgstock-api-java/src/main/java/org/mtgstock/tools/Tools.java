@@ -2,6 +2,8 @@ package org.mtgstock.tools;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Tools {
 
@@ -19,4 +21,14 @@ public class Tools {
 		
 		return cal.getTime();
 	}
+	
+	public static String extractParenthesisValue(String content)
+	{
+		Matcher m = Pattern.compile("\\((.*?)\\)").matcher(content);
+		if(m.find()) {
+		    return m.group(1);
+		}
+		return "";
+	}
+	
 }
