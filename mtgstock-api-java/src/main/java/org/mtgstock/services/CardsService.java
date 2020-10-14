@@ -9,9 +9,11 @@ import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Legality;
+import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
 import org.mtgstock.tools.MTGStockConstants;
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.URLTools;
 
@@ -20,7 +22,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
-	
 	public List<SearchResult> search(String name)
 	{
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/search/autocomplete/"+name;
@@ -84,7 +85,7 @@ public class CardsService extends AbstractMTGStockService {
 		
 		try {
 			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
-				sets.add(getSetFor(e.getAsJsonObject()));
+				sets.add(parseSetFor(e.getAsJsonObject()));
 		
 		} catch (IOException e) {
 			logger.error("Error gettings sets ",e);
@@ -94,6 +95,50 @@ public class CardsService extends AbstractMTGStockService {
 		return sets;
 	}
 	
+	
+	public List<Played> getMostPlayedCard(FORMAT f)
+	{
+		List<Played> ret = new ArrayList<>();
+		int id=0;
+		switch (f) 
+		{
+			case LEGACY:id = 1;break;
+			case MODERN:id = 3;break;
+			case STANDARD:id = 4;break;
+			case VINTAGE:id = 2;break;
+		}
+		
+		
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
+			
+		
+		try {
+			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get("mostplayed").getAsJsonArray();
+			
+			arr.forEach(k->{
+				
+				
+				Played p = new Played();
+				   	   p.setName(k.getAsJsonObject().get("card").getAsJsonObject().get("name").getAsString());
+					   p.setId(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("id").getAsInt());
+					   p.setImage(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("image").getAsString());
+					   p.setQuantity(k.getAsJsonObject().get("quantity").getAsInt());
+					   
+					   if(!k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").isJsonNull())
+						   p.setAvgPrice(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
+				ret.add(p);
+				
+			});
+			
+			
+		} catch (IOException e) {
+			logger.error("Error getting mostplayedCard at " + url + " : " + e);
+		}
+		
+		
+		
+		return ret;
+	}
 	
 	
 	public FullPrint getCard(Integer id) throws IOException
@@ -121,8 +166,8 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setMkmUrl(o.get("mkm_url").getAsString());
 				  fp.setTcgId(o.get("tcg_id").getAsInt());
 				  fp.setTcgUrl(o.get("tcg_url").getAsString());
-				  fp.setCard(getCardFor(o.get("card").getAsJsonObject()));
-				  fp.setCardSet(getSetFor(o.get("card_set").getAsJsonObject()));
+				  fp.setCard(parseCardFor(o.get("card").getAsJsonObject()));
+				  fp.setCardSet(parseSetFor(o.get("card_set").getAsJsonObject()));
 				  fp.setAllTimeLow(new EntryValue<>(o.get("all_time_low").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_low").getAsJsonObject().get("date").getAsLong())));
 				  fp.setAllTimeHigh(new EntryValue<>(o.get("all_time_high").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_high").getAsJsonObject().get("date").getAsLong())));
 				  
@@ -154,7 +199,7 @@ public class CardsService extends AbstractMTGStockService {
 	}
 
 
-	private CardSet getSetFor(JsonObject o) {
+	private CardSet parseSetFor(JsonObject o) {
 		CardSet set = new CardSet();
 			set.setId(o.get("id").getAsInt());
 			set.setName(o.get("name").getAsString());
@@ -175,7 +220,7 @@ public class CardsService extends AbstractMTGStockService {
 	}
 
 
-	private Card getCardFor(JsonObject o) {
+	private Card parseCardFor(JsonObject o) {
 		
 		Card c = new Card();
 			 c.setId(o.get("id").getAsInt());

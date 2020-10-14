@@ -16,4 +16,5 @@ public class MTGStockConstants {
 	
 	public enum PRICES {LOW, AVG, HIGH, FOIL, MARKET, MARKET_FOIL}
 	public enum CATEGORY {MARKET,AVERAGE}
+	public enum FORMAT {LEGACY,STANDARD,VINTAGE,MODERN}
 }
