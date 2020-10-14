@@ -10,6 +10,7 @@ import org.mtgstock.modele.Prices;
 import org.mtgstock.modele.Print;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
+import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.URLTools;
 
 import com.google.gson.JsonElement;
@@ -50,14 +51,9 @@ public class PriceService extends AbstractMTGStockService {
 		for (JsonElement el : pricesPrint.get(categ.name().toLowerCase()).getAsJsonArray()) {
 			long timest = el.getAsJsonArray().get(0).getAsLong();
 			double value = el.getAsJsonArray().get(1).getAsDouble();
-			Calendar cal = Calendar.getInstance();
-			cal.setTime(new Date(timest));
-			cal.set(Calendar.HOUR_OF_DAY, 0);
-			cal.set(Calendar.MINUTE, 0);
-			cal.set(Calendar.SECOND, 0);
-			cal.set(Calendar.MILLISECOND, 0);
+			
 	
-			prices.put(cal.getTime(), value);
+			prices.put(Tools.initDate(timest), value);
 		}
 		
 		return prices;

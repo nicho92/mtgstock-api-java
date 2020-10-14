@@ -1,36 +1,34 @@
 package org.mtgstock.modele;
 
-import java.util.Date;
+public class EntryValue<T,V> {
 
-public class EntryValue {
-
-	private String key;
-	private Double value;
-	private Date date;
+	private T value;
+	private V date;
+	
+	public EntryValue() {
+		//do nothing
+	}
 	
 	
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
-	public Double getValue() {
-		return value;
-	}
-	public void setValue(Double value) {
+	
+	public EntryValue(T value, V date) {
 		this.value = value;
-	}
-	public Date getDate() {
-		return date;
-	}
-	public void setDate(Date date) {
 		this.date = date;
 	}
-	
-	@Override
-	public int hashCode() {
-		return getKey().hashCode();
+
+
+
+	public T getValue() {
+		return value;
+	}
+	public void setValue(T value) {
+		this.value = value;
+	}
+	public V getDate() {
+		return date;
+	}
+	public void setDate(V date) {
+		this.date = date;
 	}
 	
 }

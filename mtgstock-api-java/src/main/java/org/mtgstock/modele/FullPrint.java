@@ -1,6 +1,10 @@
 package org.mtgstock.modele;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class FullPrint extends Print {
 
@@ -14,13 +18,32 @@ public class FullPrint extends Print {
 	private String tcgUrl;
 	private Card card;
 	private CardSet cardSet;
-	private EntryValue allTimeLow;
-	private List<EntryValue> latestPrices;
-	private List<EntryValue> latestPriceCardKingdom;
-	private List<EntryValue> latestPriceMkm;
-	private List<EntryValue> latestPriceMiniatureMarket;
+	private EntryValue<Double,Date> allTimeLow;
+	private EntryValue<Double,Date> allTimeHigh;
+	
+	private List<EntryValue<PRICES,Double>> latestPrices;
+	private EntryValue<Double,String> latestPriceCardKingdom;
+	private EntryValue<Double,Double> latestPriceMkm;
+	private EntryValue<Double,String> latestPriceMiniatureMarket;
 	private List<CardSet> sets;
 	
+	public FullPrint() {
+		latestPrices = new ArrayList<>();
+		sets = new ArrayList<>();
+	}
+	
+	@Override
+	public String toString() {
+		return String.valueOf(card);
+	}
+	
+	
+	public EntryValue<Double,Date> getAllTimeHigh() {
+		return allTimeHigh;
+	}
+	public void setAllTimeHigh(EntryValue<Double,Date> allTimeHigh) {
+		this.allTimeHigh = allTimeHigh;
+	}
 	public Integer getMultiverseId() {
 		return multiverseId;
 	}
@@ -83,41 +106,60 @@ public class FullPrint extends Print {
 	public void setCardSet(CardSet cardSet) {
 		this.cardSet = cardSet;
 	}
-	public EntryValue getAllTimeLow() {
-		return allTimeLow;
-	}
-	public void setAllTimeLow(EntryValue allTimeLow) {
-		this.allTimeLow = allTimeLow;
-	}
-	public List<EntryValue> getLatestPrices() {
-		return latestPrices;
-	}
-	public void setLatestPrices(List<EntryValue> latestPrices) {
-		this.latestPrices = latestPrices;
-	}
-	public List<EntryValue> getLatestPriceCardKingdom() {
-		return latestPriceCardKingdom;
-	}
-	public void setLatestPriceCardKingdom(List<EntryValue> latestPriceCardKingdom) {
-		this.latestPriceCardKingdom = latestPriceCardKingdom;
-	}
-	public List<EntryValue> getLatestPriceMkm() {
-		return latestPriceMkm;
-	}
-	public void setLatestPriceMkm(List<EntryValue> latestPriceMkm) {
-		this.latestPriceMkm = latestPriceMkm;
-	}
-	public List<EntryValue> getLatestPriceMiniatureMarket() {
-		return latestPriceMiniatureMarket;
-	}
-	public void setLatestPriceMiniatureMarket(List<EntryValue> latestPriceMiniatureMarket) {
-		this.latestPriceMiniatureMarket = latestPriceMiniatureMarket;
-	}
+	
 	public List<CardSet> getSets() {
 		return sets;
 	}
 	public void setSets(List<CardSet> sets) {
 		this.sets = sets;
+	}
+
+
+	public List<EntryValue<PRICES,Double>> getLatestPrices() {
+		return latestPrices;
+	}
+
+
+	public void setLatestPrices(List<EntryValue<PRICES,Double>> latestPrices) {
+		this.latestPrices = latestPrices;
+	}
+
+
+	public EntryValue<Double,String> getLatestPriceCardKingdom() {
+		return latestPriceCardKingdom;
+	}
+
+
+	public void setLatestPriceCardKingdom(EntryValue<Double,String> latestPriceCardKingdom) {
+		this.latestPriceCardKingdom = latestPriceCardKingdom;
+	}
+
+
+	public EntryValue<Double,Double> getLatestPriceMkm() {
+		return latestPriceMkm;
+	}
+
+
+	public void setLatestPriceMkm(EntryValue<Double,Double> latestPriceMkm) {
+		this.latestPriceMkm = latestPriceMkm;
+	}
+
+
+	public EntryValue<Double,String> getLatestPriceMiniatureMarket() {
+		return latestPriceMiniatureMarket;
+	}
+
+
+	public void setLatestPriceMiniatureMarket(EntryValue<Double,String> latestPriceMiniatureMarket) {
+		this.latestPriceMiniatureMarket = latestPriceMiniatureMarket;
+	}
+
+
+	public void setAllTimeLow(EntryValue<Double,Date> allTimeLow) {
+		this.allTimeLow = allTimeLow;
+	}
+	public EntryValue<Double,Date> getAllTimeLow() {
+		return allTimeLow;
 	}
 	
 	

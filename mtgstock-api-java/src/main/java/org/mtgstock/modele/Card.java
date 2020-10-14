@@ -18,6 +18,12 @@ public class Card {
 	private String supertype;
 	private String[] splitcost;
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	
 	public Card() {
 		legal = new ArrayList<>();
 	}
