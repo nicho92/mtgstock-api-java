@@ -1,4 +1,4 @@
-# mkm-api-java
+# mtgstock-api-java
 Java api for MTGStocks
 
 Download link : 
