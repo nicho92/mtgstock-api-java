@@ -23,7 +23,10 @@ public class CardsService extends AbstractMTGStockService {
 	
 	
 	public static void main(String[] args) throws IOException {
-		new CardsService().listSets();
+		FullPrint fp = new CardsService().getCard(49971);
+		
+		System.out.println(fp);
+		
 	}
 	
 	
@@ -88,8 +91,12 @@ public class CardsService extends AbstractMTGStockService {
 		FullPrint fp = new FullPrint();
 				  fp.setId(o.get("id").getAsInt());
 				  fp.setName(o.get("name").getAsString());
+				  
+				  fp.setBorderless(o.get("name").getAsString().contains(MTGStockConstants.BORDERLESS));
+				  fp.setExtendedArt(o.get("name").getAsString().contains(MTGStockConstants.EXTENDED_ART));
+				  fp.setShowcase(o.get("name").getAsString().contains(MTGStockConstants.SHOWCASE));
+				  fp.setOversized(o.get("name").getAsString().contains(MTGStockConstants.OVERSIZED));
 				  fp.setRarity(o.get("rarity").getAsString());
-				  fp.setMultiverseId(o.get("multiverse_id").getAsInt());
 				  fp.setFoil(o.get("foil").getAsBoolean());
 				  fp.setFlip(o.get("flip").getAsBoolean());
 				  fp.setImageFlip(o.get("image_flip").getAsString());
@@ -105,6 +112,11 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get("latest_price_ck").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_ck").getAsJsonObject().get("url").getAsString()));
 				  fp.setLatestPriceMkm(new EntryValue<>(o.get("latest_price_mkm").getAsJsonObject().get("avg").getAsDouble(),o.get("latest_price_mkm").getAsJsonObject().get("low").getAsDouble()));
 				  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get("latest_price_mm").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_mm").getAsJsonObject().get("url").getAsString()));
+				  
+				  if(!o.get("multiverse_id").isJsonNull())
+					  fp.setMultiverseId(o.get("multiverse_id").getAsInt());
+				  
+				  
 				  o.get("latest_price").getAsJsonObject().keySet().forEach(key->{
 					  try {
 						  fp.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get("latest_price").getAsJsonObject().get(key).getAsDouble()));

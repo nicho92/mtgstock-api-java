@@ -32,12 +32,6 @@ public class FullPrint extends Print {
 		sets = new ArrayList<>();
 	}
 	
-	@Override
-	public String toString() {
-		return String.valueOf(card);
-	}
-	
-	
 	public EntryValue<Double,Date> getAllTimeHigh() {
 		return allTimeHigh;
 	}

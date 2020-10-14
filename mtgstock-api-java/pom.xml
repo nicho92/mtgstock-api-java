@@ -6,14 +6,19 @@
 	<version>0.1.0</version>
 	<packaging>jar</packaging>
 	<properties>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>13</maven.compiler.source>
+		<maven.compiler.target>13</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<issueManagement>
 		<system>Github</system>
 		<url>https://github.com/nicho92/mtgstock-api-java/issues</url>
 	</issueManagement>
+	<organization>
+		<name>Nicolas Pihen</name>
+		<url>https://github.com/nicho92/</url>
+	</organization>
+	
 	
 	<dependencies>
 		<dependency>
