@@ -8,19 +8,19 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 public class Prices {
 
 	
-	private Map<PRICES, HistoryPrice> prices;
+	private Map<PRICES, PriceVariations> prices;
 	
 	public Prices() {
 		prices = new EnumMap<>(PRICES.class);
 	}
 	
 	
-	public HistoryPrice getPrices(PRICES p) {
+	public PriceVariations getPrices(PRICES p) {
 		return prices.get(p);
 	}
 	
 	
-	public void put(PRICES p, HistoryPrice hp)
+	public void put(PRICES p, PriceVariations hp)
 	{
 		prices.put(p, hp);
 	}

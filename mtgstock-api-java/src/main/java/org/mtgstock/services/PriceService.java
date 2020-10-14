@@ -1,11 +1,9 @@
 package org.mtgstock.services;
 
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
 
 import org.mtgstock.modele.Card;
-import org.mtgstock.modele.HistoryPrice;
+import org.mtgstock.modele.PriceVariations;
 import org.mtgstock.modele.Prices;
 import org.mtgstock.modele.Print;
 import org.mtgstock.tools.MTGStockConstants;
@@ -42,11 +40,11 @@ public class PriceService extends AbstractMTGStockService {
 	
 	
 	
-	public HistoryPrice getPricesFor(Integer id,PRICES categ) throws IOException {
+	public PriceVariations getPricesFor(Integer id,PRICES categ) throws IOException {
 		
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id+"/prices";
 		JsonObject pricesPrint = URLTools.extractJson(url).getAsJsonObject();
-		HistoryPrice prices = new HistoryPrice(categ);
+		PriceVariations prices = new PriceVariations(categ);
 		
 		for (JsonElement el : pricesPrint.get(categ.name().toLowerCase()).getAsJsonArray()) {
 			long timest = el.getAsJsonArray().get(0).getAsLong();

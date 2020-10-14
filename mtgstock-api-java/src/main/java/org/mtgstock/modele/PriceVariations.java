@@ -13,12 +13,12 @@ import java.util.Map.Entry;
 
 import org.mtgstock.tools.MTGStockConstants.PRICES;
 
-public class HistoryPrice implements Iterable<Entry<Date, Double>> {
+public class PriceVariations implements Iterable<Entry<Date, Double>> {
 
 	private Map<Date, Double> map;
 	private PRICES categ;
 	
-	public HistoryPrice(PRICES categ) {
+	public PriceVariations(PRICES categ) {
 		map = new HashMap<>();
 		this.categ=categ;
 	}
