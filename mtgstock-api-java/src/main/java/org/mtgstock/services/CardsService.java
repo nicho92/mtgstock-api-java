@@ -21,15 +21,6 @@ import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
 	
-	
-	public static void main(String[] args) throws IOException {
-		FullPrint fp = new CardsService().getCard(49971);
-		
-		System.out.println(fp);
-		
-	}
-	
-	
 	public List<SearchResult> search(String name)
 	{
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/search/autocomplete/"+name;
@@ -47,6 +38,31 @@ public class CardsService extends AbstractMTGStockService {
 		}
 		return ret;
 	}
+	
+	public List<FullPrint> toPrints(List<SearchResult> res)
+	{
+		return toPrints(res.stream().map(SearchResult::getId).toArray(Integer[]::new));
+	}
+	
+	public List<FullPrint> toPrints(Integer... ids)
+	{
+		
+		List<FullPrint> ret = new ArrayList<>();
+
+		for(Integer id : ids)
+		{
+			try {
+				ret.add(getCard(id));
+			} catch (IOException e) {
+				logger.error("Error getting card for id " + id,e);
+			}
+		}
+		
+		return ret;
+	}
+	
+	
+	
 
 	public FullPrint getCard(SearchResult sr) throws IOException
 	{
