@@ -23,7 +23,7 @@ public class CardsService extends AbstractMTGStockService {
 	
 	
 	public static void main(String[] args) throws IOException {
-		new CardsService().getCard(14117);
+		new CardsService().listSets();
 	}
 	
 	
@@ -54,6 +54,28 @@ public class CardsService extends AbstractMTGStockService {
 	{
 		return getCard(p.getId());
 	}
+	
+	public List<CardSet> listSets()
+	{
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
+		
+		logger.debug("getting sets at " + url);
+		List<CardSet> sets = new ArrayList<>();
+		
+		
+		try {
+			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
+				sets.add(getSetFor(e.getAsJsonObject()));
+		
+		} catch (IOException e) {
+			logger.error("Error gettings sets ",e);
+			
+		}
+		
+		return sets;
+	}
+	
+	
 	
 	public FullPrint getCard(Integer id) throws IOException
 	{
@@ -102,9 +124,17 @@ public class CardsService extends AbstractMTGStockService {
 		CardSet set = new CardSet();
 			set.setId(o.get("id").getAsInt());
 			set.setName(o.get("name").getAsString());
-			set.setAbbrevation(o.get("abbreviation").getAsString());
 			set.setIconClass(o.get("icon_class").getAsString());
 			set.setSetType(o.get("set_type").getAsString());
+			
+			try {
+				set.setAbbrevation(o.get("abbreviation").getAsString());
+			}
+			catch(Exception e)
+			{
+				//do nothing
+			}
+			
 		
 		
 		return set;
