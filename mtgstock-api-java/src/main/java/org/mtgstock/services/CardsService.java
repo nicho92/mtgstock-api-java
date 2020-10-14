@@ -21,6 +21,11 @@ import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
 	
+	
+	public static void main(String[] args) throws IOException {
+		System.out.println(new CardsService().getCard(21721));
+	}
+	
 	public List<SearchResult> search(String name)
 	{
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/search/autocomplete/"+name;
@@ -107,7 +112,6 @@ public class CardsService extends AbstractMTGStockService {
 		FullPrint fp = new FullPrint();
 				  fp.setId(o.get("id").getAsInt());
 				  fp.setName(o.get("name").getAsString());
-				  
 				  fp.setBorderless(o.get("name").getAsString().contains(MTGStockConstants.BORDERLESS));
 				  fp.setExtendedArt(o.get("name").getAsString().contains(MTGStockConstants.EXTENDED_ART));
 				  fp.setShowcase(o.get("name").getAsString().contains(MTGStockConstants.SHOWCASE));
@@ -125,9 +129,15 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setCardSet(getSetFor(o.get("card_set").getAsJsonObject()));
 				  fp.setAllTimeLow(new EntryValue<>(o.get("all_time_low").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_low").getAsJsonObject().get("date").getAsLong())));
 				  fp.setAllTimeHigh(new EntryValue<>(o.get("all_time_high").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_high").getAsJsonObject().get("date").getAsLong())));
-				  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get("latest_price_ck").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_ck").getAsJsonObject().get("url").getAsString()));
-				  fp.setLatestPriceMkm(new EntryValue<>(o.get("latest_price_mkm").getAsJsonObject().get("avg").getAsDouble(),o.get("latest_price_mkm").getAsJsonObject().get("low").getAsDouble()));
-				  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get("latest_price_mm").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_mm").getAsJsonObject().get("url").getAsString()));
+				  
+				  if(!o.get("latest_price_ck").getAsJsonObject().get("price").isJsonNull())
+					  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get("latest_price_ck").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_ck").getAsJsonObject().get("url").getAsString()));
+				  
+				  if(!o.get("latest_price_mkm").getAsJsonObject().get("avg").isJsonNull())
+					  fp.setLatestPriceMkm(new EntryValue<>(o.get("latest_price_mkm").getAsJsonObject().get("avg").getAsDouble(),o.get("latest_price_mkm").getAsJsonObject().get("low").getAsDouble()));
+				  
+				  if(!o.get("latest_price_mm").getAsJsonObject().get("price").isJsonNull())
+					  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get("latest_price_mm").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_mm").getAsJsonObject().get("url").getAsString()));
 				  
 				  if(!o.get("multiverse_id").isJsonNull())
 					  fp.setMultiverseId(o.get("multiverse_id").getAsInt());

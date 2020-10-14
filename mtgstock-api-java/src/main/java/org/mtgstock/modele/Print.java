@@ -3,13 +3,12 @@ package org.mtgstock.modele;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.mtgstock.tools.MTGStockConstants;
-
 public class Print {
 
 	
 	protected Integer id;
 	protected String name;
+	protected String detailledName;
 	protected String image;
 	protected String iconClass;
 	protected List<Legality> legal;
@@ -33,13 +32,25 @@ public class Print {
 		legal = new ArrayList<>();
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public String getCleanName()
 	{
-		return getName().replace(MTGStockConstants.BORDERLESS, "")
-						.replace(MTGStockConstants.EXTENDED_ART, "")
-						.replace(MTGStockConstants.SHOWCASE, "")
-						.replace(MTGStockConstants.OVERSIZED, "").trim();
+		return getName().replaceAll("\\([^()]*\\)", "").trim();
+	}
+	
+	public String getDetailledName() {
+		return detailledName;
+	}
+
+	public void setDetailledName(String detailledName) {
+		this.detailledName = detailledName;
 	}
 	
 	public boolean isShowcase() {
@@ -81,12 +92,7 @@ public class Print {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public String getImage() {
 		return image;
 	}
