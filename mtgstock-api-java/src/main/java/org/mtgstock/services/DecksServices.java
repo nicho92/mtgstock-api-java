@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.mtgstock.modele.Archetype;
 import org.mtgstock.modele.Deck;
+import org.mtgstock.modele.DeckInfo;
 import org.mtgstock.modele.Tournament;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
@@ -18,16 +19,16 @@ import com.google.gson.JsonObject;
 
 public class DecksServices extends AbstractMTGStockService {
 
-	public List<Deck> listDeckForTournament(Integer id)
+	public List<DeckInfo> listDeckForTournament(Integer id)
 	{
-		List<Deck> ret = new ArrayList<>();
+		List<DeckInfo> ret = new ArrayList<>();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/tournaments/"+id;
 		try {
 			JsonObject t = URLTools.extractJson(url).getAsJsonObject();
 			
 			for(JsonElement e : t.get(DECKS).getAsJsonArray())
 			{
-				Deck at = new Deck();
+				DeckInfo at = new DeckInfo();
 						   at.setId(e.getAsJsonObject().get(ID).getAsInt());
 						   at.setPlayerName(e.getAsJsonObject().get(PLAYER).getAsString());
 						   
@@ -47,13 +48,17 @@ public class DecksServices extends AbstractMTGStockService {
 		return ret;
 	}
 	
-	public List<Deck> listDeckForTournament(Tournament t)
+	public List<DeckInfo> listDeckForTournament(Tournament t)
 	{
 		return listDeckForTournament(t.getId());
-		
-		
 	}
 
+	
+	public Deck getDecksDetails(DeckInfo d)
+	{
+		return new Deck();
+	}
+	
 	public List<Tournament> listTournaments(FORMAT f)
 	{
 		List<Tournament> ret = new ArrayList<>();
@@ -68,7 +73,6 @@ public class DecksServices extends AbstractMTGStockService {
 						   at.setName(e.getAsJsonObject().get(NAME).getAsString());
 						   at.setTournamentType(e.getAsJsonObject().get(TOURNAMENTTYPE).getAsString());
 						   at.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsLong()));
-						   
 						   
 						   if(!e.getAsJsonObject().get(NUM_PLAYERS).isJsonNull())
 							   at.setNumPlayers(e.getAsJsonObject().get(NUM_PLAYERS).getAsInt());
