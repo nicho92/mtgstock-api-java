@@ -56,7 +56,7 @@ public class InterestsService extends AbstractMTGStockService {
 					 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());
 					 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
 					 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
-					 t.setPrint(Tools.getPrintfor(obj.get(PRINT).getAsJsonObject()));
+					 t.setPrint(getPrintfor(obj.get(PRINT).getAsJsonObject()));
 			 ret.add(t);
 		}
 		return ret;

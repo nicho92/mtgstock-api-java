@@ -102,7 +102,7 @@ public class CardsService extends AbstractMTGStockService {
 		
 		try {
 			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
-				sets.add(Tools.parseSetFor(e.getAsJsonObject()));
+				sets.add(parseSetFor(e.getAsJsonObject()));
 		
 		} catch (IOException e) {
 			logger.error("Error gettings sets ",e);
@@ -116,14 +116,7 @@ public class CardsService extends AbstractMTGStockService {
 	public List<Played> getMostPlayedCard(FORMAT f)
 	{
 		List<Played> ret = new ArrayList<>();
-		int id=0;
-		switch (f) 
-		{
-			case LEGACY:id = 1;break;
-			case MODERN:id = 3;break;
-			case STANDARD:id = 4;break;
-			case VINTAGE:id = 2;break;
-		}
+		int id=Tools.getFormatCode(f);
 		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
 		try {
@@ -174,8 +167,8 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setMkmUrl(o.get(MKM_URL).getAsString());
 				  fp.setTcgId(o.get(TCG_ID).getAsInt());
 				  fp.setTcgUrl(o.get(TCG_URL).getAsString());
-				  fp.setCard(Tools.parseCardFor(o.get(CARD).getAsJsonObject()));
-				  fp.setCardSet(Tools.parseSetFor(o.get(CARD_SET).getAsJsonObject()));
+				  fp.setCard(parseCardFor(o.get(CARD).getAsJsonObject()));
+				  fp.setCardSet(parseSetFor(o.get(CARD_SET).getAsJsonObject()));
 				  fp.setAllTimeLow(new EntryValue<>(o.get(ALL_TIME_LOW).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_LOW).getAsJsonObject().get(DATE).getAsLong())));
 				  fp.setAllTimeHigh(new EntryValue<>(o.get(ALL_TIME_HIGH).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_HIGH).getAsJsonObject().get(DATE).getAsLong())));
 				  
@@ -205,7 +198,7 @@ public class CardsService extends AbstractMTGStockService {
 				  
 					o.get(SETS).getAsJsonArray().forEach(je->{
 							JsonObject obj = je.getAsJsonObject();
-							fp.getSets().add(Tools.getPrintfor(obj));
+							fp.getSets().add(getPrintfor(obj));
 					});
 					  
 		return fp;

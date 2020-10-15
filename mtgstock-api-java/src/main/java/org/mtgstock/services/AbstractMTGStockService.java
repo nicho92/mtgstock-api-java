@@ -2,10 +2,20 @@ package org.mtgstock.services;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.mtgstock.modele.Archetype;
+import org.mtgstock.modele.CardDetails;
+import org.mtgstock.modele.Legality;
+import org.mtgstock.modele.Print;
+import org.mtgstock.modele.Set;
+import org.mtgstock.tools.MTGStockConstants;
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
+
+import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
 
+	protected static final String RESERVED = "reserved";
 	protected static final String AVG = "avg";
 	protected static final String NAME = "name";
 	protected static final String QUANTITY = "quantity";
@@ -40,7 +50,118 @@ public abstract class AbstractMTGStockService {
 	protected static final String SIMILARITY = "similarity";
 	protected static final String MOSTPLAYED = "mostplayed";
 	protected static final String LOW = "low";
+	protected static final String OLD = "old";
+	protected static final String NUM_PLAYERS = "num_players";
+	protected static final String TOURNAMENTTYPE = "tournamenttype";
+	protected static final String POSITION = "position";
+	protected static final String PLAYER = "player";
+	protected static final String DECKS = "decks";
+	protected static final String ARCHETYPE = "archetype";
+
+
 
 	protected Logger logger = LogManager.getLogger(this.getClass());
 
+	
+	
+
+	protected Print getPrintfor(JsonObject obj) {
+		Print p = new Print();
+			  p.setId(obj.get(ID).getAsInt());
+			  p.setName(obj.get(NAME).getAsString());
+			  p.setIconClass(obj.get("icon_class").getAsString());
+			  p.setRarity(obj.get(RARITY).getAsString());
+			
+			  if(obj.get(RESERVED)!=null)
+				  p.setReserved(obj.get(RESERVED).getAsBoolean());
+			 
+			  p.setSetId(obj.get("set_id").getAsInt());
+			  p.setSetName(obj.get("set_name").getAsString());
+			  
+			  
+			  if(obj.get("set_type")!=null)
+				  p.setSetType(obj.get("set_type").getAsString());
+			  
+			  if(obj.get("include_default")!=null)
+					 p.setIncludeDefault(obj.get("include_default").getAsBoolean());
+			
+			  p.setExtendedArt(obj.get("name").getAsString().contains(MTGStockConstants.EXTENDED_ART));
+			  p.setOversized(obj.get("name").getAsString().contains(MTGStockConstants.OVERSIZED));
+			  p.setBorderless(obj.get("name").getAsString().contains(MTGStockConstants.BORDERLESS));
+			  p.setShowcase(obj.get("name").getAsString().contains(MTGStockConstants.SHOWCASE));
+			  
+			 
+			  try {
+				  
+				  for(String key : obj.get("legal").getAsJsonObject().keySet())
+					  p.getLegal().add(new Legality(key, obj.get("legal").getAsJsonObject().get(key).getAsString()));
+			  
+			  }
+			  catch(Exception e)
+			  {
+				  
+			  }
+			  
+			  try {
+				p.setImage(obj.get(IMAGE).getAsString());
+				} catch (Exception e) {
+					//do nothing
+				}
+			 
+		
+		return p;
+	}
+	
+	protected Set parseSetFor(JsonObject o) {
+		Set set = new Set();
+			set.setId(o.get(ID).getAsInt());
+			set.setName(o.get(NAME).getAsString());
+			set.setIconClass(o.get("icon_class").getAsString());
+			set.setSetType(o.get("set_type").getAsString());
+			
+			try {
+				set.setAbbrevation(o.get("abbreviation").getAsString());
+			}
+			catch(Exception e)
+			{
+				//do nothing
+			}
+			
+		
+		
+		return set;
+	}
+
+
+	protected CardDetails parseCardFor(JsonObject o) {
+		
+		CardDetails c = new CardDetails();
+			 c.setId(o.get(ID).getAsInt());
+			 c.setCmc(o.get("cmc").getAsInt());
+			 c.setCost(o.get("cost").getAsString());
+			 o.get("legal").getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(e.getKey(), e.getValue().getAsString())));
+			 c.setLowestPrint(o.get("lowest_print").getAsInt());
+			 c.setName(o.get("name").getAsString());
+			 c.setOracle(o.get("oracle").getAsString());
+			 c.setPwrtgh(o.get("pwrtgh").getAsString());
+			 c.setReserved(o.get(RESERVED).getAsBoolean());
+			 c.setSubtype(o.get("subtype").getAsString());
+			 c.setSupertype(o.get("supertype").getAsString());
+			 
+		return null;
+	}
+
+
+	protected Archetype parseArchetypeFor(JsonObject e) {
+		Archetype at = new Archetype();
+		at.setId(e.get(ID).getAsInt());
+		at.setName(e.get(NAME).getAsString());
+		
+		if(e.get(OLD)!=null)
+			at.setOld(e.get(OLD).getAsBoolean());
+		
+		return at;
+	}
+	
+	
 }
