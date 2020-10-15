@@ -4,6 +4,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.mtgstock.modele.Archetype;
 import org.mtgstock.modele.CardDetails;
+import org.mtgstock.modele.DeckCard;
 import org.mtgstock.modele.Legality;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.Set;
@@ -15,6 +16,11 @@ import com.google.gson.JsonObject;
 public abstract class AbstractMTGStockService {
 	
 
+	protected static final String LOWEST_PRINT = "lowest_print";
+	protected static final String SET = "set";
+	protected static final String CARD_TYPE = "card_type";
+	protected static final String CMC = "cmc";
+	protected static final String COLOR = "color";
 	protected static final String RESERVED = "reserved";
 	protected static final String AVG = "avg";
 	protected static final String NAME = "name";
@@ -137,11 +143,11 @@ public abstract class AbstractMTGStockService {
 		
 		CardDetails c = new CardDetails();
 			 c.setId(o.get(ID).getAsInt());
-			 c.setCmc(o.get("cmc").getAsInt());
+			 c.setCmc(o.get(CMC).getAsInt());
 			 c.setCost(o.get("cost").getAsString());
 			 o.get("legal").getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(e.getKey(), e.getValue().getAsString())));
-			 c.setLowestPrint(o.get("lowest_print").getAsInt());
-			 c.setName(o.get("name").getAsString());
+			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
+			 c.setName(o.get(NAME).getAsString());
 			 c.setOracle(o.get("oracle").getAsString());
 			 c.setPwrtgh(o.get("pwrtgh").getAsString());
 			 c.setReserved(o.get(RESERVED).getAsBoolean());
@@ -162,6 +168,18 @@ public abstract class AbstractMTGStockService {
 		
 		return at;
 	}
+	
+	protected DeckCard parseDeckCardFor(JsonObject o)
+	{
+		DeckCard d = new DeckCard();
+				 d.setCardType(o.get(CARD_TYPE).getAsString());
+				 d.setCmc(o.get(CMC).getAsInt());
+				 d.setColor(o.get(COLOR).getAsString());
+				 d.setName(o.get(NAME).getAsString());
+				 d.setSet(parseSetFor(o.get(LOWEST_PRINT).getAsJsonObject().get(SET).getAsJsonObject()));
+		return d;
+	}
+	
 	
 	
 }

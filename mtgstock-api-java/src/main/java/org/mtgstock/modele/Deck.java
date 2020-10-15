@@ -26,6 +26,13 @@ public class Deck {
 		mainboard= new HashMap<>();
 		sideboard = new HashMap<>();
 	}
+	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	public Integer getId() {
 		return id;
 	}

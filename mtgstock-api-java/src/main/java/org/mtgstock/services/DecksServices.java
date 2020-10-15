@@ -19,6 +19,11 @@ import com.google.gson.JsonObject;
 
 public class DecksServices extends AbstractMTGStockService {
 
+	private static final String SIDEBOARD = "sideboard";
+	private static final String MAINBOARD = "mainboard";
+
+
+
 	public List<DeckInfo> listDeckForTournament(Integer id)
 	{
 		List<DeckInfo> ret = new ArrayList<>();
@@ -63,24 +68,24 @@ public class DecksServices extends AbstractMTGStockService {
 	{
 		Deck d = new Deck();
 		
-		String url = MTGStockConstants.MTGSTOCK_API_URI+"decks/"+id;
-		
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/decks/"+id;
+		logger.debug("get deck at " + url);
 		try {
 			JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
 			
-			d.setId(id);
-			d.setName(obj.get("name").getAsString());
-			d.setPlayer(obj.get("player").getAsString());
-			
-			
+				d.setId(id);
+				d.setName(obj.get(NAME).getAsString());
+				d.setPlayer(obj.get(PLAYER).getAsString());
+				d.setArchetype(parseArchetypeFor(obj.get(ARCHETYPE).getAsJsonObject()));
+				d.setFormat(FORMAT.valueOf(obj.get("format").getAsJsonObject().get(NAME).getAsString().toUpperCase()));
+				d.setDate(Tools.initDate(obj.get("date").getAsLong()));
+				obj.get(MAINBOARD).getAsJsonArray().forEach(je->d.getMainboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), obj.get(QUANTITY).getAsInt()));
+				obj.get(SIDEBOARD).getAsJsonArray().forEach(je->d.getSideboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), obj.get(QUANTITY).getAsInt()));
 		}
 		catch(Exception e)
 		{
-			
+			logger.error(e);
 		}
-		
-		
-		
 		return d;
 	}
 	
@@ -88,6 +93,7 @@ public class DecksServices extends AbstractMTGStockService {
 	{
 		List<Tournament> ret = new ArrayList<>();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/tournaments/format/"+Tools.getFormatCode(f);
+		logger.debug("list tournament at " + url);
 		try {
 			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
 			
@@ -101,9 +107,6 @@ public class DecksServices extends AbstractMTGStockService {
 						   
 						   if(!e.getAsJsonObject().get(NUM_PLAYERS).isJsonNull())
 							   at.setNumPlayers(e.getAsJsonObject().get(NUM_PLAYERS).getAsInt());
-						   
-						  
-				
 				ret.add(at);
 			}
 		} catch (IOException e) {
@@ -122,6 +125,8 @@ public class DecksServices extends AbstractMTGStockService {
 		List<Archetype> ret = new ArrayList<>();
 		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/archetypes/format/"+Tools.getFormatCode(f);
+		logger.debug("list archetypes at " + url);
+		
 		try {
 			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
 			
@@ -129,16 +134,9 @@ public class DecksServices extends AbstractMTGStockService {
 			{
 				ret.add(parseArchetypeFor(e.getAsJsonObject()));
 			}
-			
-			
-		
 		} catch (IOException e) {
 			logger.error("error getting archetypes for " + f,e);
 		}
-		
-		
-		
-		
 		return ret;
 	}
 	
