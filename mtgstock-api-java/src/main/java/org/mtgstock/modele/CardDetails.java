@@ -3,7 +3,7 @@ package org.mtgstock.modele;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Card {
+public class CardDetails {
 
 	private Integer id;
 	private Integer cmc;
@@ -24,7 +24,7 @@ public class Card {
 	}
 	
 	
-	public Card() {
+	public CardDetails() {
 		legal = new ArrayList<>();
 	}
 	

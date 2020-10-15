@@ -2,16 +2,17 @@ package org.mtgstock.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
-import org.mtgstock.modele.Card;
-import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
-import org.mtgstock.modele.Legality;
+import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
+import org.mtgstock.modele.Set;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.Tools;
@@ -22,9 +23,22 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
+
+
+
+	public SearchResult getBestResult(String name) {
+		Optional<SearchResult> o = search(name).stream().max(Comparator.comparing(SearchResult::getSimilarity));
+		
+		if(o.isPresent())
+			return o.get();
+		else
+			return null;
+	}
+
+
 	public List<SearchResult> search(String name)
 	{
-		String url = MTGStockConstants.MTGSTOCK_API_URI+"/search/autocomplete/"+name;
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/search/autocomplete/"+name.replace(" ", "%20");
 		List<SearchResult> ret = new ArrayList<>();
 		
 		try {
@@ -32,7 +46,7 @@ public class CardsService extends AbstractMTGStockService {
 			for(JsonElement e : arr)
 			{
 				JsonObject oe = e.getAsJsonObject();
-				ret.add(new SearchResult(oe.get("id").getAsInt(), oe.get("name").getAsString(), oe.get("similarity").getAsDouble()));
+				ret.add(new SearchResult(oe.get(ID).getAsInt(), oe.get(NAME).getAsString(), oe.get(SIMILARITY).getAsDouble()));
 			}
 		} catch (IOException e) {
 			logger.error(e);
@@ -62,7 +76,10 @@ public class CardsService extends AbstractMTGStockService {
 		return ret;
 	}
 	
-	
+	public FullPrint getCard(Interest sr) throws IOException
+	{
+		return getCard(sr.getPrint().getId());
+	}
 	
 
 	public FullPrint getCard(SearchResult sr) throws IOException
@@ -75,17 +92,17 @@ public class CardsService extends AbstractMTGStockService {
 		return getCard(p.getId());
 	}
 	
-	public List<CardSet> listSets()
+	public List<Set> listSets()
 	{
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
 		
 		logger.debug("getting sets at " + url);
-		List<CardSet> sets = new ArrayList<>();
+		List<Set> sets = new ArrayList<>();
 		
 		
 		try {
 			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
-				sets.add(parseSetFor(e.getAsJsonObject()));
+				sets.add(Tools.parseSetFor(e.getAsJsonObject()));
 		
 		} catch (IOException e) {
 			logger.error("Error gettings sets ",e);
@@ -108,35 +125,26 @@ public class CardsService extends AbstractMTGStockService {
 			case VINTAGE:id = 2;break;
 		}
 		
-		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
-			
-		
 		try {
-			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get("mostplayed").getAsJsonArray();
+			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
 			
 			arr.forEach(k->{
 				
 				
 				Played p = new Played();
-				   	   p.setName(k.getAsJsonObject().get("card").getAsJsonObject().get("name").getAsString());
-					   p.setId(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("id").getAsInt());
-					   p.setImage(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("image").getAsString());
-					   p.setQuantity(k.getAsJsonObject().get("quantity").getAsInt());
+				   	   p.setName(k.getAsJsonObject().get(CARD).getAsJsonObject().get(NAME).getAsString());
+					   p.setId(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(ID).getAsInt());
+					   p.setImage(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(IMAGE).getAsString());
+					   p.setQuantity(k.getAsJsonObject().get(QUANTITY).getAsInt());
 					   
-					   if(!k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").isJsonNull())
-						   p.setAvgPrice(k.getAsJsonObject().get("card").getAsJsonObject().get("print").getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
+					   if(!k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVG).isJsonNull())
+						   p.setAvgPrice(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVG).getAsDouble());
 				ret.add(p);
-				
 			});
-			
-			
 		} catch (IOException e) {
 			logger.error("Error getting mostplayedCard at " + url + " : " + e);
 		}
-		
-		
-		
 		return ret;
 	}
 	
@@ -150,95 +158,59 @@ public class CardsService extends AbstractMTGStockService {
 		JsonObject o = URLTools.extractJson(url).getAsJsonObject();
 		
 		FullPrint fp = new FullPrint();
-				  fp.setId(o.get("id").getAsInt());
-				  fp.setName(o.get("name").getAsString());
+				  fp.setId(o.get(ID).getAsInt());
+				  fp.setName(o.get(NAME).getAsString());
 				  fp.setNamePrecision(Tools.extractParenthesisValue(fp.getName()));
-				  fp.setBorderless(o.get("name").getAsString().contains(MTGStockConstants.BORDERLESS));
-				  fp.setExtendedArt(o.get("name").getAsString().contains(MTGStockConstants.EXTENDED_ART));
-				  fp.setShowcase(o.get("name").getAsString().contains(MTGStockConstants.SHOWCASE));
-				  fp.setOversized(o.get("name").getAsString().contains(MTGStockConstants.OVERSIZED));
-				  fp.setRarity(o.get("rarity").getAsString());
-				  fp.setFoil(o.get("foil").getAsBoolean());
-				  fp.setFlip(o.get("flip").getAsBoolean());
-				  fp.setImageFlip(o.get("image_flip").getAsString());
-				  fp.setImage(o.get("image").getAsString());
-				  fp.setMkmId(o.get("mkm_id").getAsInt());
-				  fp.setMkmUrl(o.get("mkm_url").getAsString());
-				  fp.setTcgId(o.get("tcg_id").getAsInt());
-				  fp.setTcgUrl(o.get("tcg_url").getAsString());
-				  fp.setCard(parseCardFor(o.get("card").getAsJsonObject()));
-				  fp.setCardSet(parseSetFor(o.get("card_set").getAsJsonObject()));
-				  fp.setAllTimeLow(new EntryValue<>(o.get("all_time_low").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_low").getAsJsonObject().get("date").getAsLong())));
-				  fp.setAllTimeHigh(new EntryValue<>(o.get("all_time_high").getAsJsonObject().get("avg").getAsDouble(),Tools.initDate(o.get("all_time_high").getAsJsonObject().get("date").getAsLong())));
+				  fp.setBorderless(o.get(NAME).getAsString().contains(MTGStockConstants.BORDERLESS));
+				  fp.setExtendedArt(o.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
+				  fp.setShowcase(o.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
+				  fp.setOversized(o.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
+				  fp.setRarity(o.get(RARITY).getAsString());
+				  fp.setFoil(o.get(FOIL).getAsBoolean());
+				  fp.setFlip(o.get(FLIP).getAsBoolean());
+				  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());
+				  fp.setImage(o.get(IMAGE).getAsString());
+				  fp.setMkmId(o.get(MKM_ID).getAsInt());
+				  fp.setMkmUrl(o.get(MKM_URL).getAsString());
+				  fp.setTcgId(o.get(TCG_ID).getAsInt());
+				  fp.setTcgUrl(o.get(TCG_URL).getAsString());
+				  fp.setCard(Tools.parseCardFor(o.get(CARD).getAsJsonObject()));
+				  fp.setCardSet(Tools.parseSetFor(o.get(CARD_SET).getAsJsonObject()));
+				  fp.setAllTimeLow(new EntryValue<>(o.get(ALL_TIME_LOW).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_LOW).getAsJsonObject().get(DATE).getAsLong())));
+				  fp.setAllTimeHigh(new EntryValue<>(o.get(ALL_TIME_HIGH).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_HIGH).getAsJsonObject().get(DATE).getAsLong())));
 				  
-				  if(!o.get("latest_price_ck").getAsJsonObject().get("price").isJsonNull())
-					  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get("latest_price_ck").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_ck").getAsJsonObject().get("url").getAsString()));
+				  if(!o.get(LATEST_PRICE_CK).getAsJsonObject().get(PRICE).isJsonNull())
+					  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get(LATEST_PRICE_CK).getAsJsonObject().get(PRICE).getAsDouble(),o.get(LATEST_PRICE_CK).getAsJsonObject().get(URL).getAsString()));
 				  
-				  if(!o.get("latest_price_mkm").getAsJsonObject().get("avg").isJsonNull())
-					  fp.setLatestPriceMkm(new EntryValue<>(o.get("latest_price_mkm").getAsJsonObject().get("avg").getAsDouble(),o.get("latest_price_mkm").getAsJsonObject().get("low").getAsDouble()));
+				  if(!o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).isJsonNull())
+					  fp.setLatestPriceMkm(new EntryValue<>(o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).getAsDouble(),o.get(LATEST_PRICE_MKM).getAsJsonObject().get(LOW).getAsDouble()));
 				  
-				  if(!o.get("latest_price_mm").getAsJsonObject().get("price").isJsonNull())
-					  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get("latest_price_mm").getAsJsonObject().get("price").getAsDouble(),o.get("latest_price_mm").getAsJsonObject().get("url").getAsString()));
+				  if(!o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).isJsonNull())
+					  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).getAsDouble(),o.get(LATEST_PRICE_MM).getAsJsonObject().get(URL).getAsString()));
 				  
-				  if(!o.get("multiverse_id").isJsonNull())
-					  fp.setMultiverseId(o.get("multiverse_id").getAsInt());
+				  if(!o.get(MULTIVERSE_ID).isJsonNull())
+					  fp.setMultiverseId(o.get(MULTIVERSE_ID).getAsInt());
 				  
 				  
-				  o.get("latest_price").getAsJsonObject().keySet().forEach(key->{
+				  o.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
 					  try {
-						  fp.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get("latest_price").getAsJsonObject().get(key).getAsDouble()));
+						  fp.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble()));
 					  }
 					  catch(Exception e)
 					  {
 						  //do nothing
 					  }
-					  
-					  
 				  });
+				  
+				  
+					o.get(SETS).getAsJsonArray().forEach(je->{
+							JsonObject obj = je.getAsJsonObject();
+							fp.getSets().add(Tools.getPrintfor(obj));
+					});
+					  
 		return fp;
 	}
 
-
-	private CardSet parseSetFor(JsonObject o) {
-		CardSet set = new CardSet();
-			set.setId(o.get("id").getAsInt());
-			set.setName(o.get("name").getAsString());
-			set.setIconClass(o.get("icon_class").getAsString());
-			set.setSetType(o.get("set_type").getAsString());
-			
-			try {
-				set.setAbbrevation(o.get("abbreviation").getAsString());
-			}
-			catch(Exception e)
-			{
-				//do nothing
-			}
-			
-		
-		
-		return set;
-	}
-
-
-	private Card parseCardFor(JsonObject o) {
-		
-		Card c = new Card();
-			 c.setId(o.get("id").getAsInt());
-			 c.setCmc(o.get("cmc").getAsInt());
-			 c.setCost(o.get("cost").getAsString());
-			 o.get("legal").getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(e.getKey(), e.getValue().getAsString())));
-			 c.setLowestPrint(o.get("lowest_print").getAsInt());
-			 c.setName(o.get("name").getAsString());
-			 c.setOracle(o.get("oracle").getAsString());
-			 c.setPwrtgh(o.get("pwrtgh").getAsString());
-			 c.setReserved(o.get("reserved").getAsBoolean());
-			 c.setSubtype(o.get("subtype").getAsString());
-			 c.setSupertype(o.get("supertype").getAsString());
-			 
-		return null;
-	}
-	
-	
 	
 	
 	

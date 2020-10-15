@@ -16,8 +16,8 @@ public class FullPrint extends Print {
 	private String mkmUrl;
 	private Integer tcgId;
 	private String tcgUrl;
-	private Card card;
-	private CardSet cardSet;
+	private CardDetails card;
+	private Set cardSet;
 	private EntryValue<Double,Date> allTimeLow;
 	private EntryValue<Double,Date> allTimeHigh;
 	
@@ -25,7 +25,7 @@ public class FullPrint extends Print {
 	private EntryValue<Double,String> latestPriceCardKingdom;
 	private EntryValue<Double,Double> latestPriceMkm;
 	private EntryValue<Double,String> latestPriceMiniatureMarket;
-	private List<CardSet> sets;
+	private List<Print> sets;
 	
 	public FullPrint() {
 		latestPrices = new ArrayList<>();
@@ -88,23 +88,23 @@ public class FullPrint extends Print {
 	public void setTcgUrl(String tcgUrl) {
 		this.tcgUrl = tcgUrl;
 	}
-	public Card getCard() {
+	public CardDetails getCard() {
 		return card;
 	}
-	public void setCard(Card card) {
+	public void setCard(CardDetails card) {
 		this.card = card;
 	}
-	public CardSet getCardSet() {
+	public Set getCardSet() {
 		return cardSet;
 	}
-	public void setCardSet(CardSet cardSet) {
+	public void setCardSet(Set cardSet) {
 		this.cardSet = cardSet;
 	}
 	
-	public List<CardSet> getSets() {
+	public List<Print> getSets() {
 		return sets;
 	}
-	public void setSets(List<CardSet> sets) {
+	public void setSets(List<Print> sets) {
 		this.sets = sets;
 	}
 

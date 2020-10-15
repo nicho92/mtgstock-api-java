@@ -2,7 +2,7 @@ package org.mtgstock.services;
 
 import java.io.IOException;
 
-import org.mtgstock.modele.Card;
+import org.mtgstock.modele.CardDetails;
 import org.mtgstock.modele.PriceVariations;
 import org.mtgstock.modele.Prices;
 import org.mtgstock.modele.Print;
@@ -16,7 +16,7 @@ import com.google.gson.JsonObject;
 
 public class PriceService extends AbstractMTGStockService {
 	
-	public Prices getPricesFor(Card p) throws IOException
+	public Prices getPricesFor(CardDetails p) throws IOException
 	{
 		return getPricesFor(p.getId());
 	}
