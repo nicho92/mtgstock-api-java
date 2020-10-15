@@ -20,7 +20,7 @@ public class AnalyticsServiceTest {
 		
 		SetPrices pr = p.get(4);
 		
-		System.out.println(serv.getExpectedValuesFor(pr.getSet()));
+		serv.getExpectedValuesFor(pr.getSet()).getPrices().entrySet().forEach(System.out::println);
 		
 	}
 }
