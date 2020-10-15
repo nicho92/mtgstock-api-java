@@ -5,14 +5,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.mtgstock.modele.Archetype;
-import org.mtgstock.modele.CardDetails;
-import org.mtgstock.modele.Legality;
-import org.mtgstock.modele.Print;
-import org.mtgstock.modele.Set;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
-
-import com.google.gson.JsonObject;
 
 public class Tools {
 
@@ -25,6 +18,8 @@ public class Tools {
 			case MODERN:return 3;
 			case STANDARD:return 4;
 			case VINTAGE:return 2;
+			case PIONEER:return 15;
+			case PAUPER : return 7;
 		}
 		
 		return -1;

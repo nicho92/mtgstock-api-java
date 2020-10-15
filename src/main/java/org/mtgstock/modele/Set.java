@@ -12,6 +12,10 @@ public class Set {
 	private Date date;
 	
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
 	
 	public Integer getId() {
 		return id;
