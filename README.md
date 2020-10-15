@@ -2,7 +2,7 @@
 Java api for MTGStocks
 
 Download link : 
-	https://github.com/nicho92/mtgstock-api-java/tree/master/mtgstock-api-java/dist
+	https://github.com/nicho92/mtgstock-api-java/tree/master/dist
 	
 Usage : 
 
