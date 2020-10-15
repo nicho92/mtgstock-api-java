@@ -53,10 +53,35 @@ public class DecksServices extends AbstractMTGStockService {
 		return listDeckForTournament(t.getId());
 	}
 
-	
-	public Deck getDecksDetails(DeckInfo d)
+	public Deck getDecksDetails(DeckInfo di)
 	{
-		return new Deck();
+		return getDecksDetails(di.getId());
+	}
+	
+	
+	public Deck getDecksDetails(Integer id)
+	{
+		Deck d = new Deck();
+		
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"decks/"+id;
+		
+		try {
+			JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
+			
+			d.setId(id);
+			d.setName(obj.get("name").getAsString());
+			d.setPlayer(obj.get("player").getAsString());
+			
+			
+		}
+		catch(Exception e)
+		{
+			
+		}
+		
+		
+		
+		return d;
 	}
 	
 	public List<Tournament> listTournaments(FORMAT f)
