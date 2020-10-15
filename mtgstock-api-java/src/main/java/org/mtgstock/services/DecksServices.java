@@ -79,8 +79,8 @@ public class DecksServices extends AbstractMTGStockService {
 				d.setArchetype(parseArchetypeFor(obj.get(ARCHETYPE).getAsJsonObject()));
 				d.setFormat(FORMAT.valueOf(obj.get("format").getAsJsonObject().get(NAME).getAsString().toUpperCase()));
 				d.setDate(Tools.initDate(obj.get("date").getAsLong()));
-				obj.get(MAINBOARD).getAsJsonArray().forEach(je->d.getMainboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), obj.get(QUANTITY).getAsInt()));
-				obj.get(SIDEBOARD).getAsJsonArray().forEach(je->d.getSideboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), obj.get(QUANTITY).getAsInt()));
+				obj.get(MAINBOARD).getAsJsonArray().forEach(je->d.getMainboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), je.getAsJsonObject().get(QUANTITY).getAsInt()));
+				obj.get(SIDEBOARD).getAsJsonArray().forEach(je->d.getSideboard().put(parseDeckCardFor(je.getAsJsonObject().get(CARD).getAsJsonObject()), je.getAsJsonObject().get(QUANTITY).getAsInt()));
 		}
 		catch(Exception e)
 		{

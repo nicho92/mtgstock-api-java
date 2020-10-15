@@ -9,6 +9,11 @@ public class DeckCard {
 	private Set set;
 	
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	public String getCardType() {
 		return cardType;
 	}
