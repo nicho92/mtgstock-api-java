@@ -1,21 +1,31 @@
 package org.mtgstock.services;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.mtgstock.modele.Archetype;
 import org.mtgstock.modele.CardDetails;
 import org.mtgstock.modele.DeckCard;
+import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Legality;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.Set;
 import org.mtgstock.tools.MTGStockConstants;
+import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
 
+	protected static final String LEGAL = "legal";
+	protected static final String NORMAL = "normal";
 	protected static final String LOWEST_PRINT = "lowest_print";
 	protected static final String SET = "set";
 	protected static final String CARD_TYPE = "card_type";
@@ -108,8 +118,8 @@ public abstract class AbstractMTGStockService {
 			 
 			  try {
 				  
-				  for(String key : obj.get("legal").getAsJsonObject().keySet())
-					  p.getLegal().add(new Legality(key, obj.get("legal").getAsJsonObject().get(key).getAsString()));
+				  for(String key : obj.get(LEGAL).getAsJsonObject().keySet())
+					  p.getLegal().add(new Legality(FORMAT.valueOf(key.toUpperCase()), obj.get(LEGAL).getAsJsonObject().get(key).getAsString()));
 			  
 			  }
 			  catch(Exception e)
@@ -154,7 +164,7 @@ public abstract class AbstractMTGStockService {
 			 c.setId(o.get(ID).getAsInt());
 			 c.setCmc(o.get(CMC).getAsInt());
 			 c.setCost(o.get("cost").getAsString());
-			 o.get("legal").getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(e.getKey(), e.getValue().getAsString())));
+			 o.get(LEGAL).getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(FORMAT.valueOf(e.getKey().toUpperCase()), e.getValue().getAsString())));
 			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
 			 c.setName(o.get(NAME).getAsString());
 			 c.setOracle(o.get("oracle").getAsString());
@@ -189,6 +199,27 @@ public abstract class AbstractMTGStockService {
 		return d;
 	}
 	
+	protected List<Interest> parseInterestFor(CATEGORY c,boolean foil,JsonObject interests)
+	{
+		JsonArray arrs = interests.get( (foil)?FOIL:NORMAL).getAsJsonArray(); 
+		List<Interest> ret = new ArrayList<>();
+		
+		for(JsonElement e : arrs)
+		{
+			JsonObject obj = e.getAsJsonObject();
+			Interest t = new Interest();
+					 t.setCategory(c);
+					 t.setFoil(foil);
+					 t.setDate(new Date(obj.get(DATE).getAsLong()));
+				     t.setInterestType(obj.get(INTEREST_TYPE).getAsString());
+					 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());
+					 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
+					 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
+					 t.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
+			 ret.add(t);
+		}
+		return ret;
+	}
 	
 	
 }

@@ -3,6 +3,7 @@ package org.mtgstock.modele;
 import java.util.Date;
 
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class Interest {
 	
@@ -19,6 +20,14 @@ public class Interest {
 	public Interest() {
 		print = new Print();
 	}
+	
+	
+	public boolean isLegalFor(FORMAT f)
+	{
+		return print.isLegalFor(f);
+	}
+	
+	
 	
 	@Override
 	public String toString() {

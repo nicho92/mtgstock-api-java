@@ -9,12 +9,10 @@ import java.util.Optional;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
-import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
 import org.mtgstock.modele.Set;
 import org.mtgstock.tools.MTGStockConstants;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.URLTools;
 

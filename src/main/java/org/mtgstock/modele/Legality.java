@@ -1,24 +1,26 @@
 package org.mtgstock.modele;
 
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
+
 public class Legality {
 
-	private String format;
+	private FORMAT format;
 	private String legal;
 	
 	public Legality() {
 	
 	}
 	
-	public Legality(String format, String legality) {
+	public Legality(FORMAT format, String legality) {
 		super();
 		this.format = format;
 		this.legal = legality;
 	}
 
-	public String getFormat() {
+	public FORMAT getFormat() {
 		return format;
 	}
-	public void setFormat(String format) {
+	public void setFormat(FORMAT format) {
 		this.format = format;
 	}
 	public String getLegal() {

@@ -22,6 +22,8 @@ public class Tools {
 			case VINTAGE:return 2;
 			case PIONEER:return 15;
 			case PAUPER : return 7;
+			case FRONTIER: return -1;
+			case COMMANDER : return -1;
 		}
 		
 		return -1;

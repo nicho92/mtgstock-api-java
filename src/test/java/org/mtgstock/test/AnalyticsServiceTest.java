@@ -1,7 +1,9 @@
 package org.mtgstock.test;
 
 import org.junit.Test;
+import org.mtgstock.modele.Interests;
 import org.mtgstock.services.AnalyticsService;
+import org.mtgstock.services.InterestsService;
 
 public class AnalyticsServiceTest {
 
@@ -10,10 +12,10 @@ public class AnalyticsServiceTest {
 	@Test
 	public void testSetPrices()
 	{
-		AnalyticsService serv = new AnalyticsService();
-		serv.listAllTimes().forEach(lwh->{
+		InterestsService serv = new InterestsService();
+		serv.getInterests().getAverage().forEach(lwh->{
 			
-			System.out.println(lwh.getPrint() + " " + lwh.getType() + " " + lwh.getPrice());
+			System.out.println(lwh.getPrint().getLegal()+ " " + lwh.getPrint() + " " + lwh.getCategory() + " " + lwh.getPricePresent());
 		});
 	}
 }

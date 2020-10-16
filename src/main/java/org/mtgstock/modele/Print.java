@@ -2,6 +2,9 @@ package org.mtgstock.modele;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class Print {
 
@@ -31,6 +34,20 @@ public class Print {
 	public Print() {
 		legal = new ArrayList<>();
 	}
+	
+	
+	public boolean isLegalFor(FORMAT f)
+	{
+		Optional<Legality> opt= getLegal().stream().filter(l->l.getFormat()==f).findAny();
+		
+		if(opt.isEmpty())
+			return false;
+		
+		
+		return opt.get().getLegal().equalsIgnoreCase("legal");
+		
+	}
+	
 	
 	public String getName() {
 		return name;
