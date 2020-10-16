@@ -16,8 +16,6 @@ public class DeckServiceTest {
 		d.listTournaments(FORMAT.MODERN).forEach(System.out::println);
 		d.listArchetypes(FORMAT.VINTAGE).forEach(System.out::println);
 		
-		
-		
 		Deck deck = d.getDecksDetails(258088);
 		System.out.println(deck.getMainboard());
 		

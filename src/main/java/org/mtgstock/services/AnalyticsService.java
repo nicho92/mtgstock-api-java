@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.mtgstock.modele.Metagame;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Set;
 import org.mtgstock.modele.SetPrices;
@@ -22,9 +23,11 @@ public class AnalyticsService extends AbstractMTGStockService {
 
 	
 	
-	public SetPrices getExpectedValuesFor(Set s)
+
+
+	public SetPrices getExpectedValue(Set s)
 	{
-		Optional<SetPrices> opt = getMostExpectedValue().stream().filter(sp->sp.getSet().getName().equals(s.getName())).findAny();
+		Optional<SetPrices> opt = getExpectedValues().stream().filter(sp->sp.getSet().getName().equals(s.getName())).findAny();
 		
 		if(opt.isPresent())
 			return opt.get();
@@ -33,7 +36,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 	}
 	
-	public List<SetPrices> getMostExpectedValue()
+	public List<SetPrices> getExpectedValues()
 	{
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/expectedvalue";
 		List<SetPrices> setp = new ArrayList<>();
@@ -65,7 +68,6 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 	}
 	
-	
 	public List<Played> getMostPlayedCard(FORMAT f)
 	{
 		List<Played> ret = new ArrayList<>();
@@ -93,5 +95,42 @@ public class AnalyticsService extends AbstractMTGStockService {
 		}
 		return ret;
 	}
+	
+	
+	public List<Metagame> getMetagamesFor(FORMAT f)
+	{
+		List<Metagame> metas = new ArrayList<>();
+		
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/metagame/"+Tools.getFormatCode(f);
+		
+		
+		try {
+			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+			
+			
+			for(JsonElement e : arr)
+			{
+				Metagame m = new Metagame();
+						 m.setArchetype(parseArchetypeFor(e.getAsJsonObject().get(ARCHETYPE).getAsJsonObject()));
+						 m.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsString(),"yyyy-MM-dd"));
+						 m.setFormat(f);
+						 m.setTotal(e.getAsJsonObject().get(TOTAL).getAsInt());
+						 if(e.getAsJsonObject().get(PLACING)!=null)
+							 m.setPlacings(e.getAsJsonObject().get(PLACING).getAsInt());
+						 
+	
+				metas.add(m);
+			}
+			
+			
+		} catch (IOException e) {
+			logger.error("Error getting metagames analytics for " + f,e);
+		}
+		
+		
+		
+		return metas;
+	}
+	
 	
 }

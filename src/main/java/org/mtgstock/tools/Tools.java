@@ -1,5 +1,7 @@
 package org.mtgstock.tools;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -46,6 +48,15 @@ public class Tools {
 		    return m.group(1);
 		}
 		return "";
+	}
+
+
+	public static Date initDate(String val, String patt) {
+		try {
+			return new SimpleDateFormat(patt).parse(val);
+		} catch (ParseException e) {
+			return new Date();
+		}
 	}
 
 	

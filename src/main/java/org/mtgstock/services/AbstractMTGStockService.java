@@ -63,6 +63,8 @@ public abstract class AbstractMTGStockService {
 	protected static final String PLAYER = "player";
 	protected static final String DECKS = "decks";
 	protected static final String ARCHETYPE = "archetype";
+	protected static final String TOTAL = "total";
+	protected static final String PLACING = "placing";
 
 
 

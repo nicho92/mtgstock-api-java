@@ -1,10 +1,8 @@
 package org.mtgstock.test;
 
-import java.util.List;
-
 import org.junit.Test;
-import org.mtgstock.modele.SetPrices;
 import org.mtgstock.services.AnalyticsService;
+import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class AnalyticsServiceTest {
 
@@ -14,13 +12,6 @@ public class AnalyticsServiceTest {
 	public void testSetPrices()
 	{
 		AnalyticsService serv = new AnalyticsService();
-		
-		List<SetPrices> p = serv.getMostExpectedValue();
-		
-		
-		SetPrices pr = p.get(4);
-		
-		serv.getExpectedValuesFor(pr.getSet()).getPrices().entrySet().forEach(System.out::println);
-		
+		serv.getMetagamesFor(FORMAT.PIONEER);
 	}
 }
