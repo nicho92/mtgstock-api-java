@@ -45,6 +45,7 @@ public class InterestsService extends AbstractMTGStockService {
 	
 	public List<Interest> getInterestFor(CATEGORY c , boolean foil)
 	{
+		logger.debug("GetInterest for " + c + " foil="+foil);
 		
 		if(c == CATEGORY.AVERAGE)
 			return (foil)?getInterests().getAverageFoil():getInterests().getAverage();

@@ -27,7 +27,11 @@ public class Interest {
 		return print.isLegalFor(f);
 	}
 	
-	
+	public double getPriceDayChange()
+	{
+		return getPricePresent() - getPricePast();
+	}
+
 	
 	@Override
 	public String toString() {

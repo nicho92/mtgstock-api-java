@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class Print {
@@ -33,6 +34,11 @@ public class Print {
 	
 	public Print() {
 		legal = new ArrayList<>();
+	}
+	
+	public String getWebPage()
+	{
+		return MTGStockConstants.MTGSTOCK_WEBSITE_URI+"/prints/"+getId();
 	}
 	
 	
