@@ -1,8 +1,10 @@
 package org.mtgstock.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Interests;
@@ -27,7 +29,17 @@ public class InterestsService extends AbstractMTGStockService {
 	
 	public List<Interest> getInterestFor(CATEGORY c , boolean foil,FORMAT f)
 	{
-		return getInterestFor(c , foil);
+		return getInterestFor(c , foil).stream().filter(i->i.isLegalFor(f)).collect(Collectors.toList());
+	}
+	
+	public List<Interest> getInterestFor(CATEGORY c)
+	{
+		List<Interest> ret = new ArrayList<>();
+		
+		ret.addAll(getInterestFor(c, true));
+		ret.addAll(getInterestFor(c, false));
+		
+		return ret;
 	}
 	
 	

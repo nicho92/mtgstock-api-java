@@ -35,7 +35,6 @@ public class Legality {
 		return getFormat()+":"+getLegal();
 	}
 	
-	
 	@Override
 	public int hashCode() {
 		return getFormat().hashCode();

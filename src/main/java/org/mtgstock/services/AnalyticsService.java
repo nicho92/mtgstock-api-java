@@ -27,6 +27,9 @@ public class AnalyticsService extends AbstractMTGStockService {
 	
 	
 	
+	
+
+
 	public List<LowHighValues> listAllTimes()
 	{
 		List<LowHighValues> ret = new ArrayList<>();
@@ -40,9 +43,9 @@ public class AnalyticsService extends AbstractMTGStockService {
 			{
 				JsonObject obj = el.getAsJsonObject();
 				LowHighValues val = new LowHighValues();
-							  val.setType(PRICES.valueOf(obj.get("type").getAsString().toUpperCase()));
+							  val.setType(PRICES.valueOf(obj.get(TYPE).getAsString().toUpperCase()));
 							  val.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
-							  val.setPrice(new EntryValue<>(Tools.initDate(obj.get(PRICE).getAsJsonObject().get(DATE).getAsString(),"yyyy-MM-dd"),
+							  val.setPrice(new EntryValue<>(Tools.initDate(obj.get(PRICE).getAsJsonObject().get(DATE).getAsString(),DATE_FORMAT),
 									  					    obj.get(PRICE).getAsJsonObject().get(AVG).getAsDouble()
 									  		));
 				ret.add(val);
@@ -146,7 +149,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 			{
 				Metagame m = new Metagame();
 						 m.setArchetype(parseArchetypeFor(e.getAsJsonObject().get(ARCHETYPE).getAsJsonObject()));
-						 m.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsString(),"yyyy-MM-dd"));
+						 m.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsString(),DATE_FORMAT));
 						 m.setFormat(f);
 						 m.setTotal(e.getAsJsonObject().get(TOTAL).getAsInt());
 						 if(e.getAsJsonObject().get(PLACING)!=null)

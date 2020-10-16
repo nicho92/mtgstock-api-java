@@ -23,7 +23,14 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
-
+	protected static final String COST = "cost";
+	protected static final String ABBREVIATION = "abbreviation";
+	protected static final String INCLUDE_DEFAULT = "include_default";
+	protected static final String SET_ID = "set_id";
+	protected static final String SET_NAME = "set_name";
+	protected static final String ICON_CLASS = "icon_class";
+	protected static final String SET_TYPE = "set_type";
+	protected static final String TYPE = "type";
 	protected static final String LEGAL = "legal";
 	protected static final String NORMAL = "normal";
 	protected static final String LOWEST_PRINT = "lowest_print";
@@ -76,6 +83,8 @@ public abstract class AbstractMTGStockService {
 	protected static final String TOTAL = "total";
 	protected static final String PLACING = "placing";
 
+	protected static final String DATE_FORMAT = "yyyy-MM-dd";
+
 
 
 	protected Logger logger = LogManager.getLogger(this.getClass());
@@ -92,28 +101,28 @@ public abstract class AbstractMTGStockService {
 			  if(obj.get(RESERVED)!=null)
 				  p.setReserved(obj.get(RESERVED).getAsBoolean());
 			 
-			  if(obj.get("set_id")!=null)
-				  p.setSetId(obj.get("set_id").getAsInt());
+			  if(obj.get(SET_ID)!=null)
+				  p.setSetId(obj.get(SET_ID).getAsInt());
 			 
 			  
-			  if(obj.get("set_name")!=null)
-				 p.setSetName(obj.get("set_name").getAsString());
+			  if(obj.get(SET_NAME)!=null)
+				  p.setSetName(obj.get(SET_NAME).getAsString());
 			  
 			  
-			  if(obj.get("icon_class")!=null && !obj.get("icon_class").isJsonNull())
-				  p.setIconClass(obj.get("icon_class").getAsString());
+			  if(obj.get(ICON_CLASS)!=null && !obj.get(ICON_CLASS).isJsonNull())
+				  p.setIconClass(obj.get(ICON_CLASS).getAsString());
 
 			  
-			  if(obj.get("set_type")!=null)
-				  p.setSetType(obj.get("set_type").getAsString());
+			  if(obj.get(SET_TYPE)!=null)
+				  p.setSetType(obj.get(SET_TYPE).getAsString());
 			  
-			  if(obj.get("include_default")!=null)
-					 p.setIncludeDefault(obj.get("include_default").getAsBoolean());
+			  if(obj.get(INCLUDE_DEFAULT)!=null)
+					 p.setIncludeDefault(obj.get(INCLUDE_DEFAULT).getAsBoolean());
 			
-			  p.setExtendedArt(obj.get("name").getAsString().contains(MTGStockConstants.EXTENDED_ART));
-			  p.setOversized(obj.get("name").getAsString().contains(MTGStockConstants.OVERSIZED));
-			  p.setBorderless(obj.get("name").getAsString().contains(MTGStockConstants.BORDERLESS));
-			  p.setShowcase(obj.get("name").getAsString().contains(MTGStockConstants.SHOWCASE));
+			  p.setExtendedArt(obj.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
+			  p.setOversized(obj.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
+			  p.setBorderless(obj.get(NAME).getAsString().contains(MTGStockConstants.BORDERLESS));
+			  p.setShowcase(obj.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
 			  
 			 
 			  try {
@@ -124,7 +133,7 @@ public abstract class AbstractMTGStockService {
 			  }
 			  catch(Exception e)
 			  {
-				  
+				  //do nothing
 			  }
 			  
 			  try {
@@ -141,11 +150,11 @@ public abstract class AbstractMTGStockService {
 		Set set = new Set();
 			set.setId(o.get(ID).getAsInt());
 			set.setName(o.get(NAME).getAsString());
-			set.setIconClass(o.get("icon_class").getAsString());
-			set.setSetType(o.get("set_type").getAsString());
+			set.setIconClass(o.get(ICON_CLASS).getAsString());
+			set.setSetType(o.get(SET_TYPE).getAsString());
 			
 			try {
-				set.setAbbrevation(o.get("abbreviation").getAsString());
+				set.setAbbrevation(o.get(ABBREVIATION).getAsString());
 			}
 			catch(Exception e)
 			{
@@ -163,7 +172,7 @@ public abstract class AbstractMTGStockService {
 		CardDetails c = new CardDetails();
 			 c.setId(o.get(ID).getAsInt());
 			 c.setCmc(o.get(CMC).getAsInt());
-			 c.setCost(o.get("cost").getAsString());
+			 c.setCost(o.get(COST).getAsString());
 			 o.get(LEGAL).getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(FORMAT.valueOf(e.getKey().toUpperCase()), e.getValue().getAsString())));
 			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
 			 c.setName(o.get(NAME).getAsString());

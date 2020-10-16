@@ -40,7 +40,7 @@ public class Interest {
 	public void setCategory(CATEGORY category) {
 		this.category = category;
 	}
-	public Boolean getFoil() {
+	public Boolean isFoil() {
 		return foil;
 	}
 	public void setFoil(Boolean foil) {
