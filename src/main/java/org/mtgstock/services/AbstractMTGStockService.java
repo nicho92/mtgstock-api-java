@@ -73,19 +73,26 @@ public abstract class AbstractMTGStockService {
 	
 	
 
-	protected Print getPrintfor(JsonObject obj) {
+	protected Print parsePrintFor(JsonObject obj) {
 		Print p = new Print();
 			  p.setId(obj.get(ID).getAsInt());
 			  p.setName(obj.get(NAME).getAsString());
-			  p.setIconClass(obj.get("icon_class").getAsString());
 			  p.setRarity(obj.get(RARITY).getAsString());
 			
 			  if(obj.get(RESERVED)!=null)
 				  p.setReserved(obj.get(RESERVED).getAsBoolean());
 			 
-			  p.setSetId(obj.get("set_id").getAsInt());
-			  p.setSetName(obj.get("set_name").getAsString());
+			  if(obj.get("set_id")!=null)
+				  p.setSetId(obj.get("set_id").getAsInt());
+			 
 			  
+			  if(obj.get("set_name")!=null)
+				 p.setSetName(obj.get("set_name").getAsString());
+			  
+			  
+			  if(obj.get("icon_class")!=null && !obj.get("icon_class").isJsonNull())
+				  p.setIconClass(obj.get("icon_class").getAsString());
+
 			  
 			  if(obj.get("set_type")!=null)
 				  p.setSetType(obj.get("set_type").getAsString());

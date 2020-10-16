@@ -2,33 +2,23 @@ package org.mtgstock.modele;
 
 public class EntryValue<T,V> {
 
-	private T value;
-	private V date;
+	private T key;
+	private V value;
 	
 	public EntryValue() {
 		//do nothing
 	}
 	
+	@Override
+	public String toString() {
+		return key + ":" + value;
+	}
 	
-	
-	public EntryValue(T value, V date) {
+	public EntryValue(T key, V value) {
 		this.value = value;
-		this.date = date;
+		this.key = key;
 	}
 
 
 
-	public T getValue() {
-		return value;
-	}
-	public void setValue(T value) {
-		this.value = value;
-	}
-	public V getDate() {
-		return date;
-	}
-	public void setDate(V date) {
-		this.date = date;
-	}
-	
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.mtgstock.modele.EntryValue;
+import org.mtgstock.modele.LowHighValues;
 import org.mtgstock.modele.Metagame;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Set;
@@ -21,6 +23,38 @@ import com.google.gson.JsonObject;
 
 public class AnalyticsService extends AbstractMTGStockService {
 
+	
+	
+	
+	
+	public List<LowHighValues> listAllTimes()
+	{
+		List<LowHighValues> ret = new ArrayList<>();
+		
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/alltime";
+		logger.debug("getting low/high value at " + url);
+		try {
+			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+			
+			for(JsonElement el : arr)
+			{
+				JsonObject obj = el.getAsJsonObject();
+				LowHighValues val = new LowHighValues();
+							  val.setType(PRICES.valueOf(obj.get("type").getAsString().toUpperCase()));
+							  val.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
+							  val.setPrice(new EntryValue<>(Tools.initDate(obj.get(PRICE).getAsJsonObject().get(DATE).getAsString(),"yyyy-MM-dd"),
+									  					    obj.get(PRICE).getAsJsonObject().get(AVG).getAsDouble()
+									  		));
+				ret.add(val);
+			}
+			
+			
+		} catch (IOException e) {
+			logger.error("Error getting low/hig values",e);
+		}
+		
+		return ret;
+	}
 	
 	
 

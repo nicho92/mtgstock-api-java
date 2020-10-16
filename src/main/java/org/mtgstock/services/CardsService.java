@@ -171,7 +171,7 @@ public class CardsService extends AbstractMTGStockService {
 				  
 					o.get(SETS).getAsJsonArray().forEach(je->{
 							JsonObject obj = je.getAsJsonObject();
-							fp.getSets().add(getPrintfor(obj));
+							fp.getSets().add(parsePrintFor(obj));
 					});
 					  
 		return fp;

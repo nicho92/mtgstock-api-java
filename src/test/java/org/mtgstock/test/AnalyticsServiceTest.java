@@ -2,7 +2,6 @@ package org.mtgstock.test;
 
 import org.junit.Test;
 import org.mtgstock.services.AnalyticsService;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class AnalyticsServiceTest {
 
@@ -12,6 +11,9 @@ public class AnalyticsServiceTest {
 	public void testSetPrices()
 	{
 		AnalyticsService serv = new AnalyticsService();
-		serv.getMetagamesFor(FORMAT.PIONEER);
+		serv.listAllTimes().forEach(lwh->{
+			
+			System.out.println(lwh.getPrint() + " " + lwh.getType() + " " + lwh.getPrice());
+		});
 	}
 }
