@@ -138,6 +138,38 @@ public class CardsService extends AbstractMTGStockService {
 		return null;
 	}
 	
+	public List<Print> getPrintBySet(CardSet set)
+	{
+		return getPrintBySet(set.getId());
+	}
+	
+	
+	public List<Print> getPrintBySet(Integer id)
+	{
+		
+		List<Print> prints = new ArrayList<>();
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+id;
+		try {
+			
+			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
+			
+			for(JsonElement el : arr)
+			{
+				prints.add(parsePrintFor(el.getAsJsonObject()));
+			}
+			
+			
+		} catch (IOException e) {
+			logger.error("Error gettings prints for set="+id,e);
+		} 
+		
+		
+		
+		return prints;
+	}
+	
+	
+	
 	public FullPrint getCard(Integer id) throws IOException
 	{
 		

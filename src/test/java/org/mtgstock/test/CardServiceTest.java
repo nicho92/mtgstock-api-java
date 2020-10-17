@@ -1,10 +1,6 @@
 package org.mtgstock.test;
 
-import java.io.IOException;
-
 import org.junit.Test;
-import org.mtgstock.modele.FullPrint;
-import org.mtgstock.modele.SearchResult;
 import org.mtgstock.services.CardsService;
 
 public class CardServiceTest {
@@ -17,9 +13,9 @@ public class CardServiceTest {
 		CardsService ser = new CardsService();
 		
 		
-		ser.listSets().forEach(s->{
+		ser.getPrintBySet(68).forEach(s->{
 			
-			System.out.println(s.getAbbrevation() + "\t"+ s.getName() +"\t" + s.getId());
+			System.out.println(s.getCleanName() +" " + s.getLatestPrices());
 			
 		});
 		

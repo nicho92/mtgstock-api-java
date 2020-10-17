@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.mtgstock.tools.MTGStockConstants;
+import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class Print {
 
@@ -26,14 +28,14 @@ public class Print {
 	protected boolean oversized;
 	protected boolean borderless;
 	protected boolean showcase;
-	
-	@Override
-	public String toString() {
-		return getCleanName();
-	}
+	protected boolean foil;
+	protected List<EntryValue<PRICES,Double>> latestPrices;
+	protected Double lastWeekPrice;
+	protected Double lastWeekPreviousPrice;
 	
 	public Print() {
 		legal = new ArrayList<>();
+		latestPrices = new ArrayList<>();
 	}
 	
 	public String getWebPage()
@@ -55,12 +57,36 @@ public class Print {
 	}
 	
 	
+	public List<EntryValue<PRICES,Double>> getLatestPrices() {
+		return latestPrices;
+	}
+
+
+	public void setLatestPrices(List<EntryValue<PRICES,Double>> latestPrices) {
+		this.latestPrices = latestPrices;
+	}
+
+	public boolean isFoil() {
+		return foil;
+	}
+
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+
+	@Override
+	public String toString() {
+		return getCleanName();
+	}
+
+	
 	public String getName() {
 		return name;
 	}
 	
 	public void setName(String name) {
 		this.name = name;
+		setNamePrecision(Tools.extractParenthesisValue(name));
 	}
 
 	public String getCleanName()
@@ -170,4 +196,21 @@ public class Print {
 	public void setIncludeDefault(Boolean includeDefault) {
 		this.includeDefault = includeDefault;
 	}
+
+	public Double getLastWeekPrice() {
+		return lastWeekPrice;
+	}
+
+	public void setLastWeekPrice(Double lastWeekPrice) {
+		this.lastWeekPrice = lastWeekPrice;
+	}
+
+	public Double getLastWeekPreviousPrice() {
+		return lastWeekPreviousPrice;
+	}
+
+	public void setLastWeekPreviousPrice(Double lastWeekPreviousPrice) {
+		this.lastWeekPreviousPrice = lastWeekPreviousPrice;
+	}
+	
 }

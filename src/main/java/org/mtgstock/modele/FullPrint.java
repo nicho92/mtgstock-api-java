@@ -9,7 +9,6 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 public class FullPrint extends Print {
 
 	private Integer multiverseId;
-	private Boolean foil;
 	private Boolean flip;
 	private String imageFlip;
 	private Integer mkmId;
@@ -21,14 +20,12 @@ public class FullPrint extends Print {
 	private EntryValue<Double,Date> allTimeLow;
 	private EntryValue<Double,Date> allTimeHigh;
 	
-	private List<EntryValue<PRICES,Double>> latestPrices;
 	private EntryValue<Double,String> latestPriceCardKingdom;
 	private EntryValue<Double,Double> latestPriceMkm;
 	private EntryValue<Double,String> latestPriceMiniatureMarket;
 	private List<Print> sets;
 	
 	public FullPrint() {
-		latestPrices = new ArrayList<>();
 		sets = new ArrayList<>();
 	}
 	
@@ -44,12 +41,7 @@ public class FullPrint extends Print {
 	public void setMultiverseId(Integer multiverseId) {
 		this.multiverseId = multiverseId;
 	}
-	public Boolean isFoil() {
-		return foil;
-	}
-	public void setFoil(Boolean foil) {
-		this.foil = foil;
-	}
+	
 	public Boolean getFlip() {
 		return flip;
 	}
@@ -108,15 +100,6 @@ public class FullPrint extends Print {
 		this.sets = sets;
 	}
 
-
-	public List<EntryValue<PRICES,Double>> getLatestPrices() {
-		return latestPrices;
-	}
-
-
-	public void setLatestPrices(List<EntryValue<PRICES,Double>> latestPrices) {
-		this.latestPrices = latestPrices;
-	}
 
 
 	public EntryValue<Double,String> getLatestPriceCardKingdom() {

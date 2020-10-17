@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.mtgstock.modele.Archetype;
 import org.mtgstock.modele.CardDetails;
 import org.mtgstock.modele.DeckCard;
+import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Legality;
 import org.mtgstock.modele.Print;
@@ -16,6 +17,7 @@ import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.mtgstock.tools.Tools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -23,6 +25,8 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
+	protected static final String PREVIOUS_PRICE = "previous_price";
+	protected static final String LAST_WEEK_PRICE = "last_week_price";
 	protected static final String COST = "cost";
 	protected static final String ABBREVIATION = "abbreviation";
 	protected static final String INCLUDE_DEFAULT = "include_default";
@@ -97,13 +101,16 @@ public abstract class AbstractMTGStockService {
 			  p.setId(obj.get(ID).getAsInt());
 			  p.setName(obj.get(NAME).getAsString());
 			  p.setRarity(obj.get(RARITY).getAsString());
-			
+			  
 			  if(obj.get(RESERVED)!=null)
 				  p.setReserved(obj.get(RESERVED).getAsBoolean());
 			 
 			  if(obj.get(SET_ID)!=null)
 				  p.setSetId(obj.get(SET_ID).getAsInt());
 			 
+			  
+			  if(obj.get(FOIL)!=null)
+				  p.setFoil(obj.get(FOIL).getAsBoolean());
 			  
 			  if(obj.get(SET_NAME)!=null)
 				  p.setSetName(obj.get(SET_NAME).getAsString());
@@ -119,22 +126,45 @@ public abstract class AbstractMTGStockService {
 			  if(obj.get(INCLUDE_DEFAULT)!=null)
 					 p.setIncludeDefault(obj.get(INCLUDE_DEFAULT).getAsBoolean());
 			
+			  
+			  if(obj.get(LAST_WEEK_PRICE)!=null)
+				  	p.setLastWeekPrice(obj.get(LAST_WEEK_PRICE).getAsDouble());
+			  
+			  if(obj.get(PREVIOUS_PRICE)!=null)
+				  	p.setLastWeekPreviousPrice(obj.get(PREVIOUS_PRICE).getAsDouble());
+			  
+			  
+			  
+			  
 			  p.setExtendedArt(obj.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
 			  p.setOversized(obj.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
 			  p.setBorderless(obj.get(NAME).getAsString().contains(MTGStockConstants.BORDERLESS));
 			  p.setShowcase(obj.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
 			  
-			 
-			  try {
-				  
-				  for(String key : obj.get(LEGAL).getAsJsonObject().keySet())
-					  p.getLegal().add(new Legality(FORMAT.valueOf(key.toUpperCase()), obj.get(LEGAL).getAsJsonObject().get(key).getAsString()));
 			  
-			  }
-			  catch(Exception e)
+			  if(obj.get(LATEST_PRICE)!=null)
 			  {
-				  //do nothing
+				  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
+					  try {
+						  p.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble()));
+					  }
+					  catch(Exception e)
+					  {
+						  //do nothing
+					  }
+				  });
 			  }
+			  
+			  if(obj.get(LEGAL)!=null)
+				  for(String key : obj.get(LEGAL).getAsJsonObject().keySet())
+				  {
+					  try {
+						p.getLegal().add(new Legality(FORMAT.valueOf(key.toUpperCase()), obj.get(LEGAL).getAsJsonObject().get(key).getAsString()));
+					} catch (Exception e) {
+						logger.error("Not legality found for " + key);
+					}
+				  }
+			
 			  
 			  try {
 				p.setImage(obj.get(IMAGE).getAsString());
@@ -278,13 +308,14 @@ public abstract class AbstractMTGStockService {
 			JsonObject obj = e.getAsJsonObject();
 			Interest t = new Interest();
 					 t.setCategory(c);
-					 t.setFoil(foil);
 					 t.setDate(new Date(obj.get(DATE).getAsLong()));
 				     t.setInterestType(obj.get(INTEREST_TYPE).getAsString());
 					 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());
 					 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
 					 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
 					 t.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
+					 t.setFoil(foil);
+					 
 			 ret.add(t);
 		}
 		return ret;
