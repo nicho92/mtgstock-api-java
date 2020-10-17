@@ -7,7 +7,7 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class SetPrices {
 
-	private Set set;
+	private CardSet set;
 	private Map<PRICES, Double> prices;
 	private Integer num;
 	
@@ -35,12 +35,12 @@ public class SetPrices {
 		this.num = num;
 	}
 
-	public Set getSet() {
+	public CardSet getSet() {
 		return set;
 	}
 
 
-	public void setSet(Set set) {
+	public void setSet(CardSet set) {
 		this.set = set;
 	}
 

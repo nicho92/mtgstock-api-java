@@ -12,7 +12,7 @@ import org.mtgstock.modele.DeckCard;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Legality;
 import org.mtgstock.modele.Print;
-import org.mtgstock.modele.Set;
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
@@ -146,8 +146,8 @@ public abstract class AbstractMTGStockService {
 		return p;
 	}
 	
-	protected Set parseSetFor(JsonObject o) {
-		Set set = new Set();
+	protected CardSet parseSetFor(JsonObject o) {
+		CardSet set = new CardSet();
 			set.setId(o.get(ID).getAsInt());
 			set.setName(o.get(NAME).getAsString());
 			set.setIconClass(o.get(ICON_CLASS).getAsString());
@@ -159,6 +159,66 @@ public abstract class AbstractMTGStockService {
 			catch(Exception e)
 			{
 				//do nothing
+
+				if(set.getId()==305)
+					set.setAbbrevation("FBB");
+				
+				if(set.getId()==306)
+					set.setAbbrevation("FWB");
+				
+				if(set.getId()==370)
+					set.setAbbrevation("PLIST");
+				
+				if(set.getId()==117)
+					set.setAbbrevation("PPRO");
+				
+				if(set.getId()==116)
+					set.setAbbrevation("PPRE");
+				
+				if(set.getId()==377)
+					set.setAbbrevation("AMH1");
+				
+				if(set.getId()==351)
+					set.setAbbrevation("PBBD");
+				
+				if(set.getId()==236)
+					set.setAbbrevation("PCMP");
+				
+				if(set.getId()==355)
+					set.setAbbrevation("M21");
+				
+				if(set.getId()==353)
+					set.setAbbrevation("IKO");
+				
+				if(set.getId()==356)
+					set.setAbbrevation("2XM");
+				
+				if(set.getId()==345)
+					set.setAbbrevation("THB");
+				
+				if(set.getId()==304)
+					set.setAbbrevation("DPA");
+				
+				if(set.getId()==333)
+					set.setAbbrevation("CEI");
+				
+				if(set.getId()==342)
+					set.setAbbrevation("CMB1");
+				
+				if(set.getId()==325)
+					set.setAbbrevation("GK2");
+				
+				if(set.getId()==228)
+					set.setAbbrevation("PCEL");
+				
+				if(set.getId()==367)
+					set.setAbbrevation("SUM");
+				
+				if(set.getId()==245)
+					set.setAbbrevation("UGIN");
+				
+				if(set.getId()==369)
+					set.setAbbrevation("AZNR");
 			}
 			
 		

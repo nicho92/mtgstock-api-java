@@ -9,7 +9,7 @@ import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.LowHighValues;
 import org.mtgstock.modele.Metagame;
 import org.mtgstock.modele.Played;
-import org.mtgstock.modele.Set;
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.SetPrices;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
@@ -62,7 +62,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 	
 
 
-	public SetPrices getExpectedValue(Set s)
+	public SetPrices getExpectedValue(CardSet s)
 	{
 		Optional<SetPrices> opt = getExpectedValues().stream().filter(sp->sp.getSet().getName().equals(s.getName())).findAny();
 		

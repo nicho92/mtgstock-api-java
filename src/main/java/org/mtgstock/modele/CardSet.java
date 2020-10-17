@@ -2,7 +2,7 @@ package org.mtgstock.modele;
 
 import java.util.Date;
 
-public class Set {
+public class CardSet {
 
 	private Integer id;
 	private String name;

@@ -17,7 +17,7 @@ public class FullPrint extends Print {
 	private Integer tcgId;
 	private String tcgUrl;
 	private CardDetails card;
-	private Set cardSet;
+	private CardSet cardSet;
 	private EntryValue<Double,Date> allTimeLow;
 	private EntryValue<Double,Date> allTimeHigh;
 	
@@ -94,10 +94,10 @@ public class FullPrint extends Print {
 	public void setCard(CardDetails card) {
 		this.card = card;
 	}
-	public Set getCardSet() {
+	public CardSet getCardSet() {
 		return cardSet;
 	}
-	public void setCardSet(Set cardSet) {
+	public void setCardSet(CardSet cardSet) {
 		this.cardSet = cardSet;
 	}
 	

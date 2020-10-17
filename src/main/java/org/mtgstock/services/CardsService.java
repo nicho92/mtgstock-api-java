@@ -11,7 +11,7 @@ import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Print;
 import org.mtgstock.modele.SearchResult;
-import org.mtgstock.modele.Set;
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.URLTools;
@@ -22,7 +22,12 @@ import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
 
-
+	List<CardSet> cacheSets;
+	
+	
+	public CardsService() {
+		cacheSets = new ArrayList<>();
+	}
 
 	public SearchResult getBestResult(String name) {
 		Optional<SearchResult> o = search(name).stream().max(Comparator.comparing(SearchResult::getSimilarity));
@@ -90,28 +95,48 @@ public class CardsService extends AbstractMTGStockService {
 		return getCard(p.getId());
 	}
 	
-	public List<Set> listSets()
+	public List<CardSet> listSets()
 	{
+		
+		if(!cacheSets.isEmpty())
+			return cacheSets;
+		
+		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
 		
 		logger.debug("getting sets at " + url);
-		List<Set> sets = new ArrayList<>();
-		
 		
 		try {
 			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
-				sets.add(parseSetFor(e.getAsJsonObject()));
+				cacheSets.add(parseSetFor(e.getAsJsonObject()));
 		
 		} catch (IOException e) {
 			logger.error("Error gettings sets ",e);
 			
 		}
 		
-		return sets;
+		return cacheSets;
 	}
 	
+	public CardSet getSetByCode(String id)
+	{
+		Optional<CardSet> opt = listSets().stream().filter(s->s.getAbbrevation().equalsIgnoreCase(id)).findAny();
+		
+		if(opt.isPresent())
+			return opt.get();
+		
+		return null;
+	}
 	
-	
+	public CardSet getSetById(Integer id)
+	{
+		Optional<CardSet> opt = listSets().stream().filter(s->s.getId()==id).findAny();
+		
+		if(opt.isPresent())
+			return opt.get();
+		
+		return null;
+	}
 	
 	public FullPrint getCard(Integer id) throws IOException
 	{

@@ -6,7 +6,7 @@ public class DeckCard {
 	private String name;
 	private Integer cmc;
 	private String color;
-	private Set set;
+	private CardSet set;
 	
 	
 	@Override
@@ -38,10 +38,10 @@ public class DeckCard {
 	public void setColor(String color) {
 		this.color = color;
 	}
-	public Set getSet() {
+	public CardSet getSet() {
 		return set;
 	}
-	public void setSet(Set set) {
+	public void setSet(CardSet set) {
 		this.set = set;
 	}
 	
