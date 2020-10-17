@@ -21,9 +21,9 @@ public class PriceService extends AbstractMTGStockService {
 		return getPricesFor(p.getId());
 	}
 	
-	public Prices getPricesFor(Print p) throws IOException
+	public Prices getPricesFor(Print print) throws IOException
 	{
-		return getPricesFor(p.getId());
+		return getPricesFor(print.getId());
 	}
 
 	private Prices getPricesFor(Integer id) throws IOException

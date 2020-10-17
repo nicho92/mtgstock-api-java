@@ -127,10 +127,10 @@ public abstract class AbstractMTGStockService {
 					 p.setIncludeDefault(obj.get(INCLUDE_DEFAULT).getAsBoolean());
 			
 			  
-			  if(obj.get(LAST_WEEK_PRICE)!=null)
+			  if(obj.get(LAST_WEEK_PRICE)!=null && !obj.get(LAST_WEEK_PRICE).isJsonNull())
 				  	p.setLastWeekPrice(obj.get(LAST_WEEK_PRICE).getAsDouble());
 			  
-			  if(obj.get(PREVIOUS_PRICE)!=null)
+			  if(obj.get(PREVIOUS_PRICE)!=null && !obj.get(PREVIOUS_PRICE).isJsonNull())
 				  	p.setLastWeekPreviousPrice(obj.get(PREVIOUS_PRICE).getAsDouble());
 			  
 			  
@@ -146,7 +146,7 @@ public abstract class AbstractMTGStockService {
 			  {
 				  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
 					  try {
-						  p.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble()));
+						  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
 					  }
 					  catch(Exception e)
 					  {

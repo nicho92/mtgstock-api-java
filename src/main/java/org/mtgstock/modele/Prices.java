@@ -8,21 +8,21 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 public class Prices {
 
 	
-	private Map<PRICES, PriceVariations> prices;
+	private Map<PRICES, PriceVariations> mapPrices;
 	
 	public Prices() {
-		prices = new EnumMap<>(PRICES.class);
+		mapPrices = new EnumMap<>(PRICES.class);
 	}
 	
 	
-	public PriceVariations getPrices(PRICES p) {
-		return prices.get(p);
+	public PriceVariations getPricesVariationsFor(PRICES p) {
+		return mapPrices.get(p);
 	}
 	
 	
 	public void put(PRICES p, PriceVariations hp)
 	{
-		prices.put(p, hp);
+		mapPrices.put(p, hp);
 	}
 	
 	@Override
@@ -30,7 +30,7 @@ public class Prices {
 		
 		StringBuilder temp = new StringBuilder();
 		
-		prices.entrySet().forEach(e->temp.append(e.getKey()).append(":").append(e.getValue()).append("|"));
+		mapPrices.entrySet().forEach(e->temp.append(e.getKey()).append(":").append(e.getValue()).append("|"));
 		
 		return temp.toString();
 		

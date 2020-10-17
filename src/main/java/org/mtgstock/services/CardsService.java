@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
@@ -97,15 +98,11 @@ public class CardsService extends AbstractMTGStockService {
 	
 	public List<CardSet> listSets()
 	{
-		
 		if(!cacheSets.isEmpty())
 			return cacheSets;
 		
-		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
-		
 		logger.debug("getting sets at " + url);
-		
 		try {
 			for(JsonElement e : URLTools.extractJson(url).getAsJsonArray())
 				cacheSets.add(parseSetFor(e.getAsJsonObject()));
@@ -138,13 +135,24 @@ public class CardsService extends AbstractMTGStockService {
 		return null;
 	}
 	
-	public List<Print> getPrintBySet(CardSet set)
+	public List<Print> getPrintsBySet(CardSet set)
 	{
-		return getPrintBySet(set.getId());
+		return getPrintsById(set.getId());
 	}
 	
+
+	public List<Print> getPrintsByCode(String abbresv)
+	{
+		Optional<Integer> i = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).map(CardSet::getId).findFirst();
+		
+		if(i.isPresent())
+			return getPrintsById(i.get());
+		else
+			return new ArrayList<>();
+		
+	}
 	
-	public List<Print> getPrintBySet(Integer id)
+	public List<Print> getPrintsById(Integer id)
 	{
 		
 		List<Print> prints = new ArrayList<>();
@@ -215,7 +223,7 @@ public class CardsService extends AbstractMTGStockService {
 				  
 				  o.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
 					  try {
-						  fp.getLatestPrices().add(new EntryValue<>(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble()));
+						  fp.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
 					  }
 					  catch(Exception e)
 					  {

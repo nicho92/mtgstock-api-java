@@ -1,13 +1,15 @@
 package org.mtgstock.modele;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.mtgstock.tools.MTGStockConstants;
-import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
+import org.mtgstock.tools.Tools;
 
 public class Print {
 
@@ -29,13 +31,13 @@ public class Print {
 	protected boolean borderless;
 	protected boolean showcase;
 	protected boolean foil;
-	protected List<EntryValue<PRICES,Double>> latestPrices;
+	protected Map<PRICES,Double> latestPrices;
 	protected Double lastWeekPrice;
 	protected Double lastWeekPreviousPrice;
 	
 	public Print() {
 		legal = new ArrayList<>();
-		latestPrices = new ArrayList<>();
+		latestPrices = new EnumMap<>(PRICES.class);
 	}
 	
 	public String getWebPage()
@@ -57,12 +59,12 @@ public class Print {
 	}
 	
 	
-	public List<EntryValue<PRICES,Double>> getLatestPrices() {
+	public Map<PRICES,Double> getLatestPrices() {
 		return latestPrices;
 	}
 
 
-	public void setLatestPrices(List<EntryValue<PRICES,Double>> latestPrices) {
+	public void setLatestPrices(Map<PRICES,Double> latestPrices) {
 		this.latestPrices = latestPrices;
 	}
 
