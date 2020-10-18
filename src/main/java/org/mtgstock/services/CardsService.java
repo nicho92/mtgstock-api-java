@@ -187,7 +187,14 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setExtendedArt(o.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
 				  fp.setShowcase(o.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
 				  fp.setOversized(o.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
+				 
+				  try {
 				  fp.setRarity(MTGStockConstants.RARITY.valueOf(o.get(RARITY).getAsString()));
+				  }
+				  catch(Exception e)
+				  {
+					  logger.trace("Rarity "  + o.get(RARITY) + " for " + fp.getName() +" doesn't exist");
+				  }
 				  fp.setFoil(o.get(FOIL).getAsBoolean());
 				  fp.setFlip(o.get(FLIP).getAsBoolean());
 				  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());

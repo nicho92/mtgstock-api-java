@@ -114,7 +114,15 @@ public abstract class AbstractMTGStockService {
 		Print p = new Print();
 			  p.setId(obj.get(ID).getAsInt());
 			  p.setName(obj.get(NAME).getAsString());
-			  p.setRarity(MTGStockConstants.RARITY.valueOf(obj.get(RARITY).getAsString()));
+			 
+			  try{
+				  p.setRarity(MTGStockConstants.RARITY.valueOf(obj.get(RARITY).getAsString()));
+			  }
+			  catch(Exception e)
+			  {
+				  logger.trace("Rarity "  + obj.get(RARITY) + " for " + p.getName() +" doesn't exist");
+			  }
+			  
 			  
 			  if(obj.get(RESERVED)!=null)
 				  p.setReserved(obj.get(RESERVED).getAsBoolean());

@@ -43,7 +43,7 @@ public class CardServiceTest {
 	}
 	
 	
-
+	
 	public void getOnlinePricesVariation()
 	{
 		String name = "liliana of the veil";
