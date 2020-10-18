@@ -8,16 +8,17 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.mtgstock.modele.Archetype;
 import org.mtgstock.modele.CardDetails;
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.DeckCard;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Legality;
+import org.mtgstock.modele.PriceHash;
 import org.mtgstock.modele.Print;
-import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
-import org.mtgstock.tools.Tools;
+import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -25,6 +26,7 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
+	protected static final String SUM = "sum";
 	protected static final String PREVIOUS_PRICE = "previous_price";
 	protected static final String LAST_WEEK_PRICE = "last_week_price";
 	protected static final String COST = "cost";
@@ -86,6 +88,7 @@ public abstract class AbstractMTGStockService {
 	protected static final String ARCHETYPE = "archetype";
 	protected static final String TOTAL = "total";
 	protected static final String PLACING = "placing";
+	protected static final String PRICE_HASH = "price_hash";
 
 	protected static final String DATE_FORMAT = "yyyy-MM-dd";
 
@@ -96,11 +99,22 @@ public abstract class AbstractMTGStockService {
 	
 	
 
+	
+	protected PriceHash parsePriceHashFor(JsonObject obj, MTGStockConstants.RARITY r) 
+	{
+		PriceHash ph = new PriceHash();
+				  ph.setRarity(r);
+				  obj.get(AVG).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(AVG).getAsJsonObject().get(k).getAsString()))));
+				  obj.get(SUM).getAsJsonObject().keySet().forEach(k->ph.getSum().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(SUM).getAsJsonObject().get(k).getAsString()))));
+		return ph;
+	}
+	
+
 	protected Print parsePrintFor(JsonObject obj) {
 		Print p = new Print();
 			  p.setId(obj.get(ID).getAsInt());
 			  p.setName(obj.get(NAME).getAsString());
-			  p.setRarity(obj.get(RARITY).getAsString());
+			  p.setRarity(MTGStockConstants.RARITY.valueOf(obj.get(RARITY).getAsString()));
 			  
 			  if(obj.get(RESERVED)!=null)
 				  p.setReserved(obj.get(RESERVED).getAsBoolean());
@@ -144,18 +158,26 @@ public abstract class AbstractMTGStockService {
 			  
 			  if(obj.get(LATEST_PRICE)!=null)
 			  {
-				  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
-					  try {
-						  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
-					  }
-					  catch(Exception e)
-					  {
-						  //do nothing
-					  }
-				  });
+				  
+				  if(obj.get(LATEST_PRICE).isJsonObject()) 
+				  {
+					  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
+						  try {
+							  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
+						  }
+						  catch(Exception e)
+						  {
+							  //do nothing
+						  }
+					  });
+				  }
+				  else
+				  {
+					  p.getLatestPrices().put(PRICES.AVG, obj.get(LATEST_PRICE).getAsDouble());
+				  }
 			  }
 			  
-			  if(obj.get(LEGAL)!=null)
+			  if(obj.get(LEGAL)!=null && obj.get(LEGAL).isJsonObject())
 				  for(String key : obj.get(LEGAL).getAsJsonObject().keySet())
 				  {
 					  try {
@@ -242,7 +264,7 @@ public abstract class AbstractMTGStockService {
 					set.setAbbrevation("PCEL");
 				
 				if(set.getId()==367)
-					set.setAbbrevation("SUM");
+					set.setAbbrevation(SUM);
 				
 				if(set.getId()==245)
 					set.setAbbrevation("UGIN");

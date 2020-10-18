@@ -28,6 +28,13 @@ public class FullPrint extends Print {
 	public FullPrint() {
 		sets = new ArrayList<>();
 	}
+		
+	public Print getPrintForSetId(int id)
+	{
+		return sets.stream().filter(p->p.getSetId()==id).findAny().orElse(null);
+	}
+	
+	
 	
 	public EntryValue<Double,Date> getAllTimeHigh() {
 		return allTimeHigh;

@@ -3,9 +3,11 @@ package org.mtgstock.services;
 import java.io.IOException;
 
 import org.mtgstock.modele.CardDetails;
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.PriceVariations;
 import org.mtgstock.modele.Prices;
 import org.mtgstock.modele.Print;
+import org.mtgstock.modele.SetPricesAnalysis;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
 import org.mtgstock.tools.Tools;
@@ -36,8 +38,6 @@ public class PriceService extends AbstractMTGStockService {
 		return p;
 	}
 	
-	
-	
 	public PriceVariations getPricesFor(Integer id,PRICES categ) throws IOException {
 		
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id+"/prices";
@@ -53,8 +53,45 @@ public class PriceService extends AbstractMTGStockService {
 		}
 		
 		return prices;
-		
 	}
 	
+	public SetPricesAnalysis getSetPricesAnalysis(CardSet s)
+	{
+		return getSetPricesAnalysis(s.getId());
+	}
+	
+	public SetPricesAnalysis getSetPricesAnalysis(Integer i)
+	{
+		SetPricesAnalysis prices = new SetPricesAnalysis();
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+i+"/ev";
+		logger.debug("getting SetPricesAnalysis at " + url);
+		
+		try 
+		{
+			JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
+			for(PRICES p : new PRICES[]{PRICES.LOW, PRICES.AVG,PRICES.HIGH,PRICES.MARKET})
+			{
+				PriceVariations pv = new PriceVariations(p);
+				obj.get(p.name().toLowerCase()).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
+				prices.getPrices().put(p, pv);
+			}
+			
+			prices.setCardSet(parseSetFor(obj.get(CARD_SET).getAsJsonObject()));
+			
+			
+			for(MTGStockConstants.RARITY r : MTGStockConstants.RARITY.values())
+				prices.getPriceHash().add(parsePriceHashFor(obj.get(PRICE_HASH).getAsJsonObject().get(r.name()).getAsJsonObject(),r));
+			
+			
+			
+			
+		} catch (IOException e) {
+			logger.error("Error getting SetPricesAnalysis for " + url,e);
+		}
+		
+		return prices;
+	}
+	
+
 	
 }

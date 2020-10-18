@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.mtgstock.tools.MTGStockConstants.PRICES;
+import org.mtgstock.tools.MTGStockConstants.RARITY;
 import org.mtgstock.tools.Tools;
 
 public class Print {
@@ -20,7 +21,7 @@ public class Print {
 	protected String image;
 	protected String iconClass;
 	protected List<Legality> legal;
-	protected String rarity;
+	protected RARITY rarity;
 	protected Boolean reserved;
 	protected Integer setId;
 	protected String setName;
@@ -162,10 +163,10 @@ public class Print {
 	public void setLegal(List<Legality> legal) {
 		this.legal = legal;
 	}
-	public String getRarity() {
+	public RARITY getRarity() {
 		return rarity;
 	}
-	public void setRarity(String rarity) {
+	public void setRarity(RARITY rarity) {
 		this.rarity = rarity;
 	}
 	public Boolean getReserved() {

@@ -32,22 +32,7 @@ public class URLTools {
 	
 	private URLTools()	{}
 	
-	public static String getExternalIp()
-	{
-		try {
-			return extractAsString("http://checkip.amazonaws.com");
-		} catch (IOException e) {
-			return "0.0.0.0";
-		}
-	}
 	
-	public static String extractAsString(URL url,Charset enc) throws IOException
-	{
-		HttpURLConnection con = openConnection(url);
-		String ret = IOUtils.toString(con.getInputStream(), enc);
-		close(con);
-		return ret;
-	}
 	
 	public static JsonElement extractJson(String url) throws IOException
 	{
@@ -96,21 +81,6 @@ public class URLTools {
 		return JsonParser.parseString(s);
 	}
 	
-	public static String extractAsString(String url,Charset enc) throws IOException
-	{
-		return extractAsString(new URL(url),enc); 
-	}
-	
-	public static String extractAsString(URL url) throws IOException
-	{
-		return extractAsString(url,MTGStockConstants.DEFAULT_ENCODING); 
-	}
-	
-	public static String extractAsString(String url) throws IOException
-	{
-		return extractAsString(new URL(url),MTGStockConstants.DEFAULT_ENCODING); 
-	}
-	
 	public static void close(HttpURLConnection con)
 	{
 		try {
@@ -145,11 +115,4 @@ public class URLTools {
 			}
 	}
 
-	public static String readHeader(String h, String url) throws IOException {
-		HttpURLConnection  con =  (HttpURLConnection) new URL(url).openConnection();
-		return con.getHeaderField(h);
-	}
-
-
-	
 }

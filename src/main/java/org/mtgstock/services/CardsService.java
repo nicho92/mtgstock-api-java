@@ -11,6 +11,7 @@ import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Print;
+import org.mtgstock.modele.SetPricesAnalysis;
 import org.mtgstock.modele.SearchResult;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
@@ -96,6 +97,8 @@ public class CardsService extends AbstractMTGStockService {
 		return getCard(p.getId());
 	}
 	
+	
+	
 	public List<CardSet> listSets()
 	{
 		if(!cacheSets.isEmpty())
@@ -117,22 +120,12 @@ public class CardsService extends AbstractMTGStockService {
 	
 	public CardSet getSetByCode(String id)
 	{
-		Optional<CardSet> opt = listSets().stream().filter(s->s.getAbbrevation().equalsIgnoreCase(id)).findAny();
-		
-		if(opt.isPresent())
-			return opt.get();
-		
-		return null;
+		return listSets().stream().filter(s->id.equalsIgnoreCase(s.getAbbrevation())).findAny().orElse(null);
 	}
 	
-	public CardSet getSetById(Integer id)
+	public CardSet getSetById(int id)
 	{
-		Optional<CardSet> opt = listSets().stream().filter(s->s.getId()==id).findAny();
-		
-		if(opt.isPresent())
-			return opt.get();
-		
-		return null;
+		return listSets().stream().filter(s->s.getId()==id).findAny().orElse(null);
 	}
 	
 	public List<Print> getPrintsBySet(CardSet set)
@@ -194,7 +187,7 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setExtendedArt(o.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
 				  fp.setShowcase(o.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
 				  fp.setOversized(o.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
-				  fp.setRarity(o.get(RARITY).getAsString());
+				  fp.setRarity(MTGStockConstants.RARITY.valueOf(o.get(RARITY).getAsString()));
 				  fp.setFoil(o.get(FOIL).getAsBoolean());
 				  fp.setFlip(o.get(FLIP).getAsBoolean());
 				  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());
