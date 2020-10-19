@@ -154,11 +154,15 @@ public abstract class AbstractMTGStockService {
 			
 			  
 			  if(obj.get(LAST_WEEK_PRICE)!=null && !obj.get(LAST_WEEK_PRICE).isJsonNull())
-				  	p.setLastWeekPrice(obj.get(LAST_WEEK_PRICE).getAsDouble());
+			  	  	p.setLastWeekPrice(obj.get(LAST_WEEK_PRICE).getAsDouble());
+			  else
+				  	p.setLastWeekPrice(0.0);
+			  
 			  
 			  if(obj.get(PREVIOUS_PRICE)!=null && !obj.get(PREVIOUS_PRICE).isJsonNull())
 				  	p.setLastWeekPreviousPrice(obj.get(PREVIOUS_PRICE).getAsDouble());
-			  
+			  else
+				  p.setLastWeekPreviousPrice(0.0);
 			  
 			  
 			  
