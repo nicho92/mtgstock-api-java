@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.mtgstock.modele.EntryValue;
+import org.mtgstock.modele.HandyList;
 import org.mtgstock.modele.LowHighValues;
 import org.mtgstock.modele.Metagame;
 import org.mtgstock.modele.Played;
+import org.mtgstock.modele.Print;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.SetPrices;
 import org.mtgstock.tools.MTGStockConstants;
@@ -24,9 +26,55 @@ import com.google.gson.JsonObject;
 public class AnalyticsService extends AbstractMTGStockService {
 
 	
+
+	public List<HandyList> listHandyList()
+	{
+		String url=MTGStockConstants.MTGSTOCK_API_URI+"/lists";
+		logger.debug("getting HandyList at " + url);
+		 List<HandyList> ret = new ArrayList<>();
+		 
+		 try {
+			URLTools.extractJson(url).getAsJsonArray().forEach(e->{
+				HandyList l = new HandyList();
+				
+				l.setId(e.getAsJsonObject().get(ID).getAsInt());
+				l.setName(e.getAsJsonObject().get(NAME).getAsString());
+				
+				ret.add(l);
+			});
+		 }catch(Exception e)
+		 {
+			 logger.error("Error Getting handyList at " + url);
+		 }
+		 
+		 return ret;
+	}
 	
 	
+	public List<Print> listPrintsForHandyList(HandyList hl)
+	{
+		return listPrintsForHandyList(hl.getId());
+	}
 	
+	public List<Print> listPrintsForHandyList(Integer hl)
+	{
+		String url=MTGStockConstants.MTGSTOCK_API_URI+"/lists/"+hl;
+		logger.debug("listing HandyList prints at " + url);
+		List<Print> ret = new ArrayList<>();
+		
+		 try {
+				for(JsonElement e : URLTools.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray())
+				{
+					ret.add(parsePrintFor(e.getAsJsonObject()));
+				}
+			 }catch(Exception e)
+			 {
+				 logger.error("Error Getting handyList at " + url);
+			 }
+		
+		return ret;
+		
+	}
 	
 
 

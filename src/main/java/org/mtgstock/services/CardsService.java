@@ -5,15 +5,13 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.FullPrint;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Print;
-import org.mtgstock.modele.SetPricesAnalysis;
 import org.mtgstock.modele.SearchResult;
-import org.mtgstock.modele.CardSet;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.Tools;
 import org.mtgstock.tools.URLTools;
@@ -32,12 +30,8 @@ public class CardsService extends AbstractMTGStockService {
 	}
 
 	public SearchResult getBestResult(String name) {
-		Optional<SearchResult> o = search(name).stream().max(Comparator.comparing(SearchResult::getSimilarity));
+		return search(name).stream().max(Comparator.comparing(SearchResult::getSimilarity)).orElse(null);
 		
-		if(o.isPresent())
-			return o.get();
-		else
-			return null;
 	}
 
 
