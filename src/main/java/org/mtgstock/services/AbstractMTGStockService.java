@@ -26,6 +26,8 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
+	protected static final String SUPERTYPE = "supertype";
+	protected static final String SUBTYPE = "subtype";
 	protected static final String SUM = "sum";
 	protected static final String PREVIOUS_PRICE = "previous_price";
 	protected static final String LAST_WEEK_PRICE = "last_week_price";
@@ -299,8 +301,12 @@ public abstract class AbstractMTGStockService {
 			 c.setOracle(o.get("oracle").getAsString());
 			 c.setPwrtgh(o.get("pwrtgh").getAsString());
 			 c.setReserved(o.get(RESERVED).getAsBoolean());
-			 c.setSubtype(o.get("subtype").getAsString());
-			 c.setSupertype(o.get("supertype").getAsString());
+			 
+			 if(!o.get(SUBTYPE).isJsonNull())
+				 c.setSubtype(o.get(SUBTYPE).getAsString());
+			
+			 if(!o.get(SUPERTYPE).isJsonNull())
+				 c.setSupertype(o.get(SUPERTYPE).getAsString());
 			 
 		return null;
 	}
