@@ -124,33 +124,43 @@ public class CardsService extends AbstractMTGStockService {
 	
 	public List<Print> getPrintsBySet(CardSet set)
 	{
-		return getPrintsById(set.getId());
+		return getPrintsBySetId(set.getId());
 	}
 	
 
-	public List<Print> getPrintsByCode(String abbresv)
+	public List<Print> getPrintsBySetCode(String abbresv)
 	{
+		
 		Optional<Integer> i = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).map(CardSet::getId).findFirst();
 		
 		if(i.isPresent())
-			return getPrintsById(i.get());
+			return getPrintsBySetId(i.get());
 		else
 			return new ArrayList<>();
 		
 	}
 	
-	public List<Print> getPrintsById(Integer id)
+	public List<Print> getPrintsBySetId(Integer id)
 	{
 		
 		List<Print> prints = new ArrayList<>();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+id;
+		logger.debug("get prints at " + url);
 		try {
 			
 			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
 			
 			for(JsonElement el : arr)
 			{
-				prints.add(parsePrintFor(el.getAsJsonObject()));
+				Print p = parsePrintFor(el.getAsJsonObject());
+				
+				if(p.getSetId()==null) {
+					CardSet st = getSetById(id);
+					p.setSetId(st.getId());
+					p.setSetName(st.getName());
+					p.setSetType(st.getSetType());
+				}
+				prints.add(p);
 			}
 			
 			

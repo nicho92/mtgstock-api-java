@@ -34,7 +34,7 @@ public class CardServiceTest {
 		String ed = "UMA";
 		CardsService serv = new CardsService();
 
-		serv.getPrintsByCode(ed).forEach(p->{
+		serv.getPrintsBySetCode(ed).forEach(p->{
 			
 			System.out.println(p+ " " + p.getLastWeekPrice()+" " + p.getLastWeekPreviousPrice() + " " + p.getLatestPrices());
 			
