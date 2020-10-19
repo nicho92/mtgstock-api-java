@@ -31,7 +31,7 @@ public class CardServiceTest {
 	@Test
 	public void getPricesForEditiion()
 	{
-		String ed = "UMA";
+		String ed = "ZNR";
 		CardsService serv = new CardsService();
 
 		serv.getPrintsBySetCode(ed).forEach(p->{

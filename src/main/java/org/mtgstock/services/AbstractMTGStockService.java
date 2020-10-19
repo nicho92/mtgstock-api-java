@@ -26,6 +26,8 @@ import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
 	
+	protected static final String ORACLE = "oracle";
+	protected static final String PWRTGH = "pwrtgh";
 	protected static final String SUPERTYPE = "supertype";
 	protected static final String SUBTYPE = "subtype";
 	protected static final String SUM = "sum";
@@ -177,7 +179,7 @@ public abstract class AbstractMTGStockService {
 						  }
 						  catch(Exception e)
 						  {
-							  //do nothing
+							  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),0.0);
 						  }
 					  });
 				  }
@@ -293,14 +295,27 @@ public abstract class AbstractMTGStockService {
 		
 		CardDetails c = new CardDetails();
 			 c.setId(o.get(ID).getAsInt());
-			 c.setCmc(o.get(CMC).getAsInt());
-			 c.setCost(o.get(COST).getAsString());
-			 o.get(LEGAL).getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(FORMAT.valueOf(e.getKey().toUpperCase()), e.getValue().getAsString())));
 			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
 			 c.setName(o.get(NAME).getAsString());
-			 c.setOracle(o.get("oracle").getAsString());
-			 c.setPwrtgh(o.get("pwrtgh").getAsString());
-			 c.setReserved(o.get(RESERVED).getAsBoolean());
+			 
+			 if(!o.get(CMC).isJsonNull())
+				 c.setCmc(o.get(CMC).getAsInt());
+			 
+			 if(!o.get(COST).isJsonNull())
+				 c.setCost(o.get(COST).getAsString());
+			
+			 if(!o.get(LEGAL).isJsonNull())
+				 o.get(LEGAL).getAsJsonObject().entrySet().forEach(e->c.getLegal().add(new Legality(FORMAT.valueOf(e.getKey().toUpperCase()), e.getValue().getAsString())));
+			
+			 
+			 if(!o.get(ORACLE).isJsonNull())
+				 c.setOracle(o.get(ORACLE).getAsString());
+
+			 if(!o.get(PWRTGH).isJsonNull())
+				 c.setPwrtgh(o.get(PWRTGH).getAsString());
+			 
+			 if(!o.get(RESERVED).isJsonNull())
+				 c.setReserved(o.get(RESERVED).getAsBoolean());
 			 
 			 if(!o.get(SUBTYPE).isJsonNull())
 				 c.setSubtype(o.get(SUBTYPE).getAsString());
