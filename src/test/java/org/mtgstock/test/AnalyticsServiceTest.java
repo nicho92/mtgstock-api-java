@@ -1,5 +1,6 @@
 package org.mtgstock.test;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.mtgstock.services.AnalyticsService;
 import org.mtgstock.services.InterestsService;
@@ -10,21 +11,27 @@ public class AnalyticsServiceTest {
 
 	
 	
+
 	
 	public void testSetPrices()
 	{
-		InterestsService serv = new InterestsService();
-		serv.getInterestFor(CATEGORY.MARKET,true, FORMAT.STANDARD).forEach(System.out::println);
-		System.out.println("NON FOIL ");
-		serv.getInterestFor(CATEGORY.MARKET,false, FORMAT.STANDARD).forEach(System.out::println);
+		InterestsService servI = new InterestsService();
+		servI.getInterestFor(CATEGORY.MARKET,true, FORMAT.STANDARD).forEach(System.out::println);
+		servI.getInterestFor(CATEGORY.MARKET,false, FORMAT.STANDARD).forEach(System.out::println);
+	}
+	
+
+	public void testHandyList()
+	{
+		AnalyticsService servA = new AnalyticsService();
+		servA.listPrintsForHandyList(7).forEach(System.out::println);
 	}
 	
 	@Test
-	public void testHandyList()
+	public void testBestCards()
 	{
-		AnalyticsService serv = new AnalyticsService();
-		
-		serv.listPrintsForHandyList(7).forEach(System.out::println);
+		AnalyticsService servA = new AnalyticsService();
+		servA.getMostPlayedCard(FORMAT.STANDARD).forEach(System.out::println);
 	}
 	
 }

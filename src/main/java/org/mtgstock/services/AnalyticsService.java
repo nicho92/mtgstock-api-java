@@ -159,16 +159,20 @@ public class AnalyticsService extends AbstractMTGStockService {
 		int id=Tools.getFormatCode(f);
 		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
+		
+		logger.debug("get MostPlayedCard to " + url);
 		try {
 			JsonArray arr = URLTools.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
 			
 			arr.forEach(k->{
-				
-				
 				Played p = new Played();
 				   	   p.setName(k.getAsJsonObject().get(CARD).getAsJsonObject().get(NAME).getAsString());
 					   p.setId(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(ID).getAsInt());
-					   p.setImage(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(IMAGE).getAsString());
+					  
+					   if(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(IMAGE)!=null)
+						   p.setImage(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(IMAGE).getAsString());
+					   
+					   
 					   p.setQuantity(k.getAsJsonObject().get(QUANTITY).getAsInt());
 					   
 					   if(!k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVG).isJsonNull())

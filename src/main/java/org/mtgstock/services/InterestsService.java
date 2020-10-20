@@ -33,6 +33,12 @@ public class InterestsService extends AbstractMTGStockService {
 		return getInterestFor(c , foil).stream().filter(i->i.isLegalFor(f)).collect(Collectors.toList());
 	}
 	
+	public List<Interest> getInterestFor(CATEGORY c ,FORMAT f)
+	{
+		return getInterestFor(c).stream().filter(i->i.isLegalFor(f)).collect(Collectors.toList());
+	}
+	
+	
 	public List<Interest> getInterestFor(CATEGORY c)
 	{
 		List<Interest> ret = new ArrayList<>();
