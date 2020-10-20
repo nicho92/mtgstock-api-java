@@ -174,7 +174,6 @@ public abstract class AbstractMTGStockService {
 			  
 			  if(obj.get(LATEST_PRICE)!=null)
 			  {
-				  
 				  if(obj.get(LATEST_PRICE).isJsonObject()) 
 				  {
 					  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
@@ -189,7 +188,8 @@ public abstract class AbstractMTGStockService {
 				  }
 				  else
 				  {
-					  p.getLatestPrices().put(PRICES.AVG, obj.get(LATEST_PRICE).getAsDouble());
+					  if(!obj.get(LATEST_PRICE).isJsonNull())
+					  	p.getLatestPrices().put(PRICES.AVG, obj.get(LATEST_PRICE).getAsDouble());
 				  }
 			  }
 			  

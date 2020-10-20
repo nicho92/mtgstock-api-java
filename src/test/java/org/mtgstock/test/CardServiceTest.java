@@ -72,8 +72,8 @@ public class CardServiceTest {
 	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "Kroxa, Titan of Death's Hunger";
-		String ed = "THB";
+		String name = "Animar, Soul of Elements";
+		String ed = "A25";
 		PRICES p = PRICES.MARKET_FOIL;
 		
 		CardsService serv = new CardsService();
