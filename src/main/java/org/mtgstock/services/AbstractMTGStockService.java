@@ -287,6 +287,27 @@ public abstract class AbstractMTGStockService {
 				
 				if(set.getId()==369)
 					set.setAbbrevation("AZNR");
+				
+				if(set.getId()==276)
+					set.setAbbrevation("PANA");
+				
+				if(set.getId()==375)
+					set.setAbbrevation("PM21");
+				
+				if(set.getId()==374)
+					set.setAbbrevation("PM20");
+				
+				if(set.getId()==372)
+					set.setAbbrevation("PIKO");
+				
+				if(set.getId()==373)
+					set.setAbbrevation("PTHB");
+				
+				if(set.getId()==371)
+					set.setAbbrevation("PELD");
+				
+				if(set.getId()==379)
+					set.setAbbrevation("PZNR");
 			}
 			
 		

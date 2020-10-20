@@ -16,19 +16,45 @@ import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class CardServiceTest {
 
-	
 	public void getOnlineShakerForFormat()
 	{
 		InterestsService serv = new InterestsService();
 		
 		
-		serv.getInterestFor(CATEGORY.AVERAGE,false,FORMAT.STANDARD).forEach(i->{
+		serv.getInterestFor(CATEGORY.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
 			System.out.println(i.getPrint().getCleanName() +" " + i.getPrint().getSetName()+ " " + i.getPercentage()+"% " + i.getPricePresent()+"$" );
 		});
 	}
 
 	
 	@Test
+	public void listNoAbbrev()
+	{
+		CardsService serv = new CardsService();
+
+		serv.listSets().stream().filter(cs->cs.getAbbrevation()==null).forEach(cs->{
+			
+			System.out.println(cs.getId() +" " + cs);
+			
+		});
+	}
+
+	
+	
+	public void listSet()
+	{
+		CardsService serv = new CardsService();
+
+		serv.listSets().forEach(cs->{
+			
+			System.out.println(cs.getName() +" " + cs.getAbbrevation());
+			
+		});
+		
+	}
+	
+	
+	
 	public void getPricesForEditiion()
 	{
 		String ed = "ZNR";
