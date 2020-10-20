@@ -28,9 +28,13 @@ public class FullPrint extends Print {
 	public FullPrint() {
 		sets = new ArrayList<>();
 	}
-		
+	
 	public Print getPrintForSetId(int id)
 	{
+		
+		if(id==getSetId())
+			return this;
+	
 		return sets.stream().filter(p->p.getSetId()==id).findAny().orElse(null);
 	}
 	

@@ -27,7 +27,7 @@ public class CardServiceTest {
 	}
 
 	
-	@Test
+	
 	public void listNoAbbrev()
 	{
 		CardsService serv = new CardsService();
@@ -69,11 +69,11 @@ public class CardServiceTest {
 	}
 	
 	
-	
+	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "liliana of the veil";
-		String ed = "UMA";
+		String name = "Kroxa, Titan of Death's Hunger";
+		String ed = "THB";
 		PRICES p = PRICES.MARKET_FOIL;
 		
 		CardsService serv = new CardsService();
@@ -83,15 +83,13 @@ public class CardServiceTest {
 		try {
 			FullPrint fp = serv.getCard(rs);
 			CardSet set = serv.getSetByCode(ed);
-			
-			System.out.println("found " + set +" for " + name);
+			System.out.println("fp="+fp.getId() + " "+ fp + " " + fp.getCardSet().getName());
 			Print fpSet = fp.getPrintForSetId(set.getId());
 			
 			prices.getPricesFor(fpSet).getPricesVariationsFor(p).forEach(System.out::println);
 		
 			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		

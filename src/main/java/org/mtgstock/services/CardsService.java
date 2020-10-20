@@ -209,6 +209,13 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setTcgUrl(o.get(TCG_URL).getAsString());
 				  fp.setCard(parseCardFor(o.get(CARD).getAsJsonObject()));
 				  fp.setCardSet(parseSetFor(o.get(CARD_SET).getAsJsonObject()));
+				  
+				  if(fp.getCardSet()!=null) {
+					  fp.setSetId(fp.getCardSet().getId());
+					  fp.setSetName(fp.getCardSet().getName());
+					  fp.setSetType(fp.getCardSet().getSetType());
+				  }
+				  
 				  fp.setAllTimeLow(new EntryValue<>(o.get(ALL_TIME_LOW).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_LOW).getAsJsonObject().get(DATE).getAsLong())));
 				  fp.setAllTimeHigh(new EntryValue<>(o.get(ALL_TIME_HIGH).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_HIGH).getAsJsonObject().get(DATE).getAsLong())));
 				  

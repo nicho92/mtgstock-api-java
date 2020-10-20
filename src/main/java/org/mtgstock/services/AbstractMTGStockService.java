@@ -224,10 +224,8 @@ public abstract class AbstractMTGStockService {
 			try {
 				set.setAbbrevation(o.get(ABBREVIATION).getAsString());
 			}
-			catch(Exception e)
+			catch(UnsupportedOperationException e)
 			{
-				//do nothing
-
 				if(set.getId()==305)
 					set.setAbbrevation("FBB");
 				
