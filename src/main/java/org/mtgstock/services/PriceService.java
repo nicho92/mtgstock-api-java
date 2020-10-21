@@ -86,18 +86,16 @@ public class PriceService extends AbstractMTGStockService {
 			for(MTGStockConstants.RARITY r : MTGStockConstants.RARITY.values())
 				prices.getPriceHash().add(parsePriceHashFor(obj.get(PRICE_HASH).getAsJsonObject().get(r.name()).getAsJsonObject(),r));
 			
-			
-			JsonObject obooster = obj.get(BOOSTER).getAsJsonObject();
 			PriceHash phbooster = new PriceHash();
-					  phbooster.setNum(obooster.get(NUM).getAsInt());
-
-					  obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
-
 			
-					
+			if(obj.get(BOOSTER)!=null) {
+				JsonObject obooster = obj.get(BOOSTER).getAsJsonObject();
+						   phbooster.setNum(obooster.get(NUM).getAsInt());
+						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
+			}
 			prices.setBooster(phbooster);
 			
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("Error getting SetPricesAnalysis for " + url,e);
 		}
 		
