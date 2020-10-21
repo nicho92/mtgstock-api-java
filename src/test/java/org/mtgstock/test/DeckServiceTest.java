@@ -1,9 +1,9 @@
 package org.mtgstock.test;
 
+import org.api.mtgstock.modele.Deck;
+import org.api.mtgstock.services.DecksServices;
+import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.junit.Test;
-import org.mtgstock.modele.Deck;
-import org.mtgstock.services.DecksServices;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class DeckServiceTest {
 

@@ -1,11 +1,11 @@
 package org.mtgstock.test;
 
+import org.api.mtgstock.services.AnalyticsService;
+import org.api.mtgstock.services.InterestsService;
+import org.api.mtgstock.services.PriceService;
+import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
+import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.junit.Test;
-import org.mtgstock.services.AnalyticsService;
-import org.mtgstock.services.InterestsService;
-import org.mtgstock.services.PriceService;
-import org.mtgstock.tools.MTGStockConstants.CATEGORY;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
 
 public class AnalyticsServiceTest {
 

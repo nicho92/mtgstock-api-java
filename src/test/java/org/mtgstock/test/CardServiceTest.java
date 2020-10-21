@@ -1,16 +1,16 @@
 package org.mtgstock.test;
 
+import org.api.mtgstock.modele.CardSet;
+import org.api.mtgstock.modele.FullPrint;
+import org.api.mtgstock.modele.Print;
+import org.api.mtgstock.modele.SearchResult;
+import org.api.mtgstock.services.CardsService;
+import org.api.mtgstock.services.InterestsService;
+import org.api.mtgstock.services.PriceService;
+import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
+import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.junit.Test;
-import org.mtgstock.modele.CardSet;
-import org.mtgstock.modele.FullPrint;
-import org.mtgstock.modele.Print;
-import org.mtgstock.modele.SearchResult;
-import org.mtgstock.services.CardsService;
-import org.mtgstock.services.InterestsService;
-import org.mtgstock.services.PriceService;
-import org.mtgstock.tools.MTGStockConstants.CATEGORY;
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
-import org.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class CardServiceTest {
 
