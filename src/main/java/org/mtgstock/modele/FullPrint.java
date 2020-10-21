@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.mtgstock.tools.MTGStockConstants.PRICES;
-
 public class FullPrint extends Print {
 
 	private Integer multiverseId;

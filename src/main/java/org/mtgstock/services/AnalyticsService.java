@@ -5,13 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.EntryValue;
 import org.mtgstock.modele.HandyList;
 import org.mtgstock.modele.LowHighValues;
 import org.mtgstock.modele.Metagame;
 import org.mtgstock.modele.Played;
 import org.mtgstock.modele.Print;
-import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.SetPrices;
 import org.mtgstock.tools.MTGStockConstants;
 import org.mtgstock.tools.MTGStockConstants.FORMAT;

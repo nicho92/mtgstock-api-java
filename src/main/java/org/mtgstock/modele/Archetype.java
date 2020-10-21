@@ -1,7 +1,5 @@
 package org.mtgstock.modele;
 
-import org.mtgstock.tools.MTGStockConstants.FORMAT;
-
 public class Archetype {
 
 	

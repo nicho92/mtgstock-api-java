@@ -1,7 +1,5 @@
 package org.mtgstock.test;
 
-import java.io.IOException;
-
 import org.junit.Test;
 import org.mtgstock.modele.CardSet;
 import org.mtgstock.modele.FullPrint;
