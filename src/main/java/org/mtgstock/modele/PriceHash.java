@@ -13,6 +13,9 @@ public class PriceHash {
 	private List<EntryValue<PRICES, Double>> avg;
 	private List<EntryValue<PRICES, Double>> sum;
 	
+	private int num;
+	
+	
 	public PriceHash() {
 		avg = new ArrayList<>();
 		sum = new ArrayList<>();
@@ -40,6 +43,16 @@ public class PriceHash {
 	}
 	public void setAvg(List<EntryValue<PRICES, Double>> avg) {
 		this.avg = avg;
+	}
+
+
+	public int getNum() {
+		return num;
+	}
+
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 	
 	

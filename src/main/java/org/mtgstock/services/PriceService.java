@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import org.mtgstock.modele.CardDetails;
 import org.mtgstock.modele.CardSet;
+import org.mtgstock.modele.EntryValue;
+import org.mtgstock.modele.PriceHash;
 import org.mtgstock.modele.PriceVariations;
 import org.mtgstock.modele.Prices;
 import org.mtgstock.modele.Print;
@@ -18,6 +20,8 @@ import com.google.gson.JsonObject;
 
 public class PriceService extends AbstractMTGStockService {
 	
+
+
 	public Prices getPricesFor(CardDetails p) throws IOException
 	{
 		return getPricesFor(p.getId());
@@ -83,7 +87,15 @@ public class PriceService extends AbstractMTGStockService {
 				prices.getPriceHash().add(parsePriceHashFor(obj.get(PRICE_HASH).getAsJsonObject().get(r.name()).getAsJsonObject(),r));
 			
 			
+			JsonObject obooster = obj.get(BOOSTER).getAsJsonObject();
+			PriceHash phbooster = new PriceHash();
+					  phbooster.setNum(obooster.get(NUM).getAsInt());
+
+					  obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
+
 			
+					
+			prices.setBooster(phbooster);
 			
 		} catch (IOException e) {
 			logger.error("Error getting SetPricesAnalysis for " + url,e);

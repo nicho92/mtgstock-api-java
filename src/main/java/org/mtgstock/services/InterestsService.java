@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.mtgstock.modele.HandyList;
 import org.mtgstock.modele.Interest;
 import org.mtgstock.modele.Interests;
 import org.mtgstock.tools.MTGStockConstants;

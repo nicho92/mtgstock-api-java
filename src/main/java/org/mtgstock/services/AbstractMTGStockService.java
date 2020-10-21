@@ -25,7 +25,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 public abstract class AbstractMTGStockService {
-	
+
+	protected static final String NUM = "num";
+	protected static final String BOOSTER = "booster";
 	protected static final String ORACLE = "oracle";
 	protected static final String PWRTGH = "pwrtgh";
 	protected static final String SUPERTYPE = "supertype";

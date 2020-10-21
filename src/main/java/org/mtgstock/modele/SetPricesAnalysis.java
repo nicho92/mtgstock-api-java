@@ -13,9 +13,19 @@ public class SetPricesAnalysis {
 	private Map<PRICES,PriceVariations> prices;
 	private CardSet cardSet;
 	private List<PriceHash> priceHash;
+	private PriceHash booster;
 	
 	
-	
+	public PriceHash getBooster() {
+		return booster;
+	}
+
+
+	public void setBooster(PriceHash booster) {
+		this.booster = booster;
+	}
+
+
 	public List<PriceHash> getPriceHash() {
 		return priceHash;
 	}

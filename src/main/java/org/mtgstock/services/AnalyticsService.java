@@ -144,7 +144,6 @@ public class AnalyticsService extends AbstractMTGStockService {
 			}
 			
 		} catch (IOException e) {
-			e.printStackTrace();
 			logger.error("error getting expected value at " + url, e);
 		}
 		
