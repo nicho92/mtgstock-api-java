@@ -19,6 +19,15 @@ public class EntryValue<T,V> {
 		this.key = key;
 	}
 
+	
+	public T getKey() {
+		return key;
+	}
+	
+	public V getValue() {
+		return value;
+	}
+	
 
 
 }
