@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.magic</groupId>
 	<artifactId>mtgstock-api-java</artifactId>
-	<version>0.1.4</version>
+	<version>0.1.5</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>13</maven.compiler.source>
@@ -39,8 +39,24 @@
 	</dependencies>
 
 <build>
- <plugins>
- 	<plugin>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>version</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>version</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+ 		<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-jar-plugin</artifactId>
 		<configuration>
