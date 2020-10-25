@@ -1,5 +1,7 @@
 package org.mtgstock.test;
 
+import java.util.Comparator;
+
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Print;
@@ -24,6 +26,20 @@ public class CardServiceTest {
 		});
 	}
 
+	@Test
+	public void getOnlineShakerForSet()
+	{
+		CardsService serv = new CardsService();
+		
+		serv.getPrintsBySetCode("ZNR").stream().sorted(Comparator.comparing(Print::getName)).forEach(i->{
+			System.out.println(i.getCleanName() + " " + i.getName() );
+		});
+		
+		
+	}
+	
+	
+	
 	
 	
 	public void listNoAbbrev()
@@ -67,7 +83,7 @@ public class CardServiceTest {
 	}
 	
 	
-	@Test
+	
 	public void getOnlinePricesVariation()
 	{
 		String name = "Animar, Soul of Elements";
