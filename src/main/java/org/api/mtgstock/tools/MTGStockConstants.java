@@ -14,6 +14,7 @@ public class MTGStockConstants {
 	public static final String EXTENDED_ART = "(Extended Art)";
 	public static final String BORDERLESS = "(Borderless)";
 	public static final String SHOWCASE="(Showcase)";
+	public static final String FULL_ART="- Full Art";
 	public static final String VERSION = "0.1.5";
 	
 	

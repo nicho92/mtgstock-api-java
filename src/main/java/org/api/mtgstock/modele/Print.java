@@ -94,7 +94,7 @@ public class Print {
 
 	public String getCleanName()
 	{
-		return getName().replaceAll("\\([^()]*\\)", "").trim();
+		return getName().replaceAll("\\([^()]*\\)", "").replace(MTGStockConstants.FULL_ART, "").trim();
 	}
 	
 	public void setNamePrecision(String namePrecision) {

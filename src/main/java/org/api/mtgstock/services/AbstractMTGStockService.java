@@ -172,7 +172,7 @@ public abstract class AbstractMTGStockService {
 			  p.setOversized(obj.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
 			  p.setBorderless(obj.get(NAME).getAsString().contains(MTGStockConstants.BORDERLESS));
 			  p.setShowcase(obj.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
-			  
+			  p.setShowcase(obj.get(NAME).getAsString().contains(MTGStockConstants.FULL_ART));
 			  
 			  if(obj.get(LATEST_PRICE)!=null)
 			  {
