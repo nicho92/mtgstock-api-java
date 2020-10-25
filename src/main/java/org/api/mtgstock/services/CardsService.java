@@ -191,7 +191,8 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setExtendedArt(o.get(NAME).getAsString().contains(MTGStockConstants.EXTENDED_ART));
 				  fp.setShowcase(o.get(NAME).getAsString().contains(MTGStockConstants.SHOWCASE));
 				  fp.setOversized(o.get(NAME).getAsString().contains(MTGStockConstants.OVERSIZED));
-				 
+				  fp.setFullArt(o.get(NAME).getAsString().contains(MTGStockConstants.FULL_ART));
+				  
 				  try {
 				  fp.setRarity(MTGStockConstants.RARITY.valueOf(o.get(RARITY).getAsString()));
 				  }

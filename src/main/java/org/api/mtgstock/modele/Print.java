@@ -32,6 +32,8 @@ public class Print {
 	protected boolean borderless;
 	protected boolean showcase;
 	protected boolean foil;
+	protected boolean fullArt;
+	
 	protected Map<PRICES,Double> latestPrices;
 	protected Double lastWeekPrice;
 	protected Double lastWeekPreviousPrice;
@@ -67,6 +69,16 @@ public class Print {
 
 	public void setLatestPrices(Map<PRICES,Double> latestPrices) {
 		this.latestPrices = latestPrices;
+	}
+	
+	
+
+	public boolean isFullArt() {
+		return fullArt;
+	}
+
+	public void setFullArt(boolean fullArt) {
+		this.fullArt = fullArt;
 	}
 
 	public boolean isFoil() {
