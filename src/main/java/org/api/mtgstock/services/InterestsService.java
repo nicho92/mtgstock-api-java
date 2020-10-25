@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Interests;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.URLTools;
+import org.api.mtgstock.tools.URLUtilities;
 import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 
@@ -75,7 +75,7 @@ public class InterestsService extends AbstractMTGStockService {
 		logger.debug("get Interests at " + url);
 		
 		try {
-			JsonObject interestJson = URLTools.extractJson(url).getAsJsonObject();
+			JsonObject interestJson = URLUtilities.extractJson(url).getAsJsonObject();
 					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));	
 					   interests.setAverage(parseInterestFor(CATEGORY.AVERAGE, false,interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject()));
 					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, false,interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject()));

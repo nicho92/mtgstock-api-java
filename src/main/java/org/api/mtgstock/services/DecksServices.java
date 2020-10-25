@@ -10,7 +10,7 @@ import org.api.mtgstock.modele.DeckInfo;
 import org.api.mtgstock.modele.Tournament;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.Tools;
-import org.api.mtgstock.tools.URLTools;
+import org.api.mtgstock.tools.URLUtilities;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 
 import com.google.gson.JsonArray;
@@ -29,7 +29,7 @@ public class DecksServices extends AbstractMTGStockService {
 		List<DeckInfo> ret = new ArrayList<>();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/tournaments/"+id;
 		try {
-			JsonObject t = URLTools.extractJson(url).getAsJsonObject();
+			JsonObject t = URLUtilities.extractJson(url).getAsJsonObject();
 			
 			for(JsonElement e : t.get(DECKS).getAsJsonArray())
 			{
@@ -71,7 +71,7 @@ public class DecksServices extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/decks/"+id;
 		logger.debug("get deck at " + url);
 		try {
-			JsonObject obj = URLTools.extractJson(url).getAsJsonObject();
+			JsonObject obj = URLUtilities.extractJson(url).getAsJsonObject();
 			
 				d.setId(id);
 				d.setName(obj.get(NAME).getAsString());
@@ -95,7 +95,7 @@ public class DecksServices extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/tournaments/format/"+Tools.getFormatCode(f);
 		logger.debug("list tournament at " + url);
 		try {
-			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
 			
 			for(JsonElement e : arr)
 			{
@@ -128,7 +128,7 @@ public class DecksServices extends AbstractMTGStockService {
 		logger.debug("list archetypes at " + url);
 		
 		try {
-			JsonArray arr = URLTools.extractJson(url).getAsJsonArray();
+			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
 			
 			for(JsonElement e : arr)
 			{
