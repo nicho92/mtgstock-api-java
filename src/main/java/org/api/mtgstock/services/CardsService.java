@@ -204,11 +204,21 @@ public class CardsService extends AbstractMTGStockService {
 				  fp.setFlip(o.get(FLIP).getAsBoolean());
 				  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());
 				  fp.setImage(o.get(IMAGE).getAsString());
-				  fp.setMkmId(o.get(MKM_ID).getAsInt());
-				  fp.setMkmUrl(o.get(MKM_URL).getAsString());
-				  fp.setTcgId(o.get(TCG_ID).getAsInt());
-				  fp.setTcgUrl(o.get(TCG_URL).getAsString());
+				  
+				  if(!o.get(MKM_ID).isJsonNull()) 
+					  fp.setMkmId(o.get(MKM_ID).getAsInt());
+				  
+				  if(!o.get(MKM_URL).isJsonNull()) 
+					  fp.setMkmUrl(o.get(MKM_URL).getAsString());
+				  
+				  if(!o.get(TCG_ID).isJsonNull()) 
+					  fp.setTcgId(o.get(TCG_ID).getAsInt());
+				  
+				  if(!o.get(TCG_URL).isJsonNull()) 
+					  fp.setTcgUrl(o.get(TCG_URL).getAsString());
+				  
 				  fp.setCard(parseCardFor(o.get(CARD).getAsJsonObject()));
+				  
 				  fp.setCardSet(parseSetFor(o.get(CARD_SET).getAsJsonObject()));
 				  
 				  if(fp.getCardSet()!=null) {
