@@ -1,5 +1,6 @@
 package org.api.mtgstock.modele;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,15 @@ public class Interests {
 	public Date getDate() {
 		return date;
 	}
+	
+	public Interests() {
+		average = new ArrayList<>();
+		averageFoil = new ArrayList<>();
+		market = new ArrayList<>();
+		marketFoil = new ArrayList<>();
+		
+	}
+	
 	
 	public void setDate(Date date) {
 		this.date = date;

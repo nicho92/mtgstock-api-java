@@ -26,7 +26,7 @@ public class CardServiceTest {
 		});
 	}
 
-	@Test
+
 	public void getOnlineShakerForSet()
 	{
 		CardsService serv = new CardsService();
@@ -69,9 +69,9 @@ public class CardServiceTest {
 	
 	
 	
-	public void getPricesForEditiion()
+	public void getPricesForEdition()
 	{
-		String ed = "ZNR";
+		String ed = "CMR";
 		CardsService serv = new CardsService();
 
 		serv.getPrintsBySetCode(ed).forEach(p->{
@@ -83,11 +83,11 @@ public class CardServiceTest {
 	}
 	
 	
-	
+	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "Animar, Soul of Elements";
-		String ed = "A25";
+		String name = "Scroll Rack";
+		String ed = "CMR";
 		PRICES p = PRICES.MARKET_FOIL;
 		
 		CardsService serv = new CardsService();
