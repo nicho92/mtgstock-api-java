@@ -12,7 +12,7 @@ public class AnalyticsServiceTest {
 	
 	
 
-	
+	@Test
 	public void testSetPrices()
 	{
 		InterestsService servI = new InterestsService();
@@ -35,7 +35,7 @@ public class AnalyticsServiceTest {
 	}
 	
 	
-	@Test
+	
 	public void getSetPricesAnalysis()
 	{
 		PriceService servP = new PriceService();

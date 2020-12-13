@@ -137,7 +137,7 @@ public abstract class AbstractMTGStockService {
 				  p.setSetId(obj.get(SET_ID).getAsInt());
 			 
 			  
-			  if(obj.get(FOIL)!=null)
+			  if(obj.get(FOIL)!=null && !obj.get(FOIL).isJsonNull())
 				  p.setFoil(obj.get(FOIL).getAsBoolean());
 			  
 			  if(obj.get(SET_NAME)!=null)
