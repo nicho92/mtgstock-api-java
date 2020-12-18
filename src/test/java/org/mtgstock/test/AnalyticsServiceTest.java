@@ -16,8 +16,9 @@ public class AnalyticsServiceTest {
 	public void testSetPrices()
 	{
 		InterestsService servI = new InterestsService();
-		servI.getInterestFor(CATEGORY.MARKET,true, FORMAT.STANDARD).forEach(System.out::println);
-		servI.getInterestFor(CATEGORY.MARKET,false, FORMAT.STANDARD).forEach(System.out::println);
+		servI.getInterestFor(CATEGORY.MARKET,FORMAT.STANDARD).forEach(i->{
+			System.out.println(i.getPrint() +" " + i.isFoil());
+		});
 	}
 	
 
