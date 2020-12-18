@@ -5,6 +5,9 @@
 	<artifactId>mtgstock-api-java</artifactId>
 	<version>0.1.6</version>
 	<packaging>jar</packaging>
+	<name>mtgstock-api-java</name>
+	<description>Java implementation for MTGStock API</description>
+	<url>https://github.com/nicho92/mtgstock-api-java</url>
 	<properties>
 		<maven.compiler.source>13</maven.compiler.source>
 		<maven.compiler.target>13</maven.compiler.target>
@@ -18,7 +21,25 @@
 		<name>Nicolas Pihen</name>
 		<url>https://github.com/nicho92/</url>
 	</organization>
-	
+	<developers>
+		<developer>
+			<id>nicho</id>
+			<name>Nicolas Pihen</name>
+			<email>nicolas.pihen@gmail.com</email>
+		</developer>
+	</developers>
+	<licenses>
+	    <license>
+	      <name>Apache License, Version 2.0</name>
+	      <url>http://www.apache.org/licenses/LICENSE-2.0</url>
+	    </license>
+	</licenses>
+	<scm>
+		<connection>scm:git:https://github.com/nicho92/mtgstock-api-java.git</connection>
+		<developerConnection>scm:git:https://github.com/nicho92/mtgstock-api-java.git</developerConnection>
+		<url>https://github.com/nicho92/mtgstock-api-java</url>
+		<tag>HEAD</tag>
+	</scm>
 	
 	<dependencies>
 		<dependency>
@@ -66,9 +87,56 @@
 			</excludes>
 		</configuration>
 	</plugin>
- 
- </plugins>
-
+ 			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.7</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			  <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+		</plugins>
 </build>
 
 
