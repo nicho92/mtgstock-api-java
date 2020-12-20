@@ -390,7 +390,7 @@ public abstract class AbstractMTGStockService {
 					 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
 					 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
 					 t.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
-					 t.setFoil(foil);
+					 t.setFoil(obj.get(FOIL).getAsBoolean());
 					 
 			 ret.add(t);
 		}

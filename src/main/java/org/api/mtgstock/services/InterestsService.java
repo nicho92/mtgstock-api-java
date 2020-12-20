@@ -2,6 +2,7 @@ package org.api.mtgstock.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +47,14 @@ public class InterestsService extends AbstractMTGStockService {
 		ret.addAll(getInterestFor(c, false));
 		
 		return ret;
+	}
+	
+	
+	public static void main(String[] args) {
+		new InterestsService().getInterestFor(CATEGORY.AVERAGE,false).stream().sorted(Comparator.comparing(u->u.getPrint().getId())).forEach(i->{
+			
+			System.out.println(i + " " + i.isFoil() + " " + i.getPrint().getId() + " " + i.getPrint().getSetName() + " " + i.getPrint().isBorderless() + " " + i.getPrint().isExtendedArt() + " " + i.getPrint().isShowcase());
+		});
 	}
 	
 	
