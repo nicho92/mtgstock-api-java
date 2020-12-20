@@ -10,13 +10,13 @@ Import via maven :
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtgstock-api-java</artifactId>
-		  <version>0.1.6</version>
+		  <version>0.1.7</version>
 		</dependency>
 
 
 Import via Gradle : 
 
-	implementation 'com.github.nicho92:mtgstock-api-java:0.1.6'
+	implementation 'com.github.nicho92:mtgstock-api-java:0.1.7'
 
 
 
