@@ -86,8 +86,8 @@ public class CardServiceTest {
 	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "Scroll Rack";
-		String ed = "CMR";
+		String name = "Kaya the Inexorable";
+		String ed = "KHM";
 		PRICES p = PRICES.MARKET_FOIL;
 		
 		CardsService serv = new CardsService();
