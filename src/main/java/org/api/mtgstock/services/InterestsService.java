@@ -50,13 +50,6 @@ public class InterestsService extends AbstractMTGStockService {
 	}
 	
 	
-	public static void main(String[] args) {
-		new InterestsService().getInterestFor(CATEGORY.AVERAGE,false).stream().sorted(Comparator.comparing(u->u.getPrint().getId())).forEach(i->{
-			
-			System.out.println(i + " " + i.isFoil() + " " + i.getPrint().getId() + " " + i.getPrint().getSetName() + " " + i.getPrint().isBorderless() + " " + i.getPrint().isExtendedArt() + " " + i.getPrint().isShowcase());
-		});
-	}
-	
 	
 	public List<Interest> getInterestFor(CATEGORY c , boolean foil)
 	{
@@ -90,13 +83,16 @@ public class InterestsService extends AbstractMTGStockService {
 					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, false,interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject()));
 					   interests.setAverageFoil(parseInterestFor(CATEGORY.AVERAGE, true,interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject()));
 					   interests.setMarketFoil(parseInterestFor(CATEGORY.MARKET, true,interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject()));
-			
+					   
+					   
+		   
+					   
+					   
 		} catch (IOException e) {
 			logger.error("error getting interests at " + url, e);
 		}
 		return interests;
 	}
-	
 	
 
 

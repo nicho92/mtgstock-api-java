@@ -87,6 +87,17 @@ public class Interest {
 		this.print = print;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj==null)
+			return false;
+		
+		if(!(obj instanceof Interest))
+			return false;
+
+		
+		return this.getPrint().getId() == ((Interest)obj).getPrint().getId();
+	}
 	
 }

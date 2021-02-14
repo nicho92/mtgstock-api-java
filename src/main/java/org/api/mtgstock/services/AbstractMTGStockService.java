@@ -3,6 +3,7 @@ package org.api.mtgstock.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -396,6 +397,5 @@ public abstract class AbstractMTGStockService {
 		}
 		return ret;
 	}
-	
 	
 }
