@@ -236,7 +236,8 @@ public class CardsService extends AbstractMTGStockService {
 				  if(!o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).isJsonNull())
 					  fp.setLatestPriceMkm(new EntryValue<>(o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).getAsDouble(),o.get(LATEST_PRICE_MKM).getAsJsonObject().get(LOW).getAsDouble()));
 				  
-				  if(!o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).isJsonNull())
+				  
+				  if(o.get(LATEST_PRICE_MM)!=null && !o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).isJsonNull())
 					  fp.setLatestPriceMiniatureMarket(new EntryValue<>(o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).getAsDouble(),o.get(LATEST_PRICE_MM).getAsJsonObject().get(URL).getAsString()));
 				  
 				  if(!o.get(MULTIVERSE_ID).isJsonNull())
