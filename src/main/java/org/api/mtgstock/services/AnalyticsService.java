@@ -14,10 +14,9 @@ import org.api.mtgstock.modele.Played;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SetPrices;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.Tools;
-import org.api.mtgstock.tools.URLUtilities;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.tools.Tools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -34,7 +33,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		 List<HandyList> ret = new ArrayList<>();
 		 
 		 try {
-			URLUtilities.extractJson(url).getAsJsonArray().forEach(e->{
+			client.extractJson(url).getAsJsonArray().forEach(e->{
 				HandyList l = new HandyList();
 				
 				l.setId(e.getAsJsonObject().get(ID).getAsInt());
@@ -63,7 +62,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		List<Print> ret = new ArrayList<>();
 		
 		 try {
-				for(JsonElement e : URLUtilities.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray())
+				for(JsonElement e : client.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray())
 				{
 					ret.add(parsePrintFor(e.getAsJsonObject()));
 				}
@@ -85,7 +84,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/alltime";
 		logger.debug("getting low/high value at " + url);
 		try {
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonArray();
 			
 			for(JsonElement el : arr)
 			{
@@ -127,7 +126,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		List<SetPrices> setp = new ArrayList<>();
 		
 		try {
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonArray();
 			
 			
 			for(JsonElement el : arr)
@@ -161,7 +160,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 		logger.debug("get MostPlayedCard to " + url);
 		try {
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
 			
 			arr.forEach(k->{
 				Played p = new Played();
@@ -193,7 +192,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 		
 		try {
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonArray();
 			
 			
 			for(JsonElement e : arr)

@@ -7,10 +7,10 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.Tools;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.MTGStockConstants.RARITY;
+import org.api.mtgstock.tools.Tools;
 
 public class Print {
 

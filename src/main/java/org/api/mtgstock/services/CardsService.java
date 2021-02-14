@@ -14,7 +14,6 @@ import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.Tools;
-import org.api.mtgstock.tools.URLUtilities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -41,7 +40,7 @@ public class CardsService extends AbstractMTGStockService {
 		List<SearchResult> ret = new ArrayList<>();
 		
 		try {
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonArray();
 			for(JsonElement e : arr)
 			{
 				JsonObject oe = e.getAsJsonObject();
@@ -101,7 +100,7 @@ public class CardsService extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
 		logger.debug("getting sets at " + url);
 		try {
-			for(JsonElement e : URLUtilities.extractJson(url).getAsJsonArray())
+			for(JsonElement e : client.extractJson(url).getAsJsonArray())
 				cacheSets.add(parseSetFor(e.getAsJsonObject()));
 		
 		} catch (IOException e) {
@@ -148,7 +147,7 @@ public class CardsService extends AbstractMTGStockService {
 		logger.debug("get prints at " + url);
 		try {
 			
-			JsonArray arr = URLUtilities.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
+			JsonArray arr = client.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
 			
 			for(JsonElement el : arr)
 			{
@@ -181,7 +180,7 @@ public class CardsService extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id;
 		
 		logger.debug("read card at " + url);
-		JsonObject o = URLUtilities.extractJson(url).getAsJsonObject();
+		JsonObject o = client.extractJson(url).getAsJsonObject();
 		
 		FullPrint fp = new FullPrint();
 				  fp.setId(o.get(ID).getAsInt());

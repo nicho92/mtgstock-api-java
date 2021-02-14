@@ -3,7 +3,6 @@ package org.api.mtgstock.services;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,6 +19,7 @@ import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.tools.URLUtilities;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -98,12 +98,15 @@ public abstract class AbstractMTGStockService {
 	protected static final String PRICE_HASH = "price_hash";
 
 	protected static final String DATE_FORMAT = "yyyy-MM-dd";
-
+	protected URLUtilities client;
 
 
 	protected Logger logger = LogManager.getLogger(this.getClass());
 
 	
+	protected AbstractMTGStockService() {
+		client = new URLUtilities();
+	}
 	
 
 	
@@ -375,12 +378,12 @@ public abstract class AbstractMTGStockService {
 		return d;
 	}
 	
-	protected List<Interest> parseInterestFor(CATEGORY c,boolean foil,JsonObject interests)
+	protected List<Interest> parseInterestFor(CATEGORY c,JsonArray interests)
 	{
-		JsonArray arrs = interests.get( (foil)?FOIL:NORMAL).getAsJsonArray(); 
+
 		List<Interest> ret = new ArrayList<>();
 		
-		for(JsonElement e : arrs)
+		for(JsonElement e : interests)
 		{
 			JsonObject obj = e.getAsJsonObject();
 			Interest t = new Interest();

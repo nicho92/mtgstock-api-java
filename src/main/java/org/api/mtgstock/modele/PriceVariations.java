@@ -9,10 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
-
-import java.util.Set;
 
 public class PriceVariations implements Iterable<Entry<Date, Double>> {
 

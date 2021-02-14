@@ -11,9 +11,8 @@ import org.api.mtgstock.modele.Prices;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SetPricesAnalysis;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.Tools;
-import org.api.mtgstock.tools.URLUtilities;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.tools.Tools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -45,7 +44,7 @@ public class PriceService extends AbstractMTGStockService {
 	public PriceVariations getPricesFor(Integer id,PRICES categ) throws IOException {
 		
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id+"/prices";
-		JsonObject pricesPrint = URLUtilities.extractJson(url).getAsJsonObject();
+		JsonObject pricesPrint = client.extractJson(url).getAsJsonObject();
 		PriceVariations prices = new PriceVariations(categ);
 		
 		for (JsonElement el : pricesPrint.get(categ.name().toLowerCase()).getAsJsonArray()) {
@@ -72,7 +71,7 @@ public class PriceService extends AbstractMTGStockService {
 		
 		try 
 		{
-			JsonObject obj = URLUtilities.extractJson(url).getAsJsonObject();
+			JsonObject obj = client.extractJson(url).getAsJsonObject();
 			for(PRICES p : new PRICES[]{PRICES.LOW, PRICES.AVG,PRICES.HIGH,PRICES.MARKET})
 			{
 				PriceVariations pv = new PriceVariations(p);

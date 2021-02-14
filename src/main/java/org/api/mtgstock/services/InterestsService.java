@@ -1,8 +1,8 @@
 package org.api.mtgstock.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Interests;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.URLUtilities;
 import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 
@@ -71,29 +70,42 @@ public class InterestsService extends AbstractMTGStockService {
 			return interests;
 		
 		
-		String url=MTGStockConstants.MTGSTOCK_API_URI+"/interests";
-		
 		interests = new Interests();
-		logger.debug("get Interests at " + url);
+		
+		String urlAvg=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average";
+		String urlMkt=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market";
+		
 		
 		try {
-			JsonObject interestJson = URLUtilities.extractJson(url).getAsJsonObject();
-					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));	
-					   interests.setAverage(parseInterestFor(CATEGORY.AVERAGE, false,interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject()));
-					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, false,interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject()));
-					   interests.setAverageFoil(parseInterestFor(CATEGORY.AVERAGE, true,interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject()));
-					   interests.setMarketFoil(parseInterestFor(CATEGORY.MARKET, true,interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject()));
+			logger.debug("init connection");
+			client.doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI);
+			logger.debug("init connection done");
+		} catch (IOException e1) {
+			logger.error(e1);
+			return interests;
+		}
+		
+		try {
+			JsonObject interestJson = client.extractJson(urlAvg).getAsJsonObject();
+					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));
+					  
+					   interests.setAverage(parseInterestFor(CATEGORY.AVERAGE, interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
+					   interests.setAverageFoil(parseInterestFor(CATEGORY.AVERAGE, interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
+						
+			interestJson = client.extractJson(urlMkt).getAsJsonObject();
+					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
+					   interests.setMarketFoil(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 					   
-					   
-		   
-					   
-					   
-		} catch (IOException e) {
-			logger.error("error getting interests at " + url, e);
+		} catch (Exception e) {
+			logger.error("error getting interests", e);
 		}
 		return interests;
 	}
 	
+	
+	public static void main(String[] args) {
+		new InterestsService().getInterests();
+	}
 
 
 	
