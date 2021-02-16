@@ -284,7 +284,7 @@ public abstract class AbstractMTGStockService {
 					set.setAbbrevation("PCEL");
 				
 				if(set.getId()==367)
-					set.setAbbrevation(SUM);
+					set.setAbbrevation("SUM");
 				
 				if(set.getId()==245)
 					set.setAbbrevation("UGIN");
