@@ -1,16 +1,13 @@
 # mtgstock-api-java
 Java api for MTGStocks
 
-Download link : 
-	https://github.com/nicho92/mtgstock-api-java/tree/master/dist
-	
 	
 Import via maven : 
 
 		<dependency>
 		  <groupId>com.github.nicho92</groupId>
 		  <artifactId>mtgstock-api-java</artifactId>
-		  <version>0.1.7</version>
+		  <version>0.1.9</version>
 		</dependency>
 
 
