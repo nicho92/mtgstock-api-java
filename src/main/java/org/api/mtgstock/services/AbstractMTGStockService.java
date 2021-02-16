@@ -386,17 +386,23 @@ public abstract class AbstractMTGStockService {
 		for(JsonElement e : interests)
 		{
 			JsonObject obj = e.getAsJsonObject();
-			Interest t = new Interest();
-					 t.setCategory(c);
-					 t.setDate(new Date(obj.get(DATE).getAsLong()));
-				     t.setInterestType(obj.get(INTEREST_TYPE).getAsString());
-					 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());
-					 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
-					 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
-					 t.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
-					 t.setFoil(obj.get(FOIL).getAsBoolean());
-					 
-			 ret.add(t);
+			try {
+				Interest t = new Interest();
+						 t.setCategory(c);
+						 t.setDate(new Date(obj.get(DATE).getAsLong()));
+					     t.setInterestType(obj.get(INTEREST_TYPE).getAsString());
+						 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());
+						 t.setPricePresent(obj.get(PRESENT_PRICE).getAsDouble());
+						 t.setPricePast(obj.get(PAST_PRICE).getAsDouble());
+						 t.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
+						 t.setFoil(obj.get(FOIL).getAsBoolean());
+						 
+				 ret.add(t);
+			}
+			catch(Exception ex)
+			{
+				logger.error("Error getting interest for "+ e,ex);
+			}
 		}
 		return ret;
 	}

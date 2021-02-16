@@ -19,28 +19,22 @@ public class CardServiceTest {
 	public void getOnlineShakerForFormat()
 	{
 		InterestsService serv = new InterestsService();
-		
-		
 		serv.getInterestFor(CATEGORY.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
 			System.out.println(i.getPrint().getCleanName() +" " + i.getPrint().getSetName()+ " " + i.getPercentage()+"% " + i.getPricePresent()+"$" );
 		});
 	}
 
-
+	
 	public void getOnlineShakerForSet()
 	{
 		CardsService serv = new CardsService();
 		
-		serv.getPrintsBySetCode("ZNR").stream().sorted(Comparator.comparing(Print::getName)).forEach(i->{
-			System.out.println(i.getCleanName() + " " + i.getName() );
+		serv.getPrintsBySetCode("KHM").stream().sorted(Comparator.comparing(Print::getName)).forEach(i->{
+			System.out.println(i.getCleanName() + " " + i.isShowcase());
 		});
 		
 		
 	}
-	
-	
-	
-	
 	
 	public void listNoAbbrev()
 	{
@@ -52,8 +46,6 @@ public class CardServiceTest {
 			
 		});
 	}
-
-	
 	
 	public void listSet()
 	{
@@ -66,8 +58,6 @@ public class CardServiceTest {
 		});
 		
 	}
-	
-	
 	
 	public void getPricesForEdition()
 	{
