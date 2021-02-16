@@ -22,9 +22,7 @@ public class Interests {
 		averageFoil = new ArrayList<>();
 		market = new ArrayList<>();
 		marketFoil = new ArrayList<>();
-		
 	}
-	
 	
 	public void setDate(Date date) {
 		this.date = date;

@@ -51,7 +51,7 @@ public class InterestsService extends AbstractMTGStockService {
 	
 	public List<Interest> getInterestFor(CATEGORY c , boolean foil)
 	{
-		logger.debug("GetInterest for " + c + " foil="+foil);
+		logger.debug("GetInterest for " + c + " " + ((foil)?"Foil":""));
 		
 		if(c == CATEGORY.AVERAGE)
 			return (foil)?getInterests().getAverageFoil():getInterests().getAverage();
@@ -61,13 +61,11 @@ public class InterestsService extends AbstractMTGStockService {
 		
 	}
 	
-	
 	public Interests getInterests()
 	{
 		
 		if(interests!=null)
 			return interests;
-		
 		
 		interests = new Interests();
 		
@@ -94,18 +92,14 @@ public class InterestsService extends AbstractMTGStockService {
 			interestJson = client.extractJson(urlMkt).getAsJsonObject();
 					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
 					   interests.setMarketFoil(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
+			
+					   
+			logger.debug("Interests are stored in memory at date : " + interests.getDate());		   
 					   
 		} catch (Exception e) {
 			logger.error("error getting interests", e);
 		}
 		return interests;
 	}
-	
-	
-	public static void main(String[] args) {
-		new InterestsService().getInterests();
-	}
-
-
 	
 }

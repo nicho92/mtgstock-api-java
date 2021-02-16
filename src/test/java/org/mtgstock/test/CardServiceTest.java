@@ -39,11 +39,8 @@ public class CardServiceTest {
 	public void listNoAbbrev()
 	{
 		CardsService serv = new CardsService();
-
 		serv.listSets().stream().filter(cs->cs.getAbbrevation()==null).forEach(cs->{
-			
 			System.out.println(cs.getId() +" " + cs);
-			
 		});
 	}
 	
