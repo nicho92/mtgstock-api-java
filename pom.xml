@@ -26,6 +26,7 @@
 			<id>nicho</id>
 			<name>Nicolas Pihen</name>
 			<email>nicolas.pihen@gmail.com</email>
+			<organizationUrl>https://www.mtgcompanion.org</organizationUrl>
 		</developer>
 	</developers>
 	<licenses>
