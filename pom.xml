@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>mtgstock-api-java</artifactId>
-	<version>0.1.12</version>
+	<version>0.1.13</version>
 	<packaging>jar</packaging>
 	<name>mtgstock-api-java</name>
 	<description>Java implementation for MTGStock API</description>
@@ -153,7 +153,7 @@
           <plugin>
 			  <groupId>org.apache.maven.plugins</groupId>
 			  <artifactId>maven-release-plugin</artifactId>
-			  <version>3.0.0-M1</version>
+			  <version>3.0.0-M4</version>
 			  <configuration>
 			    <autoVersionSubmodules>true</autoVersionSubmodules>
 			    <useReleaseProfile>false</useReleaseProfile>
