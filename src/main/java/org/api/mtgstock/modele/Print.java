@@ -33,6 +33,8 @@ public class Print {
 	protected boolean showcase;
 	protected boolean foil;
 	protected boolean fullArt;
+	protected boolean etched;
+	protected boolean japanese;
 	
 	protected Map<PRICES,Double> latestPrices;
 	protected Double lastWeekPrice;
@@ -72,6 +74,22 @@ public class Print {
 	}
 	
 	
+
+	public boolean isEtched() {
+		return etched;
+	}
+
+	public void setEtched(boolean etched) {
+		this.etched = etched;
+	}
+
+	public boolean isJapanese() {
+		return japanese;
+	}
+
+	public void setJapanese(boolean japanese) {
+		this.japanese = japanese;
+	}
 
 	public boolean isFullArt() {
 		return fullArt;

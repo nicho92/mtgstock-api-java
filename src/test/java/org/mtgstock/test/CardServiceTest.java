@@ -56,21 +56,22 @@ public class CardServiceTest {
 		
 	}
 	
+	@Test
 	public void getPricesForEdition()
 	{
-		String ed = "CMR";
+		String ed = "STA";
 		CardsService serv = new CardsService();
 
 		serv.getPrintsBySetCode(ed).forEach(p->{
 			
-			System.out.println(p+ " " + p.getLastWeekPrice()+" " + p.getLastWeekPreviousPrice() + " " + p.getLatestPrices());
+			System.out.println(p+ " " + p.getLastWeekPrice()+" " + p.getLastWeekPreviousPrice() + " " + p.getLatestPrices() + " " + p.isEtched());
 			
 		});
 		
 	}
 	
 	
-	@Test
+
 	public void getOnlinePricesVariation()
 	{
 		String name = "Kaya the Inexorable";
