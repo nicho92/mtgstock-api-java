@@ -20,8 +20,7 @@ public class MTGStockConstants {
 	public static final String VERSION = "0.1.12";
 	
 	
-	public enum PRICES {LOW, AVG, HIGH, FOIL, MARKET, MARKET_FOIL}
-	public enum CATEGORY {MARKET,AVERAGE}
+	public enum PRICES {LOW, AVG, HIGH, FOIL, MARKET, MARKET_FOIL,AVERAGE}
 	public enum FORMAT {LEGACY,STANDARD,VINTAGE,MODERN,PIONEER,PAUPER,FRONTIER,COMMANDER}
 	public enum RARITY {M,R,U,C}
 }

@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Interests;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 import com.google.gson.JsonObject;
 
@@ -26,18 +26,18 @@ public class InterestsService extends AbstractMTGStockService {
 	}
 	
 	
-	public List<Interest> getInterestFor(CATEGORY c , boolean foil,FORMAT f)
+	public List<Interest> getInterestFor(PRICES c , boolean foil,FORMAT f)
 	{
 		return getInterestFor(c , foil).stream().filter(i->i.isLegalFor(f)).collect(Collectors.toList());
 	}
 	
-	public List<Interest> getInterestFor(CATEGORY c ,FORMAT f)
+	public List<Interest> getInterestFor(PRICES c ,FORMAT f)
 	{
 		return getInterestFor(c).stream().filter(i->i.isLegalFor(f)).collect(Collectors.toList());
 	}
 	
 	
-	public List<Interest> getInterestFor(CATEGORY c)
+	public List<Interest> getInterestFor(PRICES c)
 	{
 		List<Interest> ret = new ArrayList<>();
 		
@@ -49,11 +49,11 @@ public class InterestsService extends AbstractMTGStockService {
 	
 	
 	
-	public List<Interest> getInterestFor(CATEGORY c , boolean foil)
+	public List<Interest> getInterestFor(PRICES c , boolean foil)
 	{
 		logger.debug("GetInterest for " + c + " " + ((foil)?"Foil":""));
 		
-		if(c == CATEGORY.AVERAGE)
+		if(c == PRICES.AVERAGE)
 			return (foil)?getInterests().getAverageFoil():getInterests().getAverage();
 		 
 		
@@ -86,12 +86,12 @@ public class InterestsService extends AbstractMTGStockService {
 			JsonObject interestJson = client.extractJson(urlAvg).getAsJsonObject();
 					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));
 					  
-					   interests.setAverage(parseInterestFor(CATEGORY.AVERAGE, interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
-					   interests.setAverageFoil(parseInterestFor(CATEGORY.AVERAGE, interestJson.get(CATEGORY.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
+					   interests.setAverage(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
+					   interests.setAverageFoil(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 						
 			interestJson = client.extractJson(urlMkt).getAsJsonObject();
-					   interests.setMarket(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
-					   interests.setMarketFoil(parseInterestFor(CATEGORY.MARKET, interestJson.get(CATEGORY.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
+					   interests.setMarket(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
+					   interests.setMarketFoil(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 			
 					   
 			logger.debug("Interests are stored in memory at date : " + interests.getDate());		   

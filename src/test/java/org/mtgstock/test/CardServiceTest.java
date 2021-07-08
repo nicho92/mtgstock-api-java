@@ -9,7 +9,6 @@ import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.services.CardsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
-import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.junit.Test;
@@ -19,7 +18,7 @@ public class CardServiceTest {
 	public void getOnlineShakerForFormat()
 	{
 		InterestsService serv = new InterestsService();
-		serv.getInterestFor(CATEGORY.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
+		serv.getInterestFor(PRICES.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
 			System.out.println(i.getPrint().getCleanName() +" " + i.getPrint().getSetName()+ " " + i.getPercentage()+"% " + i.getPricePresent()+"$" );
 		});
 	}

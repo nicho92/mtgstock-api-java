@@ -1,7 +1,6 @@
 package org.api.mtgstock.services;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -16,7 +15,6 @@ import org.api.mtgstock.modele.Legality;
 import org.api.mtgstock.modele.PriceHash;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.URLUtilities;
@@ -380,7 +378,7 @@ public abstract class AbstractMTGStockService {
 		return d;
 	}
 	
-	protected List<Interest> parseInterestFor(CATEGORY c,JsonArray interests)
+	protected List<Interest> parseInterestFor(PRICES c,JsonArray interests)
 	{
 
 		List<Interest> ret = new ArrayList<>();

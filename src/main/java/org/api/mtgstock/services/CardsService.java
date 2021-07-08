@@ -11,9 +11,11 @@ import org.api.mtgstock.modele.EntryValue;
 import org.api.mtgstock.modele.FullPrint;
 import org.api.mtgstock.modele.Interest;
 import org.api.mtgstock.modele.Print;
+import org.api.mtgstock.modele.SealedProduct;
 import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.Tools;
+import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -171,6 +173,57 @@ public class CardsService extends AbstractMTGStockService {
 		
 		return prints;
 	}
+	
+
+	public List<SealedProduct> getSealedProduct(CardSet c)
+	{
+		return getSealedProduct(c.getId());
+	}
+	
+	
+	public List<SealedProduct> getSealedProduct(Integer id)
+	{
+		List<SealedProduct> ret = new ArrayList<>();
+		String url =MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+id+"/sealed";
+		JsonArray  pricesPrint ;
+		try {
+				logger.debug("getting getSealedProduct  at " + url);
+				pricesPrint = client.extractJson(url).getAsJsonArray();
+			} catch (IOException e) {
+					logger.error(e);
+					return new ArrayList<>();
+			}
+		
+			for(JsonElement e : pricesPrint)
+			{
+				
+				var obj = e.getAsJsonObject();
+				var p = new SealedProduct();
+					  p.setId(obj.get("id").getAsInt());
+					  p.setName(obj.get("name").getAsString());
+					  p.setUrlImage(obj.get("image")!=null?obj.get("image").getAsString():null);
+					  p.setSlug(obj.get("slug").getAsString());
+						    obj.get("latestPrice").getAsJsonObject().entrySet().forEach(entry->{
+						    	var k = entry.getKey().toUpperCase();
+						    	
+						    	if(k.equalsIgnoreCase("average"))
+						    		k=PRICES.AVG.name();
+						    	try {
+						    	p.getLatestPrices().put(PRICES.valueOf(k),entry.getValue().getAsDouble());
+						    	}
+						    	catch(UnsupportedOperationException ex)
+						    	{
+						    		logger.trace("error getting prices " + k +" :"+ ex);
+						    	}
+						    });
+								    
+				ret.add(p);
+			}
+			
+			return ret;
+		
+	}
+	
 	
 	
 	

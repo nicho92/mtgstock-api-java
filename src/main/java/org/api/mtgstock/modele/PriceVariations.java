@@ -23,6 +23,7 @@ public class PriceVariations implements Iterable<Entry<Date, Double>> {
 		this.categ=categ;
 	}
 	
+	
 	public PRICES getCateg() {
 		return categ;
 	}

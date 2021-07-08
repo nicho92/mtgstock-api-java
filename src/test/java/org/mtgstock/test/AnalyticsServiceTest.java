@@ -3,8 +3,8 @@ package org.mtgstock.test;
 import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
-import org.api.mtgstock.tools.MTGStockConstants.CATEGORY;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.junit.Test;
 
 public class AnalyticsServiceTest {
@@ -16,7 +16,7 @@ public class AnalyticsServiceTest {
 	public void testSetPrices()
 	{
 		InterestsService servI = new InterestsService();
-		servI.getInterestFor(CATEGORY.MARKET,FORMAT.STANDARD).forEach(i->{
+		servI.getInterestFor(PRICES.MARKET,FORMAT.STANDARD).forEach(i->{
 			System.out.println(i.getPrint() +" " + i.isFoil());
 		});
 	}

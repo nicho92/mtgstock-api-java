@@ -9,6 +9,8 @@ import org.api.mtgstock.modele.PriceHash;
 import org.api.mtgstock.modele.PriceVariations;
 import org.api.mtgstock.modele.Prices;
 import org.api.mtgstock.modele.Print;
+import org.api.mtgstock.modele.SealedPricesAnalysis;
+import org.api.mtgstock.modele.SealedProduct;
 import org.api.mtgstock.modele.SetPricesAnalysis;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
@@ -48,10 +50,9 @@ public class PriceService extends AbstractMTGStockService {
 		PriceVariations prices = new PriceVariations(categ);
 		
 		for (JsonElement el : pricesPrint.get(categ.name().toLowerCase()).getAsJsonArray()) {
-			long timest = el.getAsJsonArray().get(0).getAsLong();
-			double value = el.getAsJsonArray().get(1).getAsDouble();
+			var timest = el.getAsJsonArray().get(0).getAsLong();
+			var value = el.getAsJsonArray().get(1).getAsDouble();
 			
-	
 			prices.put(Tools.initDate(timest), value);
 		}
 		
@@ -63,6 +64,41 @@ public class PriceService extends AbstractMTGStockService {
 		return getSetPricesAnalysis(s.getId());
 	}
 	
+	public SealedPricesAnalysis getSealedPrices(SealedProduct sp)
+	{
+		return getSealedPrices(sp.getId());
+	}
+	
+	
+	
+	
+	public SealedPricesAnalysis getSealedPrices(int id) {
+		var  prices = new SealedPricesAnalysis();
+		String url = MTGStockConstants.MTGSTOCK_API_URI+"/sealed/"+id+"/prices";
+		logger.debug("getting getSealedPrices at " + url);
+		try 
+		{
+			var obj = client.extractJson(url).getAsJsonObject();
+			obj.entrySet().forEach(entry->{
+				
+				var k = PRICES.valueOf(entry.getKey().equalsIgnoreCase("average")?"AVG":entry.getKey().toUpperCase());
+				var pv = new PriceVariations(k);
+				
+				
+				obj.get(entry.getKey()).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
+				prices.getPrices().put(k, pv);
+			});
+		}
+		catch(Exception ex)
+		{
+			logger.error("error",ex);
+		}
+		
+		
+		
+		return prices;
+	}
+
 	public SetPricesAnalysis getSetPricesAnalysis(Integer i)
 	{
 		SetPricesAnalysis prices = new SetPricesAnalysis();
