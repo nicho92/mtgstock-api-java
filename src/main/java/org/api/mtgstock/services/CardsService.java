@@ -31,7 +31,7 @@ public class CardsService extends AbstractMTGStockService {
 	}
 
 	public SearchResult getBestResult(String name) {
-		return search(name).stream().max(Comparator.comparing(SearchResult::getSimilarity)).orElse(null);
+		return search(name).get(0);
 		
 	}
 
@@ -46,7 +46,7 @@ public class CardsService extends AbstractMTGStockService {
 			for(JsonElement e : arr)
 			{
 				JsonObject oe = e.getAsJsonObject();
-				ret.add(new SearchResult(oe.get(ID).getAsInt(), oe.get(NAME).getAsString(), oe.get(SIMILARITY).getAsDouble()));
+				ret.add(new SearchResult(oe.get(ID).getAsInt(), oe.get(NAME).getAsString()));
 			}
 		} catch (IOException e) {
 			logger.error(e);

@@ -55,7 +55,7 @@ public class CardServiceTest {
 		
 	}
 	
-	@Test
+	
 	public void getPricesForEdition()
 	{
 		String ed = "STA";
@@ -70,11 +70,11 @@ public class CardServiceTest {
 	}
 	
 	
-
+	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "Kaya the Inexorable";
-		String ed = "KHM";
+		String name = "Mavinda, Students' Advocate";
+		String ed = "STX";
 		PRICES p = PRICES.MARKET_FOIL;
 		
 		CardsService serv = new CardsService();
@@ -86,7 +86,6 @@ public class CardServiceTest {
 			CardSet set = serv.getSetByCode(ed);
 			System.out.println("fp="+fp.getId() + " "+ fp + " " + fp.getCardSet().getName());
 			Print fpSet = fp.getPrintForSetId(set.getId());
-			
 			prices.getPricesFor(fpSet).getPricesVariationsFor(p).forEach(System.out::println);
 		
 			

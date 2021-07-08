@@ -4,8 +4,6 @@ public class SearchResult {
 
 	private Integer id;
 	private String name;
-	private Double similarity;
-	
 	
 	public SearchResult() {
 	}
@@ -13,13 +11,12 @@ public class SearchResult {
 	
 	@Override
 	public String toString() {
-		return getName() +" -> " + getSimilarity();
+		return getName();
 	}
 	
-	public SearchResult(Integer id, String name, Double similarity) {
+	public SearchResult(Integer id, String name) {
 		this.id = id;
 		this.name = name;
-		this.similarity = similarity;
 	}
 
 	public Integer getId() {
@@ -34,13 +31,5 @@ public class SearchResult {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Double getSimilarity() {
-		return similarity;
-	}
-	public void setSimilarity(Double similarity) {
-		this.similarity = similarity;
-	}
-	
-	
-	
+		
 }
