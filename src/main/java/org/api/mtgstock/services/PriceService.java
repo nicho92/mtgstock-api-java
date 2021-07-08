@@ -37,7 +37,7 @@ public class PriceService extends AbstractMTGStockService {
 	{
 		var p = new Prices();
 		
-		for(PRICES price : new PRICES[] {PRICES.AVG, PRICES.MARKET,PRICES.MARKET_FOIL,PRICES.FOIL  } )
+		for(PRICES price : new PRICES[] {PRICES.LOW, PRICES.HIGH,PRICES.AVG, PRICES.MARKET,PRICES.MARKET_FOIL,PRICES.FOIL  } )
 			p.put(price, getPricesFor(id,price));
 		
 		return p;
