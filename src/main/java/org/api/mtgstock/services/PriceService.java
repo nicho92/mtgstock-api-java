@@ -110,7 +110,7 @@ public class PriceService extends AbstractMTGStockService {
 			JsonObject obj = client.extractJson(url).getAsJsonObject();
 			for(PRICES p : new PRICES[]{PRICES.LOW, PRICES.AVG,PRICES.HIGH,PRICES.MARKET})
 			{
-				PriceVariations pv = new PriceVariations(p);
+				var pv = new PriceVariations(p);
 				obj.get(p.name().toLowerCase()).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
 				prices.getPrices().put(p, pv);
 			}
@@ -121,10 +121,10 @@ public class PriceService extends AbstractMTGStockService {
 			for(MTGStockConstants.RARITY r : MTGStockConstants.RARITY.values())
 				prices.getPriceHash().add(parsePriceHashFor(obj.get(PRICE_HASH).getAsJsonObject().get(r.name()).getAsJsonObject(),r));
 			
-			PriceHash phbooster = new PriceHash();
+			var phbooster = new PriceHash();
 			
 			if(obj.get(BOOSTER)!=null) {
-				JsonObject obooster = obj.get(BOOSTER).getAsJsonObject();
+				var obooster = obj.get(BOOSTER).getAsJsonObject();
 						   phbooster.setNum(obooster.get(NUM).getAsInt());
 						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
 			}

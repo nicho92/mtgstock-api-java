@@ -204,16 +204,12 @@ public class CardsService extends AbstractMTGStockService {
 					  p.setUrlImage(obj.get("image")!=null?obj.get("image").getAsString():null);
 					  p.setSlug(obj.get("slug").getAsString());
 						    obj.get("latestPrice").getAsJsonObject().entrySet().forEach(entry->{
-						    	var k = entry.getKey().toUpperCase();
-						    	
-						    	if(k.equalsIgnoreCase("average"))
-						    		k=PRICES.AVG.name();
 						    	try {
-						    	p.getLatestPrices().put(PRICES.valueOf(k),entry.getValue().getAsDouble());
+						    	p.getLatestPrices().put(PRICES.valueOf(entry.getKey().toUpperCase()),entry.getValue().getAsDouble());
 						    	}
 						    	catch(UnsupportedOperationException ex)
 						    	{
-						    		logger.trace("error getting prices " + k +" :"+ ex);
+						    		logger.trace("error getting prices :"+ ex);
 						    	}
 						    });
 								    
