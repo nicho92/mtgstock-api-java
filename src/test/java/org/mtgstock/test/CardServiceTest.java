@@ -43,17 +43,34 @@ public class CardServiceTest {
 		});
 	}
 	
+	
 	public void listSet()
 	{
 		CardsService serv = new CardsService();
 
 		serv.listSets().forEach(cs->{
 			
-			System.out.println(cs.getName() +" " + cs.getAbbrevation());
+			System.out.println(cs.getName() +" " + cs.getAbbrevation() + " extra=" + cs.getExtraSet());
 			
 		});
 		
 	}
+	
+	@Test
+	public void getPrintsBySetCode()
+	{
+		
+		String ed = "STX";
+		CardsService serv = new CardsService();
+		
+		serv.getPrintsBySetCode(ed).forEach(p->{
+			
+			System.out.println(p+ " " + p.isBorderless());
+			
+		});
+		
+	}
+	
 	
 	
 	public void getPricesForEdition()
@@ -70,7 +87,7 @@ public class CardServiceTest {
 	}
 	
 	
-	@Test
+	
 	public void getOnlinePricesVariation()
 	{
 		String name = "Mavinda, Students' Advocate";

@@ -133,28 +133,35 @@ public class CardsService extends AbstractMTGStockService {
 		return listSets().stream().filter(s->s.getId()==id).findAny().orElse(null);
 	}
 	
+	
 	public List<Print> getPrintsBySet(CardSet set)
 	{
-		return getPrintsBySetId(set.getId());
+		
+		System.out.println(set.getExtraSet());
+		
+		if(set.getExtraSet()==null)
+			return getPrintsBySetId(set.getId());
+		
+	
+		List<Print> ret = new ArrayList<>();
+			ret.addAll(getPrintsBySetId(set.getId()));
+			ret.addAll(getPrintsBySetId(set.getExtraSet().getId()));
+			
+		return ret;
 	}
 	
 
 	public List<Print> getPrintsBySetCode(String abbresv)
 	{
+		Optional<CardSet> i = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).findFirst();
 		
-		List<CardSet> list = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).collect(Collectors.toList());
-	
-		List<Print> ret = new ArrayList<>();
-		
-	 for(CardSet i : list)
-	 {
-		 ret.addAll(getPrintsBySetId(i.getId()));
-	 }
-	 
-	 return ret;
+		if(i.isPresent())
+			return getPrintsBySet(i.get());
+		else
+			return new ArrayList<>();
 	}
 	
-	public List<Print> getPrintsBySetId(Integer id)
+	private List<Print> getPrintsBySetId(Integer id)
 	{
 		
 		List<Print> prints = new ArrayList<>();
