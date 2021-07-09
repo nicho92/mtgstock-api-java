@@ -10,6 +10,7 @@ public class SealedProduct {
 	private String name;
 	private String urlImage;
 	private String slug;
+	
 	private Map<PRICES,Double> latestPrices;
 	
 	
@@ -21,6 +22,67 @@ public class SealedProduct {
 	public String toString() {
 		return getName();
 	}
+	
+	public boolean isVIP()
+	{
+		return getName().contains("VIP");
+	}
+	
+	public boolean isBundle()
+	{
+		return getName().startsWith("Bundle");
+	}
+	
+	public boolean isGift()
+	{
+		return getName().contains("Giflt");
+	}
+	
+	public boolean isFatPack()
+	{
+		return getName().startsWith("Fat Pack");
+	}
+	
+	public boolean isBooster()
+	{
+		return getName().contains("Booster Pack");
+	}
+	
+	public boolean isTheme()
+	{
+		return getName().startsWith("Theme ");
+	}
+	
+	public boolean isPrerelease()
+	{
+		return getName().startsWith("Prerelease ");
+	}
+	
+	public boolean isSet()
+	{
+		return getName().startsWith("Set ");
+	}
+	
+	public boolean isBox()
+	{
+		return getName().contains("Booster Box") || getName().contains("Booster Display") ;
+	}
+	
+	public boolean isCollector()
+	{
+		return getName().contains("Collector");
+	}
+	
+	public boolean isDraft()
+	{
+		return getName().contains("Draft");
+	}
+	
+	public boolean isCase()
+	{
+		return getName().endsWith("Case");
+	}
+	
 	
 	public int getId() {
 		return id;

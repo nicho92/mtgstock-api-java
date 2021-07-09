@@ -107,7 +107,7 @@ public class PriceService extends AbstractMTGStockService {
 		
 		try 
 		{
-			JsonObject obj = client.extractJson(url).getAsJsonObject();
+			var obj = client.extractJson(url).getAsJsonObject();
 			for(PRICES p : new PRICES[]{PRICES.LOW, PRICES.AVG,PRICES.HIGH,PRICES.MARKET})
 			{
 				var pv = new PriceVariations(p);
