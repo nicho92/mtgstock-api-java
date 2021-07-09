@@ -60,12 +60,12 @@ public class CardServiceTest {
 	public void getPrintsBySetCode()
 	{
 		
-		String ed = "STX";
+		String ed = "STA";
 		CardsService serv = new CardsService();
 		
 		serv.getPrintsBySetCode(ed).forEach(p->{
 			
-			System.out.println(p+ " " + p.isBorderless());
+			System.out.println(p.getNamePrecision());
 			
 		});
 		

@@ -136,9 +136,6 @@ public class CardsService extends AbstractMTGStockService {
 	
 	public List<Print> getPrintsBySet(CardSet set)
 	{
-		
-		System.out.println(set.getExtraSet());
-		
 		if(set.getExtraSet()==null)
 			return getPrintsBySetId(set.getId());
 		
