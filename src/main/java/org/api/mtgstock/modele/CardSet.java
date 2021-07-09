@@ -10,6 +10,7 @@ public class CardSet {
 	private String iconClass;
 	private String setType;
 	private Date date;
+	private CardSet extraSet;
 	
 	
 	@Override
@@ -53,7 +54,15 @@ public class CardSet {
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+	public void setExtraSet(CardSet extra) {
+		this.extraSet=extra;
+		
+	}
 	
+	public CardSet getExtraSet() {
+		return extraSet;
+	}
 	
 	
 	

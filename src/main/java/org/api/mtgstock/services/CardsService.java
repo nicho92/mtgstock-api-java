@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.api.mtgstock.modele.CardSet;
 import org.api.mtgstock.modele.EntryValue;
@@ -42,10 +43,10 @@ public class CardsService extends AbstractMTGStockService {
 		List<SearchResult> ret = new ArrayList<>();
 		
 		try {
-			JsonArray arr = client.extractJson(url).getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonArray();
 			for(JsonElement e : arr)
 			{
-				JsonObject oe = e.getAsJsonObject();
+				var oe = e.getAsJsonObject();
 				ret.add(new SearchResult(oe.get(ID).getAsInt(), oe.get(NAME).getAsString()));
 			}
 		} catch (IOException e) {
@@ -91,9 +92,7 @@ public class CardsService extends AbstractMTGStockService {
 	{
 		return getCard(p.getId());
 	}
-	
-	
-	
+		
 	public List<CardSet> listSets()
 	{
 		if(!cacheSets.isEmpty())
@@ -110,7 +109,18 @@ public class CardsService extends AbstractMTGStockService {
 			
 		}
 		
+		for(CardSet cs : cacheSets)
+		{
+			CardSet extra = cacheSets.stream().filter(c->c.getName().equalsIgnoreCase(cs.getName() +": Extras")).findFirst().orElse(null);
+			cs.setExtraSet(extra);
+		}
+			
 		return cacheSets;
+	}
+	
+	public List<CardSet> getSetByName(String name)
+	{
+		return listSets().stream().filter(s->s.getName().toLowerCase().startsWith(name.toLowerCase())).collect(Collectors.toList());
 	}
 	
 	public CardSet getSetByCode(String id)
@@ -132,13 +142,16 @@ public class CardsService extends AbstractMTGStockService {
 	public List<Print> getPrintsBySetCode(String abbresv)
 	{
 		
-		Optional<Integer> i = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).map(CardSet::getId).findFirst();
+		List<CardSet> list = listSets().stream().filter(cs->abbresv.equalsIgnoreCase(cs.getAbbrevation())).collect(Collectors.toList());
+	
+		List<Print> ret = new ArrayList<>();
 		
-		if(i.isPresent())
-			return getPrintsBySetId(i.get());
-		else
-			return new ArrayList<>();
-		
+	 for(CardSet i : list)
+	 {
+		 ret.addAll(getPrintsBySetId(i.getId()));
+	 }
+	 
+	 return ret;
 	}
 	
 	public List<Print> getPrintsBySetId(Integer id)
@@ -149,11 +162,11 @@ public class CardsService extends AbstractMTGStockService {
 		logger.debug("get prints at " + url);
 		try {
 			
-			JsonArray arr = client.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
 			
 			for(JsonElement el : arr)
 			{
-				Print p = parsePrintFor(el.getAsJsonObject());
+				var p = parsePrintFor(el.getAsJsonObject());
 				
 				if(p.getSetId()==null) {
 					CardSet st = getSetById(id);
