@@ -2,6 +2,7 @@ package org.api.mtgstock.modele;
 
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
@@ -22,6 +23,12 @@ public class SealedProduct {
 	public String toString() {
 		return getName();
 	}
+	
+	public boolean isIntroPack()
+	{
+		return getName().startsWith("Intro Pack");
+	}
+	
 	
 	public boolean isVIP()
 	{
@@ -45,7 +52,7 @@ public class SealedProduct {
 	
 	public boolean isBooster()
 	{
-		return getName().contains("Booster Pack");
+		return getName().contains("Booster Pack") || getName().contains("VIP Edition Pack");
 	}
 	
 	public boolean isTheme()
@@ -81,6 +88,22 @@ public class SealedProduct {
 	public boolean isCase()
 	{
 		return getName().endsWith("Case");
+	}
+	
+	
+	public boolean isStarter()
+	{
+		return getName().equalsIgnoreCase("Starter Deck");
+	}
+	
+	public boolean isPlaneswalkerDeck()
+	{
+		return getName().contains("Planeswalker Deck");
+	}
+	
+	public boolean isChallengerDeck()
+	{
+		return getName().contains("Challenger Deck");
 	}
 	
 	
