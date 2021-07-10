@@ -87,7 +87,7 @@ public class SealedProduct {
 	
 	public boolean isCase()
 	{
-		return getName().endsWith("Case");
+		return getName().contains(" Case");
 	}
 	
 	
