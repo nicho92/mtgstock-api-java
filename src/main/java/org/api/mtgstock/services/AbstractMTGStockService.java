@@ -110,7 +110,7 @@ public abstract class AbstractMTGStockService {
 	
 	protected PriceHash parsePriceHashFor(JsonObject obj, MTGStockConstants.RARITY r) 
 	{
-		PriceHash ph = new PriceHash();
+		var ph = new PriceHash();
 				  ph.setRarity(r);
 				  obj.get(AVG).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(AVG).getAsJsonObject().get(k).getAsString()))));
 				  obj.get(SUM).getAsJsonObject().keySet().forEach(k->ph.getSum().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(SUM).getAsJsonObject().get(k).getAsString()))));
@@ -119,7 +119,7 @@ public abstract class AbstractMTGStockService {
 	
 
 	protected Print parsePrintFor(JsonObject obj) {
-		Print p = new Print();
+		var p = new Print();
 			  p.setId(obj.get(ID).getAsInt());
 			  p.setName(obj.get(NAME).getAsString());
 			 
@@ -221,7 +221,7 @@ public abstract class AbstractMTGStockService {
 	}
 	
 	protected CardSet parseSetFor(JsonObject o) {
-		CardSet set = new CardSet();
+		var set = new CardSet();
 			set.setId(o.get(ID).getAsInt());
 			set.setName(o.get(NAME).getAsString());
 			set.setIconClass(o.get(ICON_CLASS).getAsString());
@@ -322,7 +322,7 @@ public abstract class AbstractMTGStockService {
 
 	protected CardDetails parseCardFor(JsonObject o) {
 		
-		CardDetails c = new CardDetails();
+		var c = new CardDetails();
 			 c.setId(o.get(ID).getAsInt());
 			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
 			 c.setName(o.get(NAME).getAsString());
@@ -357,7 +357,7 @@ public abstract class AbstractMTGStockService {
 
 
 	protected Archetype parseArchetypeFor(JsonObject e) {
-		Archetype at = new Archetype();
+		var at = new Archetype();
 		at.setId(e.get(ID).getAsInt());
 		at.setName(e.get(NAME).getAsString());
 		
@@ -369,7 +369,7 @@ public abstract class AbstractMTGStockService {
 	
 	protected DeckCard parseDeckCardFor(JsonObject o)
 	{
-		DeckCard d = new DeckCard();
+		var d = new DeckCard();
 				 d.setCardType(o.get(CARD_TYPE).getAsString());
 				 d.setCmc(o.get(CMC).getAsInt());
 				 d.setColor(o.get(COLOR).getAsString());
@@ -385,9 +385,9 @@ public abstract class AbstractMTGStockService {
 		
 		for(JsonElement e : interests)
 		{
-			JsonObject obj = e.getAsJsonObject();
+			var obj = e.getAsJsonObject();
 			try {
-				Interest t = new Interest();
+				var t = new Interest();
 						 t.setCategory(c);
 						 t.setInterestType(obj.get(INTEREST_TYPE).getAsString());
 						 t.setPercentage(obj.get(PERCENTAGE).getAsDouble());

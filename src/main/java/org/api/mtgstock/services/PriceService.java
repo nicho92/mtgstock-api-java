@@ -17,7 +17,6 @@ import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.Tools;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class PriceService extends AbstractMTGStockService {
 	

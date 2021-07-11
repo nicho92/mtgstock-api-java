@@ -34,7 +34,7 @@ public class URLUtilities {
 	
 	public String extractAndClose(HttpResponse response) throws IOException
 	{
-		String ret = EntityUtils.toString(response.getEntity());
+		var ret = EntityUtils.toString(response.getEntity());
 		EntityUtils.consume(response.getEntity());
 		return ret;
 	}
@@ -47,12 +47,12 @@ public class URLUtilities {
 	public HttpResponse doGet(String url) throws IOException
 	{
 		logger.debug("Parsing url " + url);
-		HttpGet getReq = new HttpGet(url);
+		var getReq = new HttpGet(url);
 		return execute(getReq);
 	}
 
 	public JsonElement extractJson(String url) throws IOException {
-		JsonReader reader = new JsonReader(new InputStreamReader(doGet(url).getEntity().getContent()));
+		var reader = new JsonReader(new InputStreamReader(doGet(url).getEntity().getContent()));
 		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
 		return e;

@@ -23,6 +23,7 @@ public class FullPrint extends Print {
 	private EntryValue<Double,String> latestPriceMiniatureMarket;
 	private List<Print> sets;
 	
+	
 	public FullPrint() {
 		sets = new ArrayList<>();
 	}
@@ -35,8 +36,6 @@ public class FullPrint extends Print {
 	
 		return sets.stream().filter(p->p.getSetId()==id).findAny().orElse(null);
 	}
-	
-	
 	
 	public EntryValue<Double,Date> getAllTimeHigh() {
 		return allTimeHigh;

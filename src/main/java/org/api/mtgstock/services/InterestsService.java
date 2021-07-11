@@ -12,8 +12,6 @@ import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
-import com.google.gson.JsonObject;
-
 public class InterestsService extends AbstractMTGStockService {
 	
 	private Interests interests;
@@ -83,7 +81,7 @@ public class InterestsService extends AbstractMTGStockService {
 		}
 		
 		try {
-			JsonObject interestJson = client.extractJson(urlAvg).getAsJsonObject();
+			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
 					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));
 					  
 					   interests.setAverage(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));

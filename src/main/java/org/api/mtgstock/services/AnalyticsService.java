@@ -18,9 +18,7 @@ import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.Tools;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class AnalyticsService extends AbstractMTGStockService {
 
@@ -34,7 +32,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		 
 		 try {
 			client.extractJson(url).getAsJsonArray().forEach(e->{
-				HandyList l = new HandyList();
+				var l = new HandyList();
 				
 				l.setId(e.getAsJsonObject().get(ID).getAsInt());
 				l.setName(e.getAsJsonObject().get(NAME).getAsString());
@@ -84,12 +82,12 @@ public class AnalyticsService extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/alltime";
 		logger.debug("getting low/high value at " + url);
 		try {
-			JsonArray arr = client.extractJson(url).getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonArray();
 			
 			for(JsonElement el : arr)
 			{
-				JsonObject obj = el.getAsJsonObject();
-				LowHighValues val = new LowHighValues();
+				var obj = el.getAsJsonObject();
+				var val = new LowHighValues();
 							  val.setType(PRICES.valueOf(obj.get(TYPE).getAsString().toUpperCase()));
 							  val.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
 							  val.setPrice(new EntryValue<>(Tools.initDate(obj.get(PRICE).getAsJsonObject().get(DATE).getAsString(),DATE_FORMAT),
@@ -126,14 +124,14 @@ public class AnalyticsService extends AbstractMTGStockService {
 		List<SetPrices> setp = new ArrayList<>();
 		
 		try {
-			JsonArray arr = client.extractJson(url).getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonArray();
 			
 			
 			for(JsonElement el : arr)
 			{
-				SetPrices p = new SetPrices();
+				var p = new SetPrices();
 				p.setSet(parseSetFor(el.getAsJsonObject().get(CARD_SET).getAsJsonObject()));
-				JsonObject prices = el.getAsJsonObject().get("prices").getAsJsonObject();
+				var prices = el.getAsJsonObject().get("prices").getAsJsonObject();
 				prices.keySet().stream().filter(s->!s.equalsIgnoreCase("num")).forEach(key->p.put(PRICES.valueOf(key.toUpperCase()), prices.get(key).getAsDouble()));
 				
 				if(prices.get("num")!=null)
@@ -156,14 +154,14 @@ public class AnalyticsService extends AbstractMTGStockService {
 		List<Played> ret = new ArrayList<>();
 		int id=Tools.getFormatCode(f);
 		
-		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
+		var url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
 		
 		logger.debug("get MostPlayedCard to " + url);
 		try {
-			JsonArray arr = client.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
 			
 			arr.forEach(k->{
-				Played p = new Played();
+				var p = new Played();
 				   	   p.setName(k.getAsJsonObject().get(CARD).getAsJsonObject().get(NAME).getAsString());
 					   p.setId(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(ID).getAsInt());
 					  
@@ -192,12 +190,12 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 		
 		try {
-			JsonArray arr = client.extractJson(url).getAsJsonArray();
+			var arr = client.extractJson(url).getAsJsonArray();
 			
 			
 			for(JsonElement e : arr)
 			{
-				Metagame m = new Metagame();
+				var m = new Metagame();
 						 m.setArchetype(parseArchetypeFor(e.getAsJsonObject().get(ARCHETYPE).getAsJsonObject()));
 						 m.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsString(),DATE_FORMAT));
 						 m.setFormat(f);

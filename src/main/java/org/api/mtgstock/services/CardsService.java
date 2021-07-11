@@ -2,7 +2,6 @@ package org.api.mtgstock.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -15,12 +14,11 @@ import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.modele.SealedProduct;
 import org.api.mtgstock.modele.SearchResult;
 import org.api.mtgstock.tools.MTGStockConstants;
-import org.api.mtgstock.tools.Tools;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
+import org.api.mtgstock.tools.Tools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 public class CardsService extends AbstractMTGStockService {
 
@@ -246,9 +244,9 @@ public class CardsService extends AbstractMTGStockService {
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id;
 		
 		logger.debug("read card at " + url);
-		JsonObject o = client.extractJson(url).getAsJsonObject();
+		var o = client.extractJson(url).getAsJsonObject();
 		
-		FullPrint fp = new FullPrint();
+		var fp = new FullPrint();
 				  fp.setId(o.get(ID).getAsInt());
 				  fp.setName(o.get(NAME).getAsString());
 				  fp.setNamePrecision(Tools.extractParenthesisValue(fp.getName()));
@@ -323,7 +321,7 @@ public class CardsService extends AbstractMTGStockService {
 				  
 				  
 					o.get(SETS).getAsJsonArray().forEach(je->{
-							JsonObject obj = je.getAsJsonObject();
+						var obj = je.getAsJsonObject();
 							fp.getSets().add(parsePrintFor(obj));
 					});
 					  
