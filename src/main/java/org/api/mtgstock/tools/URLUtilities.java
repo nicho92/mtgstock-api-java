@@ -56,7 +56,7 @@ public class URLUtilities {
 		logger.debug("Parsing url " + url);
 		var getReq = new HttpGet(url);
 		Instant stop = Instant.now();
-		long duration = stop.getEpochSecond()-start.toEpochMilli();
+		long duration = stop.toEpochMilli()-start.toEpochMilli();
 		
 		callInfo.setStart(start);
 		callInfo.setEnd(stop);
