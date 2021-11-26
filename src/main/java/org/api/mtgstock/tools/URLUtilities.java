@@ -2,6 +2,7 @@ package org.api.mtgstock.tools;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.Instant;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -14,6 +15,8 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mtgstock.modele.URLCallInfo;
+import org.api.mtgstock.services.URLCallListener;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -24,7 +27,9 @@ public class URLUtilities {
 	private HttpClientContext httpContext;
 	private BasicCookieStore cookieStore;
 	protected Logger logger = LogManager.getLogger(this.getClass());
-
+    private URLCallListener listener;
+    
+    
 	public URLUtilities() {
 		httpclient = HttpClients.custom().setUserAgent(MTGStockConstants.USER_AGENT_VALUE).setRedirectStrategy(new LaxRedirectStrategy()).build();
 		httpContext = new HttpClientContext();
@@ -43,13 +48,36 @@ public class URLUtilities {
 	{
 		return httpclient.execute(req,httpContext);
 	}
-	
+		
 	public HttpResponse doGet(String url) throws IOException
 	{
+		var callInfo = new URLCallInfo();
+		Instant start = Instant.now();
 		logger.debug("Parsing url " + url);
 		var getReq = new HttpGet(url);
-		return execute(getReq);
+		Instant stop = Instant.now();
+		long duration = stop.getEpochSecond()-start.toEpochMilli();
+		
+		callInfo.setStart(start);
+		callInfo.setEnd(stop);
+		callInfo.setDuration(duration);
+		callInfo.setUrl(url);
+		callInfo.setRequest(getReq);
+		
+		var resp = execute(getReq);
+		
+		callInfo.setResponse(resp);
+	
+		if(listener!=null)
+			listener.notify(callInfo);
+		
+		
+		return resp ;
 	}
+	
+	
+	
+	
 
 	public JsonElement extractJson(String url) throws IOException {
 		var reader = new JsonReader(new InputStreamReader(doGet(url).getEntity().getContent()));
@@ -57,6 +85,11 @@ public class URLUtilities {
 		reader.close();
 		return e;
 		
+		
+	}
+
+	public void setCallListener(URLCallListener listener2) {
+		this.listener=listener2;
 		
 	}
 

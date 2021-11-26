@@ -106,6 +106,10 @@ public abstract class AbstractMTGStockService {
 		client = new URLUtilities();
 	}
 	
+	public void setListener(URLCallListener listener)
+	{
+		client.setCallListener(listener);
+	}
 
 	
 	protected PriceHash parsePriceHashFor(JsonObject obj, MTGStockConstants.RARITY r) 
