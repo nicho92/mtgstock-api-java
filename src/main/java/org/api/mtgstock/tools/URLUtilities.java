@@ -53,7 +53,7 @@ public class URLUtilities {
 	{
 		var callInfo = new URLCallInfo();
 		Instant start = Instant.now();
-		logger.debug("Parsing url " + url);
+		logger.debug("Parsing url {}",url);
 		var getReq = new HttpGet(url);
 		Instant stop = Instant.now();
 		long duration = stop.toEpochMilli()-start.toEpochMilli();

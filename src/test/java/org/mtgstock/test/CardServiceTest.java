@@ -56,7 +56,7 @@ public class CardServiceTest {
 		
 	}
 	
-	@Test
+	
 	public void getPrintsBySetCode()
 	{
 		
@@ -72,7 +72,7 @@ public class CardServiceTest {
 	}
 	
 	
-	
+	@Test
 	public void getPricesForEdition()
 	{
 		String ed = "STA";

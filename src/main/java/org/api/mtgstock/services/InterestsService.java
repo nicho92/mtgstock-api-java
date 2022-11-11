@@ -1,6 +1,7 @@
 package org.api.mtgstock.services;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +50,7 @@ public class InterestsService extends AbstractMTGStockService {
 	
 	public List<Interest> getInterestFor(PRICES c , boolean foil)
 	{
-		logger.debug("GetInterest for " + c + " " + ((foil)?"Foil":""));
+		logger.debug("GetInterest for {} {} ",c,((foil)?"Foil":""));
 		
 		if(c == PRICES.AVERAGE)
 			return (foil)?getInterests().getAverageFoil():getInterests().getAverage();
@@ -82,8 +83,13 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		try {
 			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
-					   interests.setDate(new Date(interestJson.get(DATE).getAsLong()));
-					  
+			
+			
+						
+						var je = interestJson.get(DATE);
+						var d = new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(je.getAsString());
+						
+						
 					   interests.setAverage(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
 					   interests.setAverageFoil(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 						
@@ -91,8 +97,14 @@ public class InterestsService extends AbstractMTGStockService {
 					   interests.setMarket(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
 					   interests.setMarketFoil(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 			
+					
+				
+				
+						   interests.setDate(d);
+					  
 					   
-			logger.debug("Interests are stored in memory at date : " + interests.getDate());		   
+					   
+			logger.debug("Interests are stored in memory at date : {}",interests.getDate());		   
 					   
 		} catch (Exception e) {
 			logger.error("error getting interests", e);
