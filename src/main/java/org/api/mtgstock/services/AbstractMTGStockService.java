@@ -384,7 +384,10 @@ public abstract class AbstractMTGStockService {
 	
 	protected List<Interest> parseInterestFor(PRICES c,JsonArray interests)
 	{
-
+		
+		logger.debug("parsing {} for {}",c,interests);
+		
+		
 		List<Interest> ret = new ArrayList<>();
 		
 		for(JsonElement e : interests)

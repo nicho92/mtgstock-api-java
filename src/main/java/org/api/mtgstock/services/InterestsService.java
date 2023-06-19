@@ -3,7 +3,6 @@ package org.api.mtgstock.services;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,8 +82,7 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		try {
 			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
-			
-			
+
 						
 						var je = interestJson.get(DATE);
 						var d = new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(je.getAsString());
@@ -93,18 +91,17 @@ public class InterestsService extends AbstractMTGStockService {
 					   interests.setAverage(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
 					   interests.setAverageFoil(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
 						
-			interestJson = client.extractJson(urlMkt).getAsJsonObject();
-					   interests.setMarket(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
-					   interests.setMarketFoil(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
-			
-					
-				
-				
-						   interests.setDate(d);
-					  
-					   
-					   
-			logger.debug("Interests are stored in memory at date : {}",interests.getDate());		   
+					   try {
+						   interestJson = client.extractJson(urlMkt).getAsJsonObject();
+						   interests.setMarket(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
+						   interests.setMarketFoil(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
+					   }
+					   catch(Exception e)
+					   {
+						   logger.error("No market data found");
+					   }
+					   interests.setDate(d);
+					  logger.debug("Interests are stored in memory at date : {}",interests.getDate());		   
 					   
 		} catch (Exception e) {
 			logger.error("error getting interests", e);

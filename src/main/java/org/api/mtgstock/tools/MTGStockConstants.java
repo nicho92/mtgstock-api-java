@@ -17,10 +17,10 @@ public class MTGStockConstants {
 	public static final String FULL_ART="- Full Art";
 	public static final String ETCHED="Foil Etched";
 	public static final String JAPANESE="JP Alternate Art";
-	public static final String VERSION = "0.1.24";
+	public static final String VERSION = "0.1.25";
 	public static final String DATE_FORMAT="yyyy-MM-dd";
 	
 	public enum PRICES {LOW, AVG, HIGH, FOIL, MARKET, MARKET_FOIL,AVERAGE}
-	public enum FORMAT {LEGACY,STANDARD,VINTAGE,MODERN,PIONEER,PAUPER,FRONTIER,COMMANDER}
+	public enum FORMAT {LEGACY,STANDARD,VINTAGE,MODERN,PIONEER,PAUPER,FRONTIER,COMMANDER,DUEL,OLDSCHOOL,GLADIATOR,PENNY,PREMODERN,HISTORICBRAWL,PAUPERCOMMANDER,FUTURE,BRAWL,ALCHEMY,HISTORIC,EXPLORER,PREDH,OATHBREAKER}
 	public enum RARITY {M,R,U,C}
 }
