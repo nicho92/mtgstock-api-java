@@ -11,12 +11,21 @@ public class CardSet {
 	private String setType;
 	private Date date;
 	private CardSet extraSet;
-	
+	private String slug;
 	
 	@Override
 	public String toString() {
 		return getName();
 	}
+	
+	public String getSlug() {
+		return slug;
+	}
+	
+	public void setSlug(String slug) {
+		this.slug = slug;
+	}
+	
 	
 	public Integer getId() {
 		return id;

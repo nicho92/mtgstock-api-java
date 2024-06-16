@@ -230,7 +230,7 @@ public abstract class AbstractMTGStockService {
 			set.setName(o.get(NAME).getAsString());
 			set.setIconClass(o.get(ICON_CLASS).getAsString());
 			set.setSetType(o.get(SET_TYPE).getAsString());
-			
+			set.setSlug(o.get("slug").getAsString());
 			try {
 				set.setAbbrevation(o.get(ABBREVIATION).getAsString());
 			}

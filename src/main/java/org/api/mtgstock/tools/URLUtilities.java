@@ -49,7 +49,7 @@ public class URLUtilities {
 		return httpclient.execute(req,httpContext);
 	}
 		
-	public HttpResponse doGet(String url) throws IOException
+	public HttpResponse doGet(String url, String apiID) throws IOException
 	{
 		var callInfo = new URLCallInfo();
 		Instant start = Instant.now();
@@ -63,11 +63,25 @@ public class URLUtilities {
 		callInfo.setDuration(duration);
 		callInfo.setUrl(url);
 		callInfo.setRequest(getReq);
-		
+	
 		var resp = execute(getReq);
 		
 		callInfo.setResponse(resp);
 	
+		
+		getReq.addHeader("Referer", MTGStockConstants.MTGSTOCK_WEBSITE_URI);
+		getReq.addHeader("Origin", MTGStockConstants.MTGSTOCK_WEBSITE_URI);;
+		getReq.addHeader("Accept", "application/json, text/plain, */*");
+		getReq.addHeader("Accept-Encoding", "gzip, deflate, br, zstd");
+		
+		getReq.addHeader("Sec-Ch-Ua", "\"Not/A)Brand\";v=\"8\", \"Chromium\";v=\"126\", \"Google Chrome\";v=\"126\"");
+		getReq.addHeader("Sec-Ch-Ua-Mobile", "?0");
+		getReq.addHeader("Sec-Ch-Ua-Plateform", "\"Windows\"");
+		getReq.addHeader("Sec-Fetch-Site", "same-site");
+		getReq.addHeader("Sec-Fetch-Mode","cors");
+		getReq.addHeader(":authority","api.mtgstocks.com");
+		
+		
 		if(listener!=null)
 			listener.notify(callInfo);
 		
@@ -76,11 +90,18 @@ public class URLUtilities {
 	}
 	
 	
-	
+	public JsonElement extractJson(String url, String apiID) throws IOException {
+		var reader = new JsonReader(new InputStreamReader(doGet(url,apiID).getEntity().getContent()));
+		JsonElement e= JsonParser.parseReader(reader);
+		reader.close();
+		return e;
+		
+		
+	}
 	
 
 	public JsonElement extractJson(String url) throws IOException {
-		var reader = new JsonReader(new InputStreamReader(doGet(url).getEntity().getContent()));
+		var reader = new JsonReader(new InputStreamReader(doGet(url,null).getEntity().getContent()));
 		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
 		return e;

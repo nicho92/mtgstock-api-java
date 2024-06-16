@@ -73,7 +73,7 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		try {
 			logger.debug("init connection");
-			client.doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI);
+			client.doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI,null);
 			logger.debug("init connection done");
 		} catch (IOException e1) {
 			logger.error(e1);
@@ -82,8 +82,10 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		try {
 			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
-
-						
+			if(interestJson.get("error")!=null)
+				throw new IOException(interestJson.get("error").getAsString());
+	
+			
 						var je = interestJson.get(DATE);
 						var d = new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(je.getAsString());
 						

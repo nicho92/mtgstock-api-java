@@ -43,14 +43,14 @@ public class CardServiceTest {
 		});
 	}
 	
-	
+	@Test
 	public void listSet()
 	{
 		CardsService serv = new CardsService();
 
 		serv.listSets().forEach(cs->{
 			
-			System.out.println(cs.getName() +" " + cs.getAbbrevation() + " extra=" + cs.getExtraSet());
+			System.out.println(cs.getName() +" " + cs.getAbbrevation() + " extra=" + cs.getExtraSet() + " " + cs.getSlug());
 			
 		});
 		
@@ -72,7 +72,7 @@ public class CardServiceTest {
 	}
 	
 	
-	@Test
+	
 	public void getPricesForEdition()
 	{
 		String ed = "STA";
