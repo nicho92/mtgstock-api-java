@@ -100,7 +100,9 @@ public class DecksServices extends AbstractMTGStockService {
 						   at.setId(e.getAsJsonObject().get(ID).getAsInt());
 						   at.setName(e.getAsJsonObject().get(NAME).getAsString());
 						   at.setTournamentType(e.getAsJsonObject().get(TOURNAMENTTYPE).getAsString());
-						   at.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsLong()));
+						   
+						   if(!e.getAsJsonObject().get(DATE).isJsonNull())
+							   at.setDate(Tools.initDate(e.getAsJsonObject().get(DATE).getAsLong()));
 						   
 						   if(!e.getAsJsonObject().get(NUM_PLAYERS).isJsonNull())
 							   at.setNumPlayers(e.getAsJsonObject().get(NUM_PLAYERS).getAsInt());

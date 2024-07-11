@@ -17,7 +17,7 @@ public class MTGStockConstants {
 	public static final String FULL_ART="- Full Art";
 	public static final String ETCHED="Foil Etched";
 	public static final String JAPANESE="JP Alternate Art";
-	public static final String VERSION = "0.1.25";
+	public static final String VERSION = "0.1.26";
 	public static final String DATE_FORMAT="yyyy-MM-dd";
 	
 	public enum PRICES {MARKET, AVERAGE}
