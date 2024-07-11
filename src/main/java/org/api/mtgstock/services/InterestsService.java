@@ -82,6 +82,7 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		try {
 			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
+			
 			if(interestJson.get("error")!=null)
 				throw new IOException(interestJson.get("error").getAsString());
 	
