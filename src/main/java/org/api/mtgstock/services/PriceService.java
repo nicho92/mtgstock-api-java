@@ -22,27 +22,29 @@ public class PriceService extends AbstractMTGStockService {
 	
 
 
-	public Prices getPricesFor(CardDetails p) throws IOException
+	public Prices getPricesFor(CardDetails p,boolean foil) throws IOException
 	{
-		return getPricesFor(p.getId());
+		return getPricesFor(p.getId(),foil);
 	}
 	
-	public Prices getPricesFor(Print print) throws IOException
+	public Prices getPricesFor(Print print,boolean foil) throws IOException
 	{
-		return getPricesFor(print.getId());
+		return getPricesFor(print.getId(),foil);
 	}
 
-	private Prices getPricesFor(Integer id) throws IOException
+	private Prices getPricesFor(Integer id, boolean foil) throws IOException
 	{
 		var p = new Prices();
 		
-		for(PRICES price : new PRICES[] {PRICES.LOW, PRICES.HIGH,PRICES.AVG, PRICES.MARKET,PRICES.MARKET_FOIL,PRICES.FOIL  } )
-			p.put(price, getPricesFor(id,price));
+		for(PRICES price : PRICES.values())
+		{
+			p.put(price, getPricesFor(id,price,foil));
+		}
 		
 		return p;
 	}
 	
-	public PriceVariations getPricesFor(Integer id,PRICES categ) throws IOException {
+	public PriceVariations getPricesFor(Integer id,PRICES categ,boolean foil) throws IOException {
 		
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id+"/prices";
 		var pricesPrint = client.extractJson(url).getAsJsonObject();
@@ -107,7 +109,7 @@ public class PriceService extends AbstractMTGStockService {
 		try 
 		{
 			var obj = client.extractJson(url).getAsJsonObject();
-			for(PRICES p : new PRICES[]{PRICES.LOW, PRICES.AVG,PRICES.HIGH,PRICES.MARKET})
+			for(PRICES p : PRICES.values())
 			{
 				var pv = new PriceVariations(p);
 				obj.get(p.name().toLowerCase()).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));

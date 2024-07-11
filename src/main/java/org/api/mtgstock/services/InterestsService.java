@@ -1,7 +1,5 @@
 package org.api.mtgstock.services;
 
-import java.io.IOException;
-import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +58,7 @@ public class InterestsService extends AbstractMTGStockService {
 		
 	}
 	
+	
 	public Interests getInterests()
 	{
 		
@@ -68,34 +67,20 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		interests = new Interests();
 		
-		String urlAvg=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average";
-		String urlMkt=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market";
-		
-		
+		String urlAvg=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average/regular";
+		String urlMkt=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/regular";
+		String urlAvgFoil=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/foil";
+		String urlMktFoil=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/foil";
+						
 		try {
-			var interestJson = client.extractJson(urlAvg).getAsJsonObject();
-			
-			if(interestJson.get("error")!=null)
-				throw new IOException(interestJson.get("error").getAsString());
-	
-			
-						var je = interestJson.get(DATE);
-						var d = new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(je.getAsString());
+				var obj = client.extractJson(urlAvg).getAsJsonObject();
+				
+				 		interests.setDate(new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(obj.get("date").getAsString()));
+						interests.setAverage(parseInterestFor(PRICES.AVERAGE, obj.get("interests").getAsJsonArray()));
+						interests.setAverage(parseInterestFor(PRICES.AVERAGE, client.extractJson(urlAvgFoil).getAsJsonObject().get("interests").getAsJsonArray()));
+						interests.setMarket(parseInterestFor(PRICES.MARKET, client.extractJson(urlMkt).getAsJsonObject().get("interests").getAsJsonArray()));
+						interests.setMarketFoil(parseInterestFor(PRICES.MARKET, client.extractJson(urlMktFoil).getAsJsonObject().get("interests").getAsJsonArray()));
 						
-						
-					   interests.setAverage(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
-					   interests.setAverageFoil(parseInterestFor(PRICES.AVERAGE, interestJson.get(PRICES.AVERAGE.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
-						
-					   try {
-						   interestJson = client.extractJson(urlMkt).getAsJsonObject();
-						   interests.setMarket(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(NORMAL).getAsJsonArray()));
-						   interests.setMarketFoil(parseInterestFor(PRICES.MARKET, interestJson.get(PRICES.MARKET.name().toLowerCase()).getAsJsonObject().get(FOIL).getAsJsonArray()));
-					   }
-					   catch(Exception e)
-					   {
-						   logger.error("No market data found");
-					   }
-					   interests.setDate(d);
 					  logger.debug("Interests are stored in memory at date : {}",interests.getDate());		   
 					   
 		} catch (Exception e) {

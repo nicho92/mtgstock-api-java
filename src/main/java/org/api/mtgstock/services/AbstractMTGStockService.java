@@ -199,7 +199,7 @@ public abstract class AbstractMTGStockService {
 				  else
 				  {
 					  if(!obj.get(LATEST_PRICE).isJsonNull())
-					  	p.getLatestPrices().put(PRICES.AVG, obj.get(LATEST_PRICE).getAsDouble());
+					  	p.getLatestPrices().put(PRICES.AVERAGE, obj.get(LATEST_PRICE).getAsDouble());
 				  }
 			  }
 			  

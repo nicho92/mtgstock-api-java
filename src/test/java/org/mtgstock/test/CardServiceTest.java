@@ -92,7 +92,7 @@ public class CardServiceTest {
 	{
 		String name = "Mavinda, Students' Advocate";
 		String ed = "STX";
-		PRICES p = PRICES.MARKET_FOIL;
+		PRICES p = PRICES.MARKET;
 		
 		CardsService serv = new CardsService();
 		SearchResult rs = serv.getBestResult(name);
@@ -103,7 +103,7 @@ public class CardServiceTest {
 			CardSet set = serv.getSetByCode(ed);
 			System.out.println("fp="+fp.getId() + " "+ fp + " " + fp.getCardSet().getName());
 			Print fpSet = fp.getPrintForSetId(set.getId());
-			prices.getPricesFor(fpSet).getPricesVariationsFor(p).forEach(System.out::println);
+			prices.getPricesFor(fpSet,false).getPricesVariationsFor(p).forEach(System.out::println);
 		
 			
 		} catch (Exception e) {
