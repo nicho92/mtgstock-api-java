@@ -5,13 +5,17 @@ import java.io.InputStreamReader;
 import java.time.Instant;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
+import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,13 +32,37 @@ public class URLUtilities {
 	private BasicCookieStore cookieStore;
 	protected Logger logger = LogManager.getLogger(this.getClass());
     private URLCallListener listener;
-    
+	private HttpClientConnectionManager connectionManager ;
     
 	public URLUtilities() {
-		httpclient = HttpClients.custom().setUserAgent(MTGStockConstants.USER_AGENT_VALUE).setRedirectStrategy(new LaxRedirectStrategy()).build();
+		connectionManager = new PoolingHttpClientConnectionManager();
+		connectionManager.closeExpiredConnections();
 		httpContext = new HttpClientContext();
 		cookieStore = new BasicCookieStore();
 		httpContext.setCookieStore(cookieStore);
+		
+		
+		httpclient = HttpClients.custom()
+				 .setUserAgent(MTGStockConstants.USER_AGENT_VALUE)
+				 .setRedirectStrategy(LaxRedirectStrategy.INSTANCE)
+				 .setConnectionManager(connectionManager)
+				 .setDefaultRequestConfig(RequestConfig.custom().setCookieSpec(CookieSpecs.STANDARD).build())
+				 .build();
+		
+		
+	
+	
+		
+
+		try {
+			logger.debug("init connection");
+			doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI+"/interests");
+			logger.debug("init connection done");
+		} catch (IOException e1) {
+			logger.error(e1);
+		}
+		
+		
 	}
 	
 	public String extractAndClose(HttpResponse response) throws IOException
@@ -49,7 +77,7 @@ public class URLUtilities {
 		return httpclient.execute(req,httpContext);
 	}
 		
-	public HttpResponse doGet(String url, String apiID) throws IOException
+	public HttpResponse doGet(String url) throws IOException
 	{
 		var callInfo = new URLCallInfo();
 		Instant start = Instant.now();
@@ -70,7 +98,7 @@ public class URLUtilities {
 	
 		
 		getReq.addHeader("Referer", MTGStockConstants.MTGSTOCK_WEBSITE_URI);
-		getReq.addHeader("Origin", MTGStockConstants.MTGSTOCK_WEBSITE_URI);;
+		getReq.addHeader("Origin", MTGStockConstants.MTGSTOCK_WEBSITE_URI);
 		getReq.addHeader("Accept", "application/json, text/plain, */*");
 		getReq.addHeader("Accept-Encoding", "gzip, deflate, br, zstd");
 		
@@ -90,8 +118,8 @@ public class URLUtilities {
 	}
 	
 	
-	public JsonElement extractJson(String url, String apiID) throws IOException {
-		var reader = new JsonReader(new InputStreamReader(doGet(url,apiID).getEntity().getContent()));
+	public JsonElement extractJson(String url) throws IOException {
+		var reader = new JsonReader(new InputStreamReader(doGet(url).getEntity().getContent()));
 		JsonElement e= JsonParser.parseReader(reader);
 		reader.close();
 		return e;
@@ -99,16 +127,6 @@ public class URLUtilities {
 		
 	}
 	
-
-	public JsonElement extractJson(String url) throws IOException {
-		var reader = new JsonReader(new InputStreamReader(doGet(url,null).getEntity().getContent()));
-		JsonElement e= JsonParser.parseReader(reader);
-		reader.close();
-		return e;
-		
-		
-	}
-
 	public void setCallListener(URLCallListener listener2) {
 		this.listener=listener2;
 		

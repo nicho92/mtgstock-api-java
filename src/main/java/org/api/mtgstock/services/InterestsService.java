@@ -1,6 +1,7 @@
 package org.api.mtgstock.services;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,15 +71,6 @@ public class InterestsService extends AbstractMTGStockService {
 		String urlAvg=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average";
 		String urlMkt=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market";
 		
-		
-		try {
-			logger.debug("init connection");
-			client.doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI,null);
-			logger.debug("init connection done");
-		} catch (IOException e1) {
-			logger.error(e1);
-			return interests;
-		}
 		
 		try {
 			var interestJson = client.extractJson(urlAvg).getAsJsonObject();

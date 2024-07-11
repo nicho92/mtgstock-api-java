@@ -68,7 +68,7 @@ public class CardsService extends AbstractMTGStockService {
 			try {
 				ret.add(getCard(id));
 			} catch (IOException e) {
-				logger.error("Error getting card for id " + id,e);
+				logger.error("Error getting card for id {}",id,e);
 			}
 		}
 		
@@ -97,7 +97,7 @@ public class CardsService extends AbstractMTGStockService {
 			return cacheSets;
 		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets";
-		logger.debug("getting sets at " + url);
+		logger.debug("getting sets at {}",url);
 		try {
 			for(JsonElement e : client.extractJson(url).getAsJsonArray())
 				cacheSets.add(parseSetFor(e.getAsJsonObject()));
@@ -161,7 +161,7 @@ public class CardsService extends AbstractMTGStockService {
 		
 		List<Print> prints = new ArrayList<>();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+id;
-		logger.debug("get prints at " + url);
+		logger.debug("get prints at {}",url);
 		try {
 			
 			var arr = client.extractJson(url).getAsJsonObject().get(PRINT+"s").getAsJsonArray();
@@ -181,7 +181,7 @@ public class CardsService extends AbstractMTGStockService {
 			
 			
 		} catch (IOException e) {
-			logger.error("Error gettings prints for set="+id,e);
+			logger.error("Error gettings prints for set={}",id,e);
 		} 
 		
 		
@@ -202,7 +202,7 @@ public class CardsService extends AbstractMTGStockService {
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+id+"/sealed";
 		JsonArray  pricesPrint ;
 		try {
-				logger.debug("getting getSealedProduct  at " + url);
+				logger.debug("getting getSealedProduct  at {}",url);
 				pricesPrint = client.extractJson(url).getAsJsonArray();
 			} catch (IOException e) {
 					logger.error(e);
