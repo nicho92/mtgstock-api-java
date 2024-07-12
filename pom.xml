@@ -17,6 +17,16 @@
 		<system>Github</system>
 		<url>https://github.com/nicho92/mtgstock-api-java/issues</url>
 	</issueManagement>
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	  <repository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+	  </repository>
+	</distributionManagement>
 	<organization>
 		<name>Nicolas Pihen</name>
 		<url>https://github.com/nicho92/</url>
@@ -107,7 +117,7 @@
  			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.13</version>
+				<version>1.7.0</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
