@@ -10,6 +10,7 @@ import org.api.mtgstock.services.CardsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ public class CardServiceTest {
 	public void getOnlineShakerForFormat()
 	{
 		InterestsService serv = new InterestsService();
-		serv.getInterestFor(PRICES.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
+		serv.getInterestFor(INTEREST.AVERAGE,true,FORMAT.VINTAGE).stream().forEach(i->{
 			System.out.println(i.getPrint().getCleanName() +" " + i.getPrint().getSetName()+ " " + i.getPercentage()+"% " + i.getPricePresent()+"$" );
 		});
 	}
@@ -71,7 +72,7 @@ public class CardServiceTest {
 	}
 	
 	
-	@Test
+	
 	public void getPricesForEdition()
 	{
 		String ed = "MH3";
@@ -86,12 +87,12 @@ public class CardServiceTest {
 	}
 	
 	
-	
+	@Test
 	public void getOnlinePricesVariation()
 	{
-		String name = "Mavinda, Students' Advocate";
-		String ed = "STX";
-		PRICES p = PRICES.MARKET;
+		String name = "Lion's eye Diamond";
+		String ed = "MIR";
+		PRICES p = PRICES.AVG;
 		
 		CardsService serv = new CardsService();
 		SearchResult rs = serv.getBestResult(name);
@@ -102,7 +103,7 @@ public class CardServiceTest {
 			CardSet set = serv.getSetByCode(ed);
 			System.out.println("fp="+fp.getId() + " "+ fp + " " + fp.getCardSet().getName());
 			Print fpSet = fp.getPrintForSetId(set.getId());
-			prices.getPricesFor(fpSet,false).getPricesVariationsFor(p).forEach(System.out::println);
+			prices.getPricesFor(fpSet).getPricesVariationsFor(p).forEach(System.out::println);
 		
 			
 		} catch (Exception e) {

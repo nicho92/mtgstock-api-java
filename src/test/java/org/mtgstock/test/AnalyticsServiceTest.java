@@ -4,6 +4,7 @@ import org.api.mtgstock.services.AnalyticsService;
 import org.api.mtgstock.services.InterestsService;
 import org.api.mtgstock.services.PriceService;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.junit.Test;
 
@@ -16,7 +17,7 @@ public class AnalyticsServiceTest {
 	public void testSetPrices()
 	{
 		InterestsService servI = new InterestsService();
-		servI.getInterestFor(PRICES.MARKET,FORMAT.STANDARD).forEach(i->{
+		servI.getInterestFor(INTEREST.MARKET,FORMAT.STANDARD).forEach(i->{
 			System.out.println(i.getPrint() +" " + i.isFoil() + " "+i.getPricePresent());
 		});
 	}

@@ -16,6 +16,7 @@ import org.api.mtgstock.modele.PriceHash;
 import org.api.mtgstock.modele.Print;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.URLUtilities;
 
@@ -117,8 +118,8 @@ public abstract class AbstractMTGStockService {
 	{
 		var ph = new PriceHash();
 				  ph.setRarity(r);
-				  obj.get(AVG).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(k.toUpperCase(), Double.parseDouble(obj.get(AVG).getAsJsonObject().get(k).getAsString()))));
-				  obj.get(SUM).getAsJsonObject().keySet().forEach(k->ph.getSum().add(new EntryValue<>(k.toUpperCase(), Double.parseDouble(obj.get(SUM).getAsJsonObject().get(k).getAsString()))));
+				  obj.get(AVG).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(AVG).getAsJsonObject().get(k).getAsString()))));
+				  obj.get(SUM).getAsJsonObject().keySet().forEach(k->ph.getSum().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(SUM).getAsJsonObject().get(k).getAsString()))));
 		return ph;
 	}
 	
@@ -327,10 +328,10 @@ public abstract class AbstractMTGStockService {
 			 c.setLowestPrint(o.get(LOWEST_PRINT).getAsInt());
 			 c.setName(o.get(NAME).getAsString());
 			 
-			 if(!o.get(CMC).isJsonNull())
+			 if(o.get(CMC)!=null && !o.get(CMC).isJsonNull())
 				 c.setCmc(o.get(CMC).getAsInt());
 			 
-			 if(!o.get(COST).isJsonNull())
+			 if(o.get(COST)!=null && !o.get(COST).isJsonNull())
 				 c.setCost(o.get(COST).getAsString());
 			
 			 if(!o.get(LEGAL).isJsonNull())
@@ -340,7 +341,7 @@ public abstract class AbstractMTGStockService {
 			 if(!o.get(ORACLE).isJsonNull())
 				 c.setOracle(o.get(ORACLE).getAsString());
 
-			 if(!o.get(PWRTGH).isJsonNull())
+			 if(o.get(PWRTGH)!=null && !o.get(PWRTGH).isJsonNull())
 				 c.setPwrtgh(o.get(PWRTGH).getAsString());
 			 
 			 if(!o.get(RESERVED).isJsonNull())
@@ -378,7 +379,7 @@ public abstract class AbstractMTGStockService {
 		return d;
 	}
 	
-	protected List<Interest> parseInterestFor(PRICES c,JsonArray interests)
+	protected List<Interest> parseInterestFor(INTEREST c,JsonArray interests)
 	{
 		
 		logger.debug("parsing {} for {}",c,interests);

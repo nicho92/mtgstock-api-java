@@ -22,29 +22,29 @@ public class PriceService extends AbstractMTGStockService {
 	
 
 
-	public Prices getPricesFor(CardDetails p,boolean foil) throws IOException
+	public Prices getPricesFor(CardDetails p) throws IOException
 	{
-		return getPricesFor(p.getId(),foil);
+		return getPricesFor(p.getId());
 	}
 	
-	public Prices getPricesFor(Print print,boolean foil) throws IOException
+	public Prices getPricesFor(Print print) throws IOException
 	{
-		return getPricesFor(print.getId(),foil);
+		return getPricesFor(print.getId());
 	}
 
-	private Prices getPricesFor(Integer id, boolean foil) throws IOException
+	private Prices getPricesFor(Integer id) throws IOException
 	{
 		var p = new Prices();
 		
 		for(PRICES price : PRICES.values())
 		{
-			p.put(price, getPricesFor(id,price,foil));
+			p.put(price, getPricesFor(id,price));
 		}
 		
 		return p;
 	}
 	
-	public PriceVariations getPricesFor(Integer id,PRICES categ,boolean foil) throws IOException {
+	public PriceVariations getPricesFor(Integer id,PRICES categ) throws IOException {
 		
 		String url =MTGStockConstants.MTGSTOCK_API_URI+"/prints/"+id+"/prices";
 		var pricesPrint = client.extractJson(url).getAsJsonObject();
@@ -112,13 +112,7 @@ public class PriceService extends AbstractMTGStockService {
 			for(PRICES p : PRICES.values())
 			{
 				var pv = new PriceVariations(p);
-				
 				var key = p.name().toLowerCase();
-				
-				if(p==PRICES.AVERAGE)
-					key=AVG;
-				
-				
 				obj.get(key).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
 				prices.getPrices().put(p, pv);
 			}
@@ -134,7 +128,7 @@ public class PriceService extends AbstractMTGStockService {
 			if(obj.get(BOOSTER)!=null) {
 				var obooster = obj.get(BOOSTER).getAsJsonObject();
 						   phbooster.setNum(obooster.get(NUM).getAsInt());
-						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(k.toUpperCase(), obooster.get(k).getAsDouble())));
+						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
 			}
 			prices.setBooster(phbooster);
 			

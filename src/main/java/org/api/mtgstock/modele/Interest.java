@@ -3,6 +3,7 @@ package org.api.mtgstock.modele;
 import java.util.Date;
 
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
+import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
 import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class Interest {
@@ -14,7 +15,7 @@ public class Interest {
 	private Double pricePresent;
 	private Double pricePast;
 	private Print print;
-	private PRICES category;
+	private INTEREST category;
 	
 	
 	public Interest() {
@@ -38,10 +39,10 @@ public class Interest {
 		return print + ":" + getPricePresent();
 	}
 	
-	public PRICES getCategory() {
+	public INTEREST getCategory() {
 		return category;
 	}
-	public void setCategory(PRICES category) {
+	public void setCategory(INTEREST category) {
 		this.category = category;
 	}
 	public Boolean isFoil() {

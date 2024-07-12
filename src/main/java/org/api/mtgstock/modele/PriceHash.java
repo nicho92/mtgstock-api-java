@@ -10,8 +10,8 @@ public class PriceHash {
 
 	private RARITY rarity;
 	
-	private List<EntryValue<String, Double>> avg;
-	private List<EntryValue<String, Double>> sum;
+	private List<EntryValue<PRICES, Double>> avg;
+	private List<EntryValue<PRICES, Double>> sum;
 	
 	private int num;
 	
@@ -22,12 +22,12 @@ public class PriceHash {
 	}
 
 	
-	public List<EntryValue<String, Double>> getSum() {
+	public List<EntryValue<PRICES, Double>> getSum() {
 		return sum;
 	}
 
 
-	public void setSum(List<EntryValue<String, Double>> sum) {
+	public void setSum(List<EntryValue<PRICES, Double>> sum) {
 		this.sum = sum;
 	}
 
@@ -38,10 +38,10 @@ public class PriceHash {
 	public void setRarity(RARITY rarity) {
 		this.rarity = rarity;
 	}
-	public List<EntryValue<String, Double>> getAvg() {
+	public List<EntryValue<PRICES, Double>> getAvg() {
 		return avg;
 	}
-	public void setAvg(List<EntryValue<String, Double>> avg) {
+	public void setAvg(List<EntryValue<PRICES, Double>> avg) {
 		this.avg = avg;
 	}
 
