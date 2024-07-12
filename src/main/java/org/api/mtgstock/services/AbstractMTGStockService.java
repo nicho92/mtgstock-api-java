@@ -50,7 +50,7 @@ public abstract class AbstractMTGStockService {
 	protected static final String CMC = "cmc";
 	protected static final String COLOR = "color";
 	protected static final String RESERVED = "reserved";
-	protected static final String AVG = "avg";
+	protected static final String AVERAGE = "average";
 	protected static final String NAME = "name";
 	protected static final String QUANTITY = "quantity";
 	protected static final String CARD = "card";
@@ -116,7 +116,7 @@ public abstract class AbstractMTGStockService {
 	{
 		var ph = new PriceHash();
 				  ph.setRarity(r);
-				  obj.get(AVG).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(AVG).getAsJsonObject().get(k).getAsString()))));
+				  obj.get(AVERAGE).getAsJsonObject().keySet().forEach(k->ph.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(AVERAGE).getAsJsonObject().get(k).getAsString()))));
 				  obj.get(SUM).getAsJsonObject().keySet().forEach(k->ph.getSum().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), Double.parseDouble(obj.get(SUM).getAsJsonObject().get(k).getAsString()))));
 		return ph;
 	}

@@ -292,14 +292,14 @@ public class CardsService extends AbstractMTGStockService {
 					  fp.setSetType(fp.getCardSet().getSetType());
 				  }
 				  
-				  fp.setAllTimeLow(new EntryValue<>(o.get(ALL_TIME_LOW).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_LOW).getAsJsonObject().get(DATE).getAsLong())));
-				  fp.setAllTimeHigh(new EntryValue<>(o.get(ALL_TIME_HIGH).getAsJsonObject().get(AVG).getAsDouble(),Tools.initDate(o.get(ALL_TIME_HIGH).getAsJsonObject().get(DATE).getAsLong())));
+				  fp.setAllTimeLow(new EntryValue<>(o.get(ALL_TIME_LOW).getAsJsonObject().get(AVERAGE).getAsDouble(),Tools.initDate(o.get(ALL_TIME_LOW).getAsJsonObject().get(DATE).getAsLong())));
+				  fp.setAllTimeHigh(new EntryValue<>(o.get(ALL_TIME_HIGH).getAsJsonObject().get(AVERAGE).getAsDouble(),Tools.initDate(o.get(ALL_TIME_HIGH).getAsJsonObject().get(DATE).getAsLong())));
 				  
 				  if(!o.get(LATEST_PRICE_CK).getAsJsonObject().get(PRICE).isJsonNull())
 					  fp.setLatestPriceCardKingdom(new EntryValue<>(o.get(LATEST_PRICE_CK).getAsJsonObject().get(PRICE).getAsDouble(),o.get(LATEST_PRICE_CK).getAsJsonObject().get(URL).getAsString()));
 				  
-				  if(!o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).isJsonNull())
-					  fp.setLatestPriceMkm(new EntryValue<>(o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVG).getAsDouble(),o.get(LATEST_PRICE_MKM).getAsJsonObject().get(LOW).getAsDouble()));
+				  if(!o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVERAGE).isJsonNull())
+					  fp.setLatestPriceMkm(new EntryValue<>(o.get(LATEST_PRICE_MKM).getAsJsonObject().get(AVERAGE).getAsDouble(),o.get(LATEST_PRICE_MKM).getAsJsonObject().get(LOW).getAsDouble()));
 				  
 				  
 				  if(o.get(LATEST_PRICE_MM)!=null && !o.get(LATEST_PRICE_MM).getAsJsonObject().get(PRICE).isJsonNull())

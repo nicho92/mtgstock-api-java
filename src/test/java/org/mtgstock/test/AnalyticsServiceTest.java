@@ -17,7 +17,7 @@ public class AnalyticsServiceTest {
 	{
 		InterestsService servI = new InterestsService();
 		servI.getInterestFor(PRICES.MARKET,FORMAT.STANDARD).forEach(i->{
-			System.out.println(i.getPrint() +" " + i.isFoil() + " ");
+			System.out.println(i.getPrint() +" " + i.isFoil() + " "+i.getPricePresent());
 		});
 	}
 	
