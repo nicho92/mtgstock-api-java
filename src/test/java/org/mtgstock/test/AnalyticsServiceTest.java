@@ -36,7 +36,7 @@ public class AnalyticsServiceTest {
 	}
 	
 	
-	
+
 	public void getSetPricesAnalysis()
 	{
 		PriceService servP = new PriceService();

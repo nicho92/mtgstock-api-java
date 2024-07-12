@@ -76,7 +76,7 @@ public class PriceService extends AbstractMTGStockService {
 	public SealedPricesAnalysis getSealedPrices(int id) {
 		var  prices = new SealedPricesAnalysis();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/sealed/"+id+"/prices";
-		logger.debug("getting getSealedPrices at " + url);
+		logger.debug("getting getSealedPrices at {}",url);
 		try 
 		{
 			var obj = client.extractJson(url).getAsJsonObject();
@@ -104,7 +104,7 @@ public class PriceService extends AbstractMTGStockService {
 	{
 		SetPricesAnalysis prices = new SetPricesAnalysis();
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/card_sets/"+i+"/ev";
-		logger.debug("getting SetPricesAnalysis at " + url);
+		logger.debug("getting SetPricesAnalysis at {}",url);
 		
 		try 
 		{
@@ -112,7 +112,14 @@ public class PriceService extends AbstractMTGStockService {
 			for(PRICES p : PRICES.values())
 			{
 				var pv = new PriceVariations(p);
-				obj.get(p.name().toLowerCase()).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
+				
+				var key = p.name().toLowerCase();
+				
+				if(p==PRICES.AVERAGE)
+					key=AVG;
+				
+				
+				obj.get(key).getAsJsonArray().forEach(e->pv.put(Tools.initDate(e.getAsJsonArray().get(0).getAsLong()), e.getAsJsonArray().get(1).getAsDouble()));
 				prices.getPrices().put(p, pv);
 			}
 			
@@ -127,7 +134,7 @@ public class PriceService extends AbstractMTGStockService {
 			if(obj.get(BOOSTER)!=null) {
 				var obooster = obj.get(BOOSTER).getAsJsonObject();
 						   phbooster.setNum(obooster.get(NUM).getAsInt());
-						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(PRICES.valueOf(k.toUpperCase()), obooster.get(k).getAsDouble())));
+						   obooster.keySet().forEach(k->phbooster.getAvg().add(new EntryValue<>(k.toUpperCase(), obooster.get(k).getAsDouble())));
 			}
 			prices.setBooster(phbooster);
 			

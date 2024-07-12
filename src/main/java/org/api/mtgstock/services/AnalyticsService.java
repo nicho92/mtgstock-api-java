@@ -91,7 +91,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 							  val.setType(PRICES.valueOf(obj.get(TYPE).getAsString().toUpperCase()));
 							  val.setPrint(parsePrintFor(obj.get(PRINT).getAsJsonObject()));
 							  val.setPrice(new EntryValue<>(Tools.initDate(obj.get(PRICE).getAsJsonObject().get(DATE).getAsString(),DATE_FORMAT),
-									  					    obj.get(PRICE).getAsJsonObject().get(AVERAGE).getAsDouble()
+									  					    obj.get(PRICE).getAsJsonObject().get(AVG).getAsDouble()
 									  		));
 				ret.add(val);
 			}
@@ -171,8 +171,8 @@ public class AnalyticsService extends AbstractMTGStockService {
 					   
 					   p.setQuantity(k.getAsJsonObject().get(QUANTITY).getAsInt());
 					   
-					   if(!k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVERAGE).isJsonNull())
-						   p.setAvgPrice(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVERAGE).getAsDouble());
+					   if(!k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVG).isJsonNull())
+						   p.setAvgPrice(k.getAsJsonObject().get(CARD).getAsJsonObject().get(PRINT).getAsJsonObject().get(LATEST_PRICE).getAsJsonObject().get(AVG).getAsDouble());
 				ret.add(p);
 			});
 		} catch (IOException e) {
