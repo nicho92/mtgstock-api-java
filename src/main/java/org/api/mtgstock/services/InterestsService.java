@@ -69,17 +69,17 @@ public class InterestsService extends AbstractMTGStockService {
 		
 		String urlAvg=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average/regular";
 		String urlMkt=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/regular";
-		String urlAvgFoil=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/foil";
+		String urlAvgFoil=MTGStockConstants.MTGSTOCK_API_URI+"/interests/average/foil";
 		String urlMktFoil=MTGStockConstants.MTGSTOCK_API_URI+"/interests/market/foil";
 						
 		try {
 				var obj = client.extractJson(urlAvg).getAsJsonObject();
 				
 				 		interests.setDate(new SimpleDateFormat(MTGStockConstants.DATE_FORMAT).parse(obj.get("date").getAsString()));
-						interests.setAverage(parseInterestFor(PRICES.AVERAGE, obj.get("interests").getAsJsonArray()));
-						interests.setAverage(parseInterestFor(PRICES.AVERAGE, client.extractJson(urlAvgFoil).getAsJsonObject().get("interests").getAsJsonArray()));
-						interests.setMarket(parseInterestFor(PRICES.MARKET, client.extractJson(urlMkt).getAsJsonObject().get("interests").getAsJsonArray()));
-						interests.setMarketFoil(parseInterestFor(PRICES.MARKET, client.extractJson(urlMktFoil).getAsJsonObject().get("interests").getAsJsonArray()));
+						interests.setAverage(parseInterestFor(PRICES.AVERAGE, obj.get(INTERESTS).getAsJsonArray()));
+						interests.setAverage(parseInterestFor(PRICES.AVERAGE, client.extractJson(urlAvgFoil).getAsJsonObject().get(INTERESTS).getAsJsonArray()));
+						interests.setMarket(parseInterestFor(PRICES.MARKET, client.extractJson(urlMkt).getAsJsonObject().get(INTERESTS).getAsJsonArray()));
+						interests.setMarketFoil(parseInterestFor(PRICES.MARKET, client.extractJson(urlMktFoil).getAsJsonObject().get(INTERESTS).getAsJsonArray()));
 						
 					  logger.debug("Interests are stored in memory at date : {}",interests.getDate());		   
 					   

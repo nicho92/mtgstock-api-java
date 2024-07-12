@@ -27,7 +27,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 	public List<HandyList> listHandyList()
 	{
 		String url=MTGStockConstants.MTGSTOCK_API_URI+"/lists";
-		logger.debug("getting HandyList at " + url);
+		logger.debug("getting HandyList at {}",url);
 		 List<HandyList> ret = new ArrayList<>();
 		 
 		 try {
@@ -41,7 +41,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 			});
 		 }catch(Exception e)
 		 {
-			 logger.error("Error Getting handyList at " + url);
+			 logger.error("Error Getting handyList at {}",url);
 		 }
 		 
 		 return ret;
@@ -56,7 +56,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 	public List<Print> listPrintsForHandyList(Integer hl)
 	{
 		String url=MTGStockConstants.MTGSTOCK_API_URI+"/lists/"+hl;
-		logger.debug("listing HandyList prints at " + url);
+		logger.debug("listing HandyList prints at {}",url);
 		List<Print> ret = new ArrayList<>();
 		
 		 try {
@@ -66,7 +66,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 				}
 			 }catch(Exception e)
 			 {
-				 logger.error("Error Getting handyList at " + url);
+				 logger.error("Error Getting handyList at {}",url);
 			 }
 		
 		return ret;
@@ -80,7 +80,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		List<LowHighValues> ret = new ArrayList<>();
 		
 		String url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/alltime";
-		logger.debug("getting low/high value at " + url);
+		logger.debug("getting low/high value at {}",url);
 		try {
 			var arr = client.extractJson(url).getAsJsonArray();
 			
@@ -141,7 +141,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 			}
 			
 		} catch (IOException e) {
-			logger.error("error getting expected value at " + url, e);
+			logger.error("error getting expected value at {}",url, e);
 		}
 		
 		
@@ -156,7 +156,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 		
 		var url = MTGStockConstants.MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
 		
-		logger.debug("get MostPlayedCard to " + url);
+		logger.debug("get MostPlayedCard to {}",url);
 		try {
 			var arr = client.extractJson(url).getAsJsonObject().get(MOSTPLAYED).getAsJsonArray();
 			
@@ -176,7 +176,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 				ret.add(p);
 			});
 		} catch (IOException e) {
-			logger.error("Error getting mostplayedCard at " + url + " : " + e);
+			logger.error("Error getting mostplayedCard at {}",url,e);
 		}
 		return ret;
 	}
@@ -209,7 +209,7 @@ public class AnalyticsService extends AbstractMTGStockService {
 			
 			
 		} catch (IOException e) {
-			logger.error("Error getting metagames analytics for " + f,e);
+			logger.error("Error getting metagames analytics for {}",f,e);
 		}
 		
 		

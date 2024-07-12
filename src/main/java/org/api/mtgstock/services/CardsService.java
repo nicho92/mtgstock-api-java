@@ -311,7 +311,7 @@ public class CardsService extends AbstractMTGStockService {
 				  
 				  o.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
 					  try {
-						  fp.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),o.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
+						  fp.getLatestPrices().put(key.toUpperCase(),o.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
 					  }
 					  catch(Exception e)
 					  {

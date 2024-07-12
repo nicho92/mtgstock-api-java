@@ -2,6 +2,7 @@ package org.api.mtgstock.modele;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -36,13 +37,13 @@ public class Print {
 	protected boolean etched;
 	protected boolean japanese;
 	
-	protected Map<PRICES,Double> latestPrices;
+	protected Map<String,Double> latestPrices;
 	protected Double lastWeekPrice;
 	protected Double lastWeekPreviousPrice;
 	
 	public Print() {
 		legal = new ArrayList<>();
-		latestPrices = new EnumMap<>(PRICES.class);
+		latestPrices = new HashMap<>();
 	}
 	
 	public String getWebPage()
@@ -64,12 +65,12 @@ public class Print {
 	}
 	
 	
-	public Map<PRICES,Double> getLatestPrices() {
+	public Map<String,Double> getLatestPrices() {
 		return latestPrices;
 	}
 
 
-	public void setLatestPrices(Map<PRICES,Double> latestPrices) {
+	public void setLatestPrices(Map<String,Double> latestPrices) {
 		this.latestPrices = latestPrices;
 	}
 	

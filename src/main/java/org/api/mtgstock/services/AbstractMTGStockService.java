@@ -68,6 +68,7 @@ public abstract class AbstractMTGStockService {
 	protected static final String LATEST_PRICE_MKM = "latest_price_mkm";
 	protected static final String LATEST_PRICE_CK = "latest_price_ck";
 	protected static final String PRICE = "price";
+	protected static final String INTERESTS="interests";
 	protected static final String ALL_TIME_HIGH = "all_time_high";
 	protected static final String ALL_TIME_LOW = "all_time_low";
 	protected static final String CARD_SET = "card_set";
@@ -132,7 +133,7 @@ public abstract class AbstractMTGStockService {
 			  }
 			  catch(Exception e)
 			  {
-				  logger.trace("Rarity "  + obj.get(RARITY) + " for " + p.getName() +" doesn't exist");
+				  logger.trace("Rarity {} for {} doesn't exist",obj.get(RARITY),p.getName());
 			  }
 			  
 			  
@@ -188,18 +189,13 @@ public abstract class AbstractMTGStockService {
 				  {
 					  obj.get(LATEST_PRICE).getAsJsonObject().keySet().forEach(key->{
 						  try {
-							  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
+							  p.getLatestPrices().put(key.toUpperCase(),obj.get(LATEST_PRICE).getAsJsonObject().get(key).getAsDouble());
 						  }
 						  catch(Exception e)
 						  {
-							  p.getLatestPrices().put(MTGStockConstants.PRICES.valueOf(key.toUpperCase()),0.0);
+							  p.getLatestPrices().put(key.toUpperCase(),0.0);
 						  }
 					  });
-				  }
-				  else
-				  {
-					  if(!obj.get(LATEST_PRICE).isJsonNull())
-					  	p.getLatestPrices().put(PRICES.AVERAGE, obj.get(LATEST_PRICE).getAsDouble());
 				  }
 			  }
 			  
@@ -209,7 +205,7 @@ public abstract class AbstractMTGStockService {
 					  try {
 						p.getLegal().add(new Legality(FORMAT.valueOf(key.toUpperCase()), obj.get(LEGAL).getAsJsonObject().get(key).getAsString()));
 					} catch (Exception e) {
-						logger.error("Not legality found for " + key);
+						logger.error("Not legality found for {}",key);
 					}
 				  }
 			

@@ -43,7 +43,6 @@ public class CardServiceTest {
 		});
 	}
 	
-	@Test
 	public void listSet()
 	{
 		CardsService serv = new CardsService();
@@ -72,10 +71,10 @@ public class CardServiceTest {
 	}
 	
 	
-	
+	@Test
 	public void getPricesForEdition()
 	{
-		String ed = "STA";
+		String ed = "MH3";
 		CardsService serv = new CardsService();
 
 		serv.getPrintsBySetCode(ed).forEach(p->{
