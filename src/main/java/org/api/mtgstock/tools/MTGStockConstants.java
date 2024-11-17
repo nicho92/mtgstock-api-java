@@ -17,7 +17,7 @@ public class MTGStockConstants {
 	public static final String FULL_ART="- Full Art";
 	public static final String ETCHED="Foil Etched";
 	public static final String JAPANESE="JP Alternate Art";
-	public static final String VERSION = "1.1.3";
+	public static final String VERSION = "1.1.4";
 	public static final String DATE_FORMAT="yyyy-MM-dd";
 	
 	
