@@ -235,9 +235,6 @@ public class CardsService extends AbstractMTGStockService {
 		
 	}
 	
-	
-	
-	
 	public FullPrint getCard(Integer id) throws IOException
 	{
 		
@@ -267,8 +264,12 @@ public class CardsService extends AbstractMTGStockService {
 				  }
 				  fp.setFoil(o.get(FOIL).getAsBoolean());
 				  fp.setFlip(o.get(FLIP).getAsBoolean());
-				  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());
+				  
+				  if(o.get(IMAGE_FLIP)!=null && !o.get(IMAGE_FLIP).isJsonNull())
+					  fp.setImageFlip(o.get(IMAGE_FLIP).getAsString());
+				  
 				  fp.setImage(o.get(IMAGE).getAsString());
+				  
 				  
 				  if(o.get(MKM_ID)!=null && !o.get(MKM_ID).isJsonNull()) 
 					  fp.setMkmId(o.get(MKM_ID).getAsInt());
