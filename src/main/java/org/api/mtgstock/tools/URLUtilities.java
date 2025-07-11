@@ -50,17 +50,13 @@ public class URLUtilities {
 				 .build();
 		
 		
-	
-	
-		
-
-		try {
-			logger.debug("init connection");
-			doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI+"/interests");
-			logger.debug("init connection done");
-		} catch (IOException e1) {
-			logger.error(e1);
-		}
+//		try {
+//			logger.debug("init connection");
+//			doGet(MTGStockConstants.MTGSTOCK_WEBSITE_URI+"/interests");
+//			logger.debug("init connection done");
+//		} catch (IOException e1) {
+//			logger.error(e1);
+//		}
 		
 		
 	}
