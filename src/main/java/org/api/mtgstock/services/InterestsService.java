@@ -10,7 +10,6 @@ import org.api.mtgstock.modele.Interests;
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
-import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class InterestsService extends AbstractMTGStockService {
 	

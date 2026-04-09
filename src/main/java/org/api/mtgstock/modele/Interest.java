@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
 import org.api.mtgstock.tools.MTGStockConstants.INTEREST;
-import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 
 public class Interest {
 	

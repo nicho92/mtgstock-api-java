@@ -1,7 +1,6 @@
 package org.api.mtgstock.modele;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import java.util.Optional;
 
 import org.api.mtgstock.tools.MTGStockConstants;
 import org.api.mtgstock.tools.MTGStockConstants.FORMAT;
-import org.api.mtgstock.tools.MTGStockConstants.PRICES;
 import org.api.mtgstock.tools.MTGStockConstants.RARITY;
 import org.api.mtgstock.tools.Tools;
 
