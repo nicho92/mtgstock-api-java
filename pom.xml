@@ -3,14 +3,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.nicho92</groupId>
 	<artifactId>mtgstock-api-java</artifactId>
-	<version>1.1.7</version>
+	<version>1.1.8</version>
 	<packaging>jar</packaging>
 	<name>mtgstock-api-java</name>
 	<description>Java implementation for MTGStock API</description>
 	<url>https://github.com/nicho92/mtgstock-api-java</url>
 	<properties>
-		<maven.compiler.source>13</maven.compiler.source>
-		<maven.compiler.target>13</maven.compiler.target>
+		<maven.compiler.source>21</maven.compiler.source>
+		<maven.compiler.target>21</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<issueManagement>
@@ -66,12 +66,12 @@
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
-			<version>2.13.2</version>
+			<version>2.14.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.21.0</version>
+			<version>2.22.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -101,9 +101,9 @@
  		<plugin>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-jar-plugin</artifactId>
+		<version>3.5.0</version>
 		<configuration>
-		        <!-- exclude log4j.properties -->
-			<excludes>
+		   <excludes>
 				<exclude>**/log4j2.xml</exclude>
 			</excludes>
 		</configuration>

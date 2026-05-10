@@ -1,5 +1,10 @@
 # mtgstock-api-java
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.nicho92/mtgstock-api-java.svg)](https://central.sonatype.com/artifact/com.github.nicho92/mtgstock-api-java)
+[![Java](https://img.shields.io/badge/Java-21%2B-blue.svg)](https://www.oracle.com/java/)
+[![License](https://img.shields.io/badge/License-Apache%202.0-green.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+
+
 Java client library for the public MTGStocks endpoints. It provides small service classes for searching Magic: The Gathering cards, browsing sets and sealed products, reading price histories, following interests, analytics, metagame data, decks, tournaments, archetypes, and MTGStocks news.
 
 ## Table of contents
