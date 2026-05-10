@@ -42,7 +42,7 @@ Java client library for the public MTGStocks endpoints. It provides small servic
 
 ## Requirements
 
-- Java 13 or newer.
+- Java 21 or newer.
 - Maven 3.x for local builds.
 - Network access to `https://api.mtgstocks.com` at runtime.
 
